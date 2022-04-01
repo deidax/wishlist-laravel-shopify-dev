@@ -1,0 +1,9 @@
+parameters:
+	level: 5
+	paths:
+		- src
+		- test
+	ignoreErrors:
+		- '#Access to an undefined property Osiset\\BasicShopifyAPI\\ResponseAccess::\$.*\.#'
+	parallel:
+		maximumNumberOfProcesses: 2

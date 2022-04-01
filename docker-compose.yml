@@ -1,0 +1,66 @@
+version: '3'
+services:
+
+  #Laravel App
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - mynet
+
+  #Nginx Service
+  nginx:
+    image: nginx:latest
+    container_name: webserver_nginx
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/conf.d/appconf.template:/etc/nginx/conf.d/appconf.template
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/ssl/dhparam.pem:/etc/nginx/ssl/dhparam.pem
+      - ./nginx/certs/${APP_DOMAIN}.pem:/etc/nginx/${APP_DOMAIN}.pem # New Line!
+      - ./nginx/certs/${APP_DOMAIN}-key.pem:/etc/nginx/${APP_DOMAIN}-key.pem # New Line!
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+     - APP_DOMAIN=${APP_DOMAIN}
+    command: /bin/bash -c "envsubst '$${APP_DOMAIN}' < /etc/nginx/conf.d/appconf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    networks:
+      - mynet
+
+  #MySQL Service
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - mysqldata:/var/lib/mysql/
+    networks:
+      - mynet
+
+#Docker Networks
+networks:
+  mynet:
+    driver: bridge
+#Volumes
+volumes:
+  mysqldata:
+    driver: local
