@@ -5,7 +5,10 @@ A simple laravel app for shopify using docker compose
 
 
 ## Installation
-
+Clone project
+```bash
+  git clone https://github.com/Sigma247/wishlist-laravel-shopify-dev.git
+```
 Install laravel packages using composer
 
 ```bash
