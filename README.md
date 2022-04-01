@@ -10,6 +10,8 @@ Install laravel packages using composer
 
 ```bash
   cd wishlist-laravel-shopify-dev
+```
+```bash
   composer install
 ```
 Install node modules using npm
@@ -20,6 +22,8 @@ Install node modules using npm
 Create self-signed certificate ssl using [mkcert](https://github.com/FiloSottile/mkcert)
 ```bash
   cd ./nginx/certs
+```
+```bash
   mkcert "dev.myshopifyapp.com"
 ```
 Install the CA from mkcert in your machine/browser
@@ -36,6 +40,8 @@ Create ssl key
 
 ```bash
   cd ../ssl
+```
+```bash
   openssl dhparam -out ./dhparam.pem 4096
 ```
 
@@ -72,6 +78,8 @@ To deploy this project run
 
 ```bash
   cd ../../
+```
+```bash
   docker-compose build
 ```
 ```bash
