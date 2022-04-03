@@ -53,7 +53,7 @@ Create ssl key
 copy .env.example and rename it .env
 
 ```bash
-  cp ../../.env.example .env
+  cp ../../.env.example ./../.env
 ```
 
 To run this project, you will need to update the following environment variables in your .env file
