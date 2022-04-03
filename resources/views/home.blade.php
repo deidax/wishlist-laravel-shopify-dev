@@ -12,6 +12,7 @@
   <body class="h-full">
   ```
 -->
+@include('partials.activate-model')
 <div class="flex">
   <div class="px-10 mx-auto container align-middle">
       <div class="grid grid-cols-3 gap-6">
@@ -22,4 +23,17 @@
   </div>
 </div>
   
+@endsection
+
+@section('scripts')
+    @parent
+
+    <script>
+      function setupTheme(){
+        setTimeout(function(){
+            alert("Kaabooom!!");
+          },300)
+      }
+    </script>
+
 @endsection
