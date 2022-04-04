@@ -16,6 +16,8 @@
 
               <a href="/settings" class="@if(Request::path() == 'settings') bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium @else text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium @endif">Settings</a>
 
+              <a href="/test" class="@if(Request::path() == 'settings') bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium @else text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium @endif">Test</a>
+
             </div>
           </div>
         </div>
