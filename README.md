@@ -2,6 +2,7 @@
 <p align="center">
   <img src="./pics/project_logo.png">
 </p>
+
 # Shopify Laravel app using docker compose
 
 A simple laravel app for shopify using docker compose
