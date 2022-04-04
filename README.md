@@ -1,4 +1,5 @@
 
+![Logo](./pics/project_logo.png)
 # Shopify Laravel app using docker compose
 
 A simple laravel app for shopify using docker compose
