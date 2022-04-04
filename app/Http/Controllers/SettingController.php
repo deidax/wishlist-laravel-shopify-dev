@@ -120,8 +120,13 @@ class SettingController extends Controller
 
         $shop->api()->rest('PUT', '/admin/api/2022-04/themes/'.$activeThemeId.'/assets.json', $data);
 
-        // return response('Success', 200);
-        return ['message' => 'Theme setup successfully'];
+        // Save activated shop
+        return Setting::updateOrCreate([
+            'shop_id' => $shop->name,
+            'shop_active_theme_id' => $activeThemeId,
+            'activated' => true,
+        ]) ?  ['message' => 'Theme setup successfully'] : ['message' => 'Theme setup error!'];
+
 
     }
 }

@@ -12,10 +12,17 @@
   <body class="h-full">
   ```
 -->
-@include('partials.activate-model')
+{{-- The getSettings function is in App\helpers.php --}}
+@if (!getSettings() || !getSettings()->activated)
+  @include('partials.activate-model')
+@endif
+
 <div class="flex">
   <div class="px-10 mx-auto container align-middle">
-      <div class="grid grid-cols-3 gap-6">
+    @include('partials.app-activated-alert')
+    {{-- @if (getSettings() && getSettings()->activated)
+    @endif --}}
+      <div class="grid grid-cols-3 gap-6 my-5">
         <x-home.status type="positive" title="Today's wishlists" number="32" growth="9"/>
         <x-home.status type="negative" title="Yesterday's wishlists" number="20" growth="20"/>
         <x-home.status type="none" title="Total's wishlists" number="430" growth="9"/>
@@ -32,7 +39,14 @@
       // Event to close the activate model
       let event = new CustomEvent("activate-model-load", {
         detail: {
-          open: false
+          open: false,
+          open_activation_alert: true
+        }
+      });
+
+      let activate_success_event = new CustomEvent("activate-model-success", {
+        detail: {
+          open_activation_alert: true
         }
       });
 
@@ -51,6 +65,7 @@
               axios.post('/configure-theme')
                 .then(function (response) {
                   initActivationModel();
+                  window.dispatchEvent(activate_success_event)
                   console.log(response);
               })
                 .catch(function (error) {
@@ -60,6 +75,8 @@
             }
         }
       }
+
+      
 
      
      
