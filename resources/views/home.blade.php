@@ -1,17 +1,7 @@
 @extends('partials.main')
 
 @section('page-content')
-    <!-- You are: (shop domain name) -->
-    {{-- <p>You are: {{ $shopDomain ?? Auth::user()->name }}</p> --}}
-    <!-- This example requires Tailwind CSS v2.0+ -->
-<!--
-  This example requires updating your template:
 
-  ```
-  <html class="h-full bg-gray-100">
-  <body class="h-full">
-  ```
--->
 {{-- The getSettings function is in App\helpers.php --}}
 @if (!getSettings() || !getSettings()->activated)
   @include('partials.activate-model')
@@ -19,9 +9,9 @@
 
 <div class="flex">
   <div class="px-10 mx-auto container align-middle">
-    @include('partials.app-activated-alert')
     {{-- @if (getSettings() && getSettings()->activated)
     @endif --}}
+    @include('partials.app-activated-alert')
       <div class="grid grid-cols-3 gap-6 my-5">
         <x-home.status type="positive" title="Today's wishlists" number="32" growth="9"/>
         <x-home.status type="negative" title="Yesterday's wishlists" number="20" growth="20"/>
@@ -40,11 +30,10 @@
       let event = new CustomEvent("activate-model-load", {
         detail: {
           open: false,
-          open_activation_alert: true
         }
       });
 
-      let activate_success_event = new CustomEvent("activate-model-success", {
+      let activation = new CustomEvent("activation-message", {
         detail: {
           open_activation_alert: true
         }
@@ -65,7 +54,7 @@
               axios.post('/configure-theme')
                 .then(function (response) {
                   initActivationModel();
-                  window.dispatchEvent(activate_success_event)
+                  window.dispatchEvent(activation)
                   console.log(response);
               })
                 .catch(function (error) {
@@ -74,6 +63,24 @@
               });
             }
         }
+      }
+
+      	
+      function activationModal() {
+          return {
+              open_activation_alert: false,
+              init() {
+                  window.addEventListener("activation-message", (event) => {
+                      this.showMessage(event.detail.open_activation_alert);
+                  });
+              },
+              showMessage(open) {
+                  this.open_activation_alert = open;
+                  // window.setTimeout(() => {
+                  //     this.open_activation_alert = false;
+                  // }, 3000);
+              }
+          }
       }
 
       

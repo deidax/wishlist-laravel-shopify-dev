@@ -1,4 +1,4 @@
-<div x-data="{ open_activation_alert: {{ getSettings() != null ? getSettings()->activated : false }} }" x-show="open_activation_alert" x-on:activate-model-success.window="open_activation_alert = $activate_success_event.detail.open_activation_alert" class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+<div x-data="activationModal" x-init="init()" x-show.transition="open_activation_alert" class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
   <div class="flex">
     <div class="py-1 mr-5">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" version="1.1">
@@ -9,7 +9,7 @@
         </svg>
     </div>
     <div>
-      <p class="font-bold">App settings have been updated successfully!</p>
+      <p class="font-bold">Your app settings have been updated successfully!</p>
       <p class="text-sm">The configuration settings is now active</p>
     </div>
   </div>

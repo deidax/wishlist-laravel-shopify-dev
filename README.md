@@ -21,6 +21,9 @@ Install laravel packages using composer
 ```bash
   composer install
 ```
+```bash
+  composer dump-autoload
+```
 Install node modules using npm
 
 ```bash
