@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,38 +33,10 @@ Route::group(['middleware' => 'verify.shopify'], function () {
         return view('settings');
     })->name('settings');
 
+    Route::post('/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
+
     Route::get('/test', function () {
-        $shop = Auth::user();
-        $themes = $shop->api()->rest('GET', '/admin/api/2022-04/themes.json');
-
-        $shopThemes = $themes['body']['themes'];
-
-        $searchedThemeRole = "main";
-
-        $activeTheme = array_filter(
-            $shopThemes->toArray(),
-            function ($e) use (&$searchedThemeRole) {
-                return $e['role'] == $searchedThemeRole;
-            }
-        );
-
-        $activeThemeId = $activeTheme[0]['id'];
-
-        $snippet = "Your snippet code";
-
-        //Snippet to pass to rest api request
-        $data = array(
-            'asset'=> [
-                'key' => 'snippets/deidax-wishlist-app-laravel.liquid', 
-                'value' => $snippet
-            ]
-        );
-
-        $shop->api()->rest('PUT', '/admin/api/2022-04/themes/'.$activeThemeId.'/assets.json', $data);
-
-        return "Success!";
-        
-
+        return 'testing..';
     })->name('test');
 
 });

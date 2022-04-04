@@ -29,11 +29,41 @@
     @parent
 
     <script>
-      function setupTheme(){
-        setTimeout(function(){
-            alert("Kaabooom!!");
-          },300)
+      // Event to close the activate model
+      let event = new CustomEvent("activate-model-load", {
+        detail: {
+          open: false
+        }
+      });
+
+      function initActivationModel(){
+        this.progress = false,
+        window.dispatchEvent(event)
       }
+
+      function activateModelComponent(){
+        return {
+            open: true,
+            progress: false,
+            setupTheme(){
+              this.progress = true,
+              // execute the api
+              axios.post('/configure-theme')
+                .then(function (response) {
+                  initActivationModel();
+                  console.log(response);
+              })
+                .catch(function (error) {
+                  initActivationModel();
+                  console.log(error);
+              });
+            }
+        }
+      }
+
+     
+     
+      
     </script>
 
 @endsection
