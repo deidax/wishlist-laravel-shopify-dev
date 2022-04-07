@@ -1,0 +1,23 @@
+.wishlist-button {
+  display: inline-block;
+  padding: 0.85em 1.5em;
+  font-size: 1.5em;
+  cursor: pointer;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #5c6ac4;
+  border: none;
+  border-radius: 0.62em;
+  box-shadow: 0 0.25em #999999; 
+}
+
+
+.wishlist-button:hover {
+  background-color: #202e78;
+}
+
+.wishlist-button:active {
+  background-color: #5c6ac4;
+  box-shadow: 0 0.125em #666666;
+  transform: translateY(0.25em);
+}
