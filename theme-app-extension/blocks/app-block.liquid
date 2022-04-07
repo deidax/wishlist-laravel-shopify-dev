@@ -1,8 +1,7 @@
 <hr>
 <div id="section-cta">
-  {{ product.sku  }}
   <h3> {{ block.settings.text-box }} </h3>
-  <a href="{{ block.settings.link }}" class="wishlist-button">{{ block.settings.linktext }}</a>
+  <button onclick="myFunction()" class="wishlist-button active">Add To Wishlist</button>
 </div>
 <hr>
 
@@ -20,17 +19,6 @@
         "type": "text",
         "label": "Heading",
         "default": "Title"
-      },
-      {
-        "id": "link",
-        "type": "url",
-        "label": "Button link"
-      },
-      {
-        "id": "linktext",
-        "type": "text",
-        "label": "Button text",
-        "default": "Click Here"
       }
     ]
   }
