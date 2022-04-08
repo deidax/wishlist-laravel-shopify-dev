@@ -35,7 +35,9 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //add the product to wishlist
+        if (Wishlist::create($request->all())) return 'Product added to wishlist';
+        return 'Error: product could not be added';
     }
 
     /**
