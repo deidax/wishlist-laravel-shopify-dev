@@ -9,9 +9,12 @@ javascriptCdn('https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js');
 // app url
 // const app_url = process.env.APP_URL
 const app_url = 'https://dev.myshopifyapp.com'
+// wishlist button
+const button = document.querySelector('.wishlist-button')
 
 // add product to customer's wishlist
 function addToWishlist(product_id, customer_id){
+  button.innerText = "Loading..."
     let data = {
       'shop_id': Shopify.shop,
       'product_id': product_id,
@@ -20,15 +23,17 @@ function addToWishlist(product_id, customer_id){
     axios.post(app_url+'/api/add-to-wishlist', data)
           .then(response => {
             console.log("Response", response)
+            button.innerText = "Remove From Wishlist"
+            notification('success', response.data)
           })
           .catch(error => {
+            button.innerText = "Remove From Wishlist"
             console.log("Error", error)
           });
 } 
 
 // wishlist function
 function myFunction() {
-  const button = document.querySelector('.wishlist-button')
   // Get product id
   const product_id = button.dataset.product
   // Get customer id
@@ -40,7 +45,6 @@ function myFunction() {
     button.innerText = "Remove From Wishlist";
     // add to wishlist function
     addToWishlist(product_id, customer_id)
-    notification('success', "Product ("+product_id+") added to wishlist")
   }
   // remove product from wishlist
   else{
