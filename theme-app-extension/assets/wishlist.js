@@ -2,8 +2,6 @@
 javascriptCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js')
 cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css');
 
-// axios cdn
-javascriptCdn('https://unpkg.com/axios/dist/axios.min.js');
 
 // app url
 // const app_url = process.env.APP_URL
@@ -39,7 +37,6 @@ function callApi(mode = buttonMode.ADD){
     let api = mode
     postData(app_url + api, data)
           .then(response => {
-            console.log('response', response)
             if(mode  != buttonMode.CHECK ){
               // Switch the wishlist button to the correct mode
               mode === buttonMode.ADD ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
@@ -82,8 +79,6 @@ function myFunction() {
 
 // set button to correct mode
 function setButtonToCorrectMode(){
-  // axios cdn
-  javascriptCdn('https://unpkg.com/axios/dist/axios.min.js');
   callApi(buttonMode.CHECK)
 }
 
