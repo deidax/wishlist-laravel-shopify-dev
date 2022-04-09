@@ -12,3 +12,15 @@ if(! function_exists('getSettings')){
     }
 
 }
+
+if(! function_exists('sendNotification')){
+
+    function sendNotification(string $type, string $message)
+    {
+        return [
+            'type' => $type,
+            'message' => $message
+        ];
+    }
+
+}
