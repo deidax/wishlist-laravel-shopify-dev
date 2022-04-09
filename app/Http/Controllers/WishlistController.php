@@ -102,7 +102,7 @@ class WishlistController extends Controller
         //find product in wishlist
         $product = $this->getProductInWishlist($request);
         
-        return $product === true;
+        return $product == true;
     }
 
     // find product in customer's wishlist

@@ -29,7 +29,7 @@ var data = {
 
 
 // Check if product exists in wishlist or not
-//window.onload = setButtonToCorrectMode()
+window.onload = setButtonToCorrectMode()
 
 
 // call api. default mode = Add to wishlist
@@ -37,17 +37,18 @@ function callApi(mode = buttonMode.ADD){
   button.innerText = "Loading..."
     // api to be called
     let api = mode
-    axios.post(app_url + api, data)
+    postData(app_url + api, data)
           .then(response => {
+            console.log('response', response)
             if(mode  != buttonMode.CHECK ){
               // Switch the wishlist button to the correct mode
               mode === buttonMode.ADD ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
               // fire response notification
-              notification(response.data.type, response.data.message)
+              notification(response.type, response.message)
             }
             else{
               // check on script load: if product already in wishlist we switch to the "remove from wishlist" button
-              response.data === true ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
+              response == true ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
             }
           })
           .catch(error => {
@@ -133,4 +134,23 @@ function resetButton(){
   button.classList.remove('active')
   button.classList.add('active');
   button.innerText = "Add To Wishlist";
+}
+
+// POST method implementation using fetch:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
 }
