@@ -84,14 +84,35 @@ class WishlistController extends Controller
     public function destroy(Request $request)
     {
         //find product in wishlist
-        $product = Wishlist::where('shop_id', $request['shop_id'])
-                            ->where('customer_id', $request['customer_id'])
-                            ->where('product_id', $request['product_id'])
-                            ->first();
+        $product = $this->getProductInWishlist($request);
         // remove product from db
         Wishlist::destroy($product->id);
         // send notification to client
         return sendNotification('warning', 'Product Removed from wishlist');
     }
+
+    /**
+     * Check if product exists in wishlist
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkIfInWishlist(Request $request)
+    {
+        //find product in wishlist
+        $product = $this->getProductInWishlist($request);
+        
+        return $product === true;
+    }
+
+    // find product in customer's wishlist
+    public function getProductInWishlist(Request $request)
+    {
+        return Wishlist::where('shop_id', $request['shop_id'])
+                        ->where('customer_id', $request['customer_id'])
+                        ->where('product_id', $request['product_id'])
+                        ->first();
+    }
+    
     
 }

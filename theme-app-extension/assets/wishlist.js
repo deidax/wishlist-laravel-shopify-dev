@@ -3,38 +3,58 @@ javascriptCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js')
 cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css');
 
 // axios cdn
-javascriptCdn('https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js');
+javascriptCdn('https://unpkg.com/axios/dist/axios.min.js');
 
 // app url
 // const app_url = process.env.APP_URL
 const app_url = 'https://dev.myshopifyapp.com'
 // wishlist button
-const button = document.querySelector('.wishlist-button')
+var button = document.querySelector('.wishlist-button')
 // button mode
 const buttonMode = {
   ADD: '/api/add-to-wishlist',
-  REMOVE: '/api/remove-from-wishlist'
+  REMOVE: '/api/remove-from-wishlist',
+  CHECK: '/api/check-wishlist'
+}
+// Product id
+var product_id = button.dataset.product
+// Customer id
+var customer_id = button.dataset.customer
+// Data to send to the Api
+var data = {
+  'shop_id': Shopify.shop,
+  'product_id': product_id,
+  'customer_id': customer_id
 }
 
+
+// Check if product exists in wishlist or not
+//window.onload = setButtonToCorrectMode()
+
+
 // call api. default mode = Add to wishlist
-function callApi(product_id, customer_id, mode = buttonMode.ADD){
+function callApi(mode = buttonMode.ADD){
   button.innerText = "Loading..."
-    let data = {
-      'shop_id': Shopify.shop,
-      'product_id': product_id,
-      'customer_id': customer_id
-    }
+    // api to be called
     let api = mode
     axios.post(app_url + api, data)
           .then(response => {
-            // Switch the wishlist button to the correct mode
-            mode === buttonMode.ADD ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
-            // fire response notification
-            notification(response.data.type, response.data.message)
+            if(mode  != buttonMode.CHECK ){
+              // Switch the wishlist button to the correct mode
+              mode === buttonMode.ADD ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
+              // fire response notification
+              notification(response.data.type, response.data.message)
+            }
+            else{
+              // check on script load: if product already in wishlist we switch to the "remove from wishlist" button
+              response.data === true ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
+            }
           })
           .catch(error => {
-            // fire error notification
-            notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
+            if(mode  != buttonMode.CHECK ){
+              // fire error notification
+              notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
+            }
             // Reset button to add mode
             resetButton()
           });
@@ -42,26 +62,28 @@ function callApi(product_id, customer_id, mode = buttonMode.ADD){
 
 // wishlist function
 function myFunction() {
-  // Get product id
-  const product_id = button.dataset.product
-  // Get customer id
-  const customer_id = button.dataset.customer
-
   // Add product to wishlist
   if(button.classList.contains('active')){
     // Switch button to remove
     buttonSwitch(buttonMode.REMOVE)
     // Add to wishlist function
-    callApi(product_id, customer_id)
+    callApi()
   }
   // Remove product from wishlist
   else{
     // Switch button to add
     buttonSwitch()
     // Remove from wishlist
-    callApi(product_id, customer_id, buttonMode.REMOVE)
+    callApi(buttonMode.REMOVE)
   }
 
+}
+
+// set button to correct mode
+function setButtonToCorrectMode(){
+  // axios cdn
+  javascriptCdn('https://unpkg.com/axios/dist/axios.min.js');
+  callApi(buttonMode.CHECK)
 }
 
 // notify user
