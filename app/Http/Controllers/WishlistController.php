@@ -78,12 +78,20 @@ class WishlistController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Wishlist  $wishlist
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Wishlist $wishlist)
+    public function destroy(Request $request)
     {
-        //
+        //find product in wishlist
+        $product = Wishlist::where('shop_id', $request['shop_id'])
+                            ->where('customer_id', $request['customer_id'])
+                            ->where('product_id', $request['product_id'])
+                            ->first();
+        // remove product from db
+        Wishlist::destroy($product->id);
+        // send notification to client
+        return sendNotification('warning', 'Product Removed from wishlist');
     }
     
 }

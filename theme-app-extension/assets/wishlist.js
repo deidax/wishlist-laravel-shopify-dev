@@ -10,27 +10,30 @@ javascriptCdn('https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js');
 const app_url = 'https://dev.myshopifyapp.com'
 // wishlist button
 const button = document.querySelector('.wishlist-button')
+// button mode
 const buttonMode = {
-  ADD: 'addToWishList',
-  REMOVE: 'removeFromWishList'
+  ADD: '/api/add-to-wishlist',
+  REMOVE: '/api/remove-from-wishlist'
 }
 
-// add product to customer's wishlist
-function addToWishlist(product_id, customer_id){
+// call api. default mode = Add to wishlist
+function callApi(product_id, customer_id, mode = buttonMode.ADD){
   button.innerText = "Loading..."
     let data = {
       'shop_id': Shopify.shop,
       'product_id': product_id,
       'customer_id': customer_id
     }
-    axios.post(app_url+'/api/add-to-wishlist', data)
+    let api = mode
+    axios.post(app_url + api, data)
           .then(response => {
-            console.log("Response", response)
-            button.innerText = "Remove From Wishlist"
+            // Switch the wishlist button to the correct mode
+            mode === buttonMode.ADD ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
+            // fire response notification
             notification(response.data.type, response.data.message)
           })
           .catch(error => {
-            button.innerText = "Remove From Wishlist"
+            // fire error notification
             notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
             // Reset button to add mode
             resetButton()
@@ -47,15 +50,16 @@ function myFunction() {
   // Add product to wishlist
   if(button.classList.contains('active')){
     // Switch button to remove
-    ButtonSwitchToAddToWishlist(buttonMode.REMOVE)
-    // add to wishlist function
-    addToWishlist(product_id, customer_id)
+    buttonSwitch(buttonMode.REMOVE)
+    // Add to wishlist function
+    callApi(product_id, customer_id)
   }
-  // remove product from wishlist
+  // Remove product from wishlist
   else{
     // Switch button to add
-    ButtonSwitchToAddToWishlist()
-    notification('warning', 'Product removed from wishlist')
+    buttonSwitch()
+    // Remove from wishlist
+    callApi(product_id, customer_id, buttonMode.REMOVE)
   }
 
 }
@@ -89,8 +93,8 @@ function cssCdn(cdn){
   document.body.appendChild(link);
 }
 
-// Switch button modes
-function ButtonSwitchToAddToWishlist(btnMode = buttonMode.ADD){
+// Switch button modes. default mode = add to wishlist
+function buttonSwitch(btnMode = buttonMode.ADD){
   if(btnMode === buttonMode.ADD){
     button.classList.add('active');
     button.innerText = "Add To Wishlist";
