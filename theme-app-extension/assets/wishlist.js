@@ -63,10 +63,10 @@ function callApi(mode = buttonMode.ADD){
 
 // wishlist function
 function myFunction() {
+  // get correct variables before adding product to wishlist
+  initWishlistVariables()
   // Add product to wishlist
   if(button.classList.contains('active')){
-    // get correct variables before adding product to wishlist
-    initWishlistVariables()
     // Switch button to remove
     buttonSwitch(buttonMode.REMOVE)
     // Add to wishlist function
@@ -74,8 +74,6 @@ function myFunction() {
   }
   // Remove product from wishlist
   else{
-    // get correct variables before adding product to wishlist
-    initWishlistVariables()
     // Switch button to add
     buttonSwitch()
     // Remove from wishlist
