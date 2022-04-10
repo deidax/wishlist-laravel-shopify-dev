@@ -12,7 +12,8 @@ var button = document.querySelector('.wishlist-button')
 const buttonMode = {
   ADD: '/api/add-to-wishlist',
   REMOVE: '/api/remove-from-wishlist',
-  CHECK: '/api/check-wishlist'
+  CHECK: '/api/check-wishlist',
+  UPDATE_CUSTOMER_ID: '/api/update-customer-id-wishlist'
 }
 // Product id
 var product_id = ''
@@ -20,6 +21,8 @@ var product_id = ''
 var customer_id = ''
 // Data to send to the Api
 var data = {}
+var tmp_data = {}
+var isCustomerIdUpdated = false
 // Products ids
 var products_ids = []
 
@@ -27,38 +30,44 @@ var products_ids = []
 initWishlistVariables()
 
 
-// Check if product exists in wishlist or not
-window.onload = setButtonToCorrectMode()
-
-
 // call api. default mode = Add to wishlist
 function callApi(mode = buttonMode.ADD){
   button.innerText = "Loading..."
-    // api to be called
-    let api = mode
-    postData(app_url + api, data)
-          .then(response => {
-            if(mode  != buttonMode.CHECK ){
-              // Switch the wishlist button to the correct mode
-              mode === buttonMode.ADD ? 
-                       ( buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id) ) :
-                       ( buttonSwitch(), setWishlistCookies(data.product_id, buttonMode.REMOVE) )
-              // fire response notification
-              notification(response.type, response.message)
+  if( mode === buttonMode.UPDATE_CUSTOMER_ID ) checkIfCustomerConnected()
+  console.log('data', data)
+  // api to be called
+  let api = mode
+  postData(app_url + api, data)
+        .then(response => {
+          if( mode  !== buttonMode.CHECK && mode !== buttonMode.UPDATE_CUSTOMER_ID ){
+            // Switch the wishlist button to the correct mode
+            mode === buttonMode.ADD ? 
+                      ( buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id) ) :
+                      ( buttonSwitch(), setWishlistCookies(data.product_id, buttonMode.REMOVE) )
+            // fire response notification
+            notification(response.type, response.message)
+          }
+          else if( mode === buttonMode.CHECK){
+            // check on script load: if product already in wishlist we switch to the "remove from wishlist" button
+            response == true ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
+          }
+          else{
+            if(isCustomerIdUpdated){
+              setCookie('ws_customer', data.shopify_customer_id, cookies_days)
+              data = tmp_data
+              tmp_data = {}
+              isCustomerIdUpdated = false //reset the flag
             }
-            else{
-              // check on script load: if product already in wishlist we switch to the "remove from wishlist" button
-              response == true ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
-            }
-          })
-          .catch(error => {
-            if(mode  != buttonMode.CHECK ){
-              // fire error notification
-              notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
-            }
-            // Reset button to add mode
-            resetButton()
-          });
+          }
+        })
+        .catch(error => {
+          if(mode  === buttonMode.ADD ){
+            // fire error notification
+            notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
+          }
+          // Reset button to add mode
+          resetButton()
+        });
 } 
 
 // wishlist function
@@ -82,10 +91,6 @@ function myFunction() {
 
 }
 
-// set button to correct mode
-function setButtonToCorrectMode(){
-  callApi(buttonMode.CHECK)
-}
 
 // notify user
 function notification(type, text){
@@ -232,7 +237,23 @@ function initWishlistVariables(){
     'product_id': product_id,
     'customer_id': customer_id
   }
+
+  callApi(buttonMode.UPDATE_CUSTOMER_ID)
+
+  callApi(buttonMode.CHECK)
   
+}
+
+// Check if customer is connected and update db user id with customer's shopifyId
+function checkIfCustomerConnected(){
+    var c_uuid = getCookie('ws_customer') //get customer uuid from cookies
+    if(c_uuid != "" && c_uuid != null && typeof c_uuid != undefined && button.dataset.customer != ""){
+      console.log('incheckfunction---->!!')
+      tmp_data = data
+      data.customer_id = c_uuid
+      data.shopify_customer_id = button.dataset.customer
+      isCustomerIdUpdated = true
+    }
 }
 
 

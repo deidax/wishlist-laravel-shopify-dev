@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WishlistController extends Controller
 {
@@ -35,6 +36,7 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
+        if($request['shopify_customer_id'] != null) unset($request['shopify_customer_id']);
         //add the product to wishlist
         $product_to_wishlist = Wishlist::updateOrCreate($request->all());
         if ($product_to_wishlist->wasRecentlyCreated) return sendNotification('success', 'Product added to wishlist');
@@ -70,9 +72,15 @@ class WishlistController extends Controller
      * @param  \App\Models\Wishlist  $wishlist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Wishlist $wishlist)
+    public function update(Request $request)
     {
-        //
+        if($request['shopify_customer_id'] != null){
+            return DB::table('wishlists')
+                        ->where('customer_id', $request['customer_id'])
+                        ->update(['customer_id' => $request['shopify_customer_id']]);
+        }
+        return false;
+       
     }
 
     /**
