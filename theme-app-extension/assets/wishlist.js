@@ -4,8 +4,8 @@ cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css');
 
 
 // app url
-// const app_url = process.env.APP_URL
 const app_url = 'https://dev.myshopifyapp.com'
+const cookies_days = 365
 // wishlist button
 var button = document.querySelector('.wishlist-button')
 // button mode
@@ -15,15 +15,19 @@ const buttonMode = {
   CHECK: '/api/check-wishlist'
 }
 // Product id
-var product_id = button.dataset.product
+var product_id = ''
 // Customer id
-var customer_id = button.dataset.customer
+var customer_id = ''
 // Data to send to the Api
-var data = {
-  'shop_id': Shopify.shop,
-  'product_id': product_id,
-  'customer_id': customer_id
-}
+var data = {}
+// Products ids
+var products_ids = []
+
+// initialize variables
+initWishlistVariables()
+
+
+console.log('data', data)
 
 
 // Check if product exists in wishlist or not
@@ -39,7 +43,9 @@ function callApi(mode = buttonMode.ADD){
           .then(response => {
             if(mode  != buttonMode.CHECK ){
               // Switch the wishlist button to the correct mode
-              mode === buttonMode.ADD ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch()
+              mode === buttonMode.ADD ? 
+                       ( buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id) ) 
+                       : buttonSwitch()
               // fire response notification
               notification(response.type, response.message)
             }
@@ -62,6 +68,8 @@ function callApi(mode = buttonMode.ADD){
 function myFunction() {
   // Add product to wishlist
   if(button.classList.contains('active')){
+    // get correct variables before adding product to wishlist
+    initWishlistVariables()
     // Switch button to remove
     buttonSwitch(buttonMode.REMOVE)
     // Add to wishlist function
@@ -69,6 +77,8 @@ function myFunction() {
   }
   // Remove product from wishlist
   else{
+    // get correct variables before adding product to wishlist
+    initWishlistVariables()
     // Switch button to add
     buttonSwitch()
     // Remove from wishlist
@@ -148,4 +158,83 @@ async function postData(url = '', data = {}) {
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
   return response.json(); // parses JSON response into native JavaScript objects
+}
+
+// Set cookie if customer is not authenticated
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+// Get cookie value
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+// Delete cookie
+function deleteCookie(cname) {
+  document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+// Check if cookie is set
+function checkIfNotSetCookie(cname, default_cvalue) {
+  let cvalue = getCookie(cname);
+  return cvalue != "" ? cvalue : default_cvalue;
+}
+
+// Set app cookies
+function setWishlistCookies(pr_id){
+  // set cookie for customer
+  setCookie('ws_customer', data.customer_id, cookies_days)
+  // set cookies for new added product
+  setProductsIdsCookie(pr_id)
+}
+
+function setProductsIdsCookie(pr_id){
+  // Get value of ws_products cookie
+  let products_ids_cookie = getCookie('ws_products')
+  // Check if it's not null or empty
+  if(products_ids_cookie != "" && products_ids_cookie != null){
+    // get the products ids into array
+    products_ids = JSON.parse(products_ids_cookie)
+  }
+  // Push new product id into array (without duplicates)
+  if(!products_ids.includes(pr_id)) products_ids.push(pr_id)
+  // set the new cookie value for products
+  setCookie('ws_products', JSON.stringify(products_ids))
+}
+
+function initWishlistVariables(){
+  // Product id
+  product_id = button.dataset.product
+  // Customer id
+  customer_id = button.dataset.customer != "" ? button.dataset.customer : checkIfNotSetCookie('ws_customer',uuidv4())
+  // Data to send to the Api
+  data = {
+    'shop_id': Shopify.shop,
+    'product_id': product_id,
+    'customer_id': customer_id
+  }
+  
+}
+
+
+// create a unique id (will be used for customer)
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
 }
