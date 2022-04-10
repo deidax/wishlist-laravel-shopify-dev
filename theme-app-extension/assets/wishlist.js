@@ -27,9 +27,6 @@ var products_ids = []
 initWishlistVariables()
 
 
-console.log('data', data)
-
-
 // Check if product exists in wishlist or not
 window.onload = setButtonToCorrectMode()
 
@@ -44,8 +41,8 @@ function callApi(mode = buttonMode.ADD){
             if(mode  != buttonMode.CHECK ){
               // Switch the wishlist button to the correct mode
               mode === buttonMode.ADD ? 
-                       ( buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id) ) 
-                       : buttonSwitch()
+                       ( buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id) ) :
+                       ( buttonSwitch(), setWishlistCookies(data.product_id, buttonMode.REMOVE) )
               // fire response notification
               notification(response.type, response.message)
             }
@@ -186,7 +183,7 @@ function getCookie(cname) {
 }
 // Delete cookie
 function deleteCookie(cname) {
-  document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 }
 
 // Check if cookie is set
@@ -196,14 +193,14 @@ function checkIfNotSetCookie(cname, default_cvalue) {
 }
 
 // Set app cookies
-function setWishlistCookies(pr_id){
+function setWishlistCookies(pr_id, mode = buttonMode.ADD){
   // set cookie for customer
   setCookie('ws_customer', data.customer_id, cookies_days)
   // set cookies for new added product
-  setProductsIdsCookie(pr_id)
+  setProductsIdsCookie(pr_id, mode)
 }
 
-function setProductsIdsCookie(pr_id){
+function setProductsIdsCookie(pr_id, mode = buttonMode.ADD){
   // Get value of ws_products cookie
   let products_ids_cookie = getCookie('ws_products')
   // Check if it's not null or empty
@@ -211,8 +208,17 @@ function setProductsIdsCookie(pr_id){
     // get the products ids into array
     products_ids = JSON.parse(products_ids_cookie)
   }
-  // Push new product id into array (without duplicates)
-  if(!products_ids.includes(pr_id)) products_ids.push(pr_id)
+  // check the setProductsIdsCookie mode
+  if(mode === buttonMode.ADD){
+     // Push new product id into array (without duplicates)
+    if(!products_ids.includes(pr_id)) products_ids.push(pr_id)
+  }
+  else{
+      if(products_ids !== undefined || products_ids.length > 0){
+        let tmp_products_ids = products_ids.filter((pid) => pid !== pr_id)
+        products_ids = tmp_products_ids
+      } 
+  }
   // set the new cookie value for products
   setCookie('ws_products', JSON.stringify(products_ids))
 }
@@ -238,3 +244,4 @@ function uuidv4() {
     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
   );
 }
+
