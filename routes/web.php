@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +23,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
         return view('home');
     })->name('home');
     
-    Route::get('/products', function () {
-        return view('products');
-    })->name('products');
+    Route::get('/products', [ProductController::class, "index"])->name('products');
 
     Route::get('/customers', function () {
         return view('customers');
@@ -36,16 +36,9 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
 
     Route::get('/test', function () {
-        return 'testing..';
+        return "testing...";
     })->name('test');
+    
 
 });
 
-
-// Route::get('/', function () {
-//     return view('dashboard');
-// })->middleware(['verify.shopify'])->name('home');
-
-// Route::get('/products', function () {
-//     return view('products');
-// })->name('products');
