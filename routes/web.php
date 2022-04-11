@@ -23,7 +23,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
         return view('home');
     })->name('home');
     
-    Route::get('/products', [ProductController::class, "index"])->name('products');
+    Route::get('/products', [ProductController::class, "index"])->name('wishlist');
 
     Route::get('/customers', function () {
         return view('customers');

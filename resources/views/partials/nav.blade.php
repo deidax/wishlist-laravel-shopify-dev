@@ -10,7 +10,7 @@
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
               <a href="/" class="@if(Request::path() == '/') bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium @else text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium @endif" aria-current="page">Home</a>
 
-              <a href="/products" class="@if(Request::path() == 'products') bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium @else text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium @endif">Products</a>
+              <a href="/products" class="@if(Request::path() == 'products') bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium @else text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium @endif">Wishlist</a>
 
               <a href="/customers" class="@if(Request::path() == 'customers') bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium @else text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium @endif">Customers</a>
 

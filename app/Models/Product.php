@@ -20,13 +20,36 @@ class Product extends Model
 
         $products_gid = json_encode($products_gid);
 
-        $graphql = "
+        $graphql = self::graphqlQuery($products_gid);
+        
+        $products_list = $shop->api()->graph($graphql);
+
+        return $products_list;
+    }
+
+    public static function buildGid($product_id){
+        return "gid://shopify/Product/{$product_id}";
+    }
+
+    public static function getProductsDataOnly($graphql){
+        return $graphql['body']->container['data']['nodes'];
+    }
+
+    public static function graphqlQuery($gids){
+        return "
         {
-            nodes(ids:$products_gid){
+            nodes(ids:$gids){
               ...on Product{
                 id
                 title
                 handle
+                images(first: 1) {
+                    edges {
+                      node {
+                        url
+                      }
+                    }
+                  }
                 priceRangeV2{
                   maxVariantPrice{
                     amount
@@ -37,13 +60,7 @@ class Product extends Model
             }
           }
         ";
-        
-        $products_list = $shop->api()->graph($graphql);
-
-        return $products_list;
     }
 
-    private static function buildGid($product_id){
-        return "gid://shopify/Product/{$product_id}";
-    }
+
 }

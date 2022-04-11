@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(){
-        return Product::GraphQl();
+
+        $wishlist_ql = Product::GraphQl();
+        $wishlist = Product::getProductsDataOnly($wishlist_ql);
+        
+        return view('partials.wishlist-products', compact('wishlist'));
     }
 }
