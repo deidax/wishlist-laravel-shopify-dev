@@ -1,3 +1,23 @@
+<div class="bg-50">
+	<div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+		<div class="mt-8 flex justify-between">
+
+			<div class="">
+				<h4 class="text-xl leading-6 font-medium text-gray-900">Products wishlisted</h4>
+				<p class="mt-2 text-sm leading-6 text-gray-600">
+				  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+				</p>
+			</div>
+
+			<div class="w-56">
+				@include('partials.wishlist-svg')
+			</div>
+
+		</div>
+
+
+	</div>
+  </div>
 <!-- component -->
 	<div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
 	  <div class="w-full overflow-x-auto">
@@ -7,6 +27,7 @@
 			  <th class="px-4 py-3">Title</th>
 			  <th class="px-4 py-3">Description</th>
 			  <th class="px-4 py-3">Price</th>
+			  <th class="px-4 py-3">Inventory</th>
 			  <th class="px-4 py-3">Added at</th>
 			</tr>
 		  </thead>
@@ -35,6 +56,7 @@
 							{{$product['priceRangeV2']['maxVariantPrice']['amount']}} {{$product['priceRangeV2']['maxVariantPrice']['currencyCode']}} 
 						</span>
 					</td>
+					<td class="px-4 py-3 text-ms font-semibold border">{{$product['totalInventory']}}</td>
 					<td class="px-4 py-3 text-sm border">{{$product['createdAt']}}</td>
 				</tr>
 			@endforeach
