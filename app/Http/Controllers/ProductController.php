@@ -12,6 +12,6 @@ class ProductController extends Controller
         $wishlist_ql = Product::GraphQl();
         $wishlist = Product::getProductsDataOnly($wishlist_ql);
         
-        return view('partials.wishlist-products', compact('wishlist'));
+        return view('products', compact('wishlist'));
     }
 }

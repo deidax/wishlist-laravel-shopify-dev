@@ -13,7 +13,7 @@
   ```
 -->
 <div class="min-h-full">
-    <h1>Hello from products</h1>
+  @include('partials.wishlist-products', ['wishlist' => $wishlist])
 </div>
   
 @endsection
