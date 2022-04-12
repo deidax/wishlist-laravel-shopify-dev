@@ -43,6 +43,8 @@ class Product extends Model
                 id
                 title
                 handle
+                description
+                createdAt
                 images(first: 1) {
                     edges {
                       node {
