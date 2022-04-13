@@ -31,15 +31,22 @@
 		  </thead>
 		  <tbody class="bg-white">
 			@foreach ($customers_wishlist as $customer)
-				<tr class="text-gray-700">
-					<td class="px-4 py-3 text-ms font-semibold border">{{$customer['displayName']}}</td>
-					<td class="px-4 py-3 text-xs border">
-						<span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm"> 
-							--
-						</span>
-					</td>
-					<td class="px-4 py-3 text-ms font-semibold border">--</td>
-				</tr>
+			<tr class="text-gray-700">
+				<td class="px-4 py-3 border">
+					<div class="flex items-center text-sm">
+					<div>
+						<p class="font-semibold text-black">{{$customer['displayName']}}</p>
+						<p class="text-xs text-gray-600">id: {{$customer['id']}}</p>
+					</div>
+					</div>
+				</td>
+				<td class="px-4 py-3 text-ms font-semibold border">{{$customer['number_wishlisted']}}</td>
+				<td class="px-4 py-3 text-xs border">
+					<span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm"> 
+						--
+					</span>
+				</td>
+			</tr>
 			@endforeach
 		  </tbody>
 		</table>

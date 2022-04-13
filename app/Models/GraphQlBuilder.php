@@ -30,8 +30,8 @@ abstract class GraphQlBuilder extends Model implements IGraphQlBuilder
         
         $selector_id = $selector_in_wishlist->pluck($id_name);
         
-        $selector_gid = self::mapForGids($selector, $selector_id);
-        $graphql = self::graphqlQueryWithGids(array_unique($selector_gid));
+        $selector_gid = static::mapForGids($selector, $selector_id);
+        $graphql = static::graphqlQueryWithGids(array_unique($selector_gid));
         $selector_list = $shop->api()->graph($graphql);
 
         return $selector_list;
@@ -41,7 +41,7 @@ abstract class GraphQlBuilder extends Model implements IGraphQlBuilder
     public static function buildGid($selector_id, $selector){
         return "gid://shopify/{$selector}/{$selector_id}";
     }
-    
+
     //get the main data
     public static function getDataOnly($graphql){
         return $graphql['body']->container['data']['nodes'];
@@ -61,8 +61,12 @@ abstract class GraphQlBuilder extends Model implements IGraphQlBuilder
 
 
     public static function mapForGids($selector, $gids){
-        return array_map(function ($item) use ($selector, $gids){
+        return array_map(function ($item) use ($selector){
                 return self::buildGid($item, $selector);
         }, $gids->toArray());
+    }
+
+    public static function getNumericShopifyQl($selector, $shopify_gid){
+        return str_replace("gid://shopify/{$selector}/", "",$shopify_gid);
     }
 }

@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class Customer extends GraphQlBuilder
 {
@@ -11,19 +12,32 @@ class Customer extends GraphQlBuilder
 
     private static $guests_counter = 0;
     private static $customers_data = [];
-    private static $customer_without_shopify_id = "Guest";
+    private static $guest_label = "Guest";
+    private static $guests_uuids = [];
+    private static $customers_with_account = []; 
 
 
+    public static function mapForGids($selector, $gids){
+        $cutomers_gids = array_map(function ($item) use ($selector){
+                if(!Str::isUuid($item)) return self::buildGid($item, $selector);
+                array_push(self::$guests_uuids, array('id' => $item));
+        }, $gids->toArray());
+        return array_values(array_filter($cutomers_gids));
+    }
 
     //get the main data
     public static function getDataOnly($graphql){
-        $customers = self::searchForGuests($graphql['body']->container['data']['nodes']);
+        $customers_with_account = self::buildCustomersWithAccountData($graphql['body']->container['data']['nodes']);
+        $guests = self::buildGuestsData(self::$guests_uuids);
+        $customers = array_merge($customers_with_account, $guests);
+        
         return $customers;
     }
 
     public static function writeQueryWithGids(){
         return "
         ... on Customer {
+            id
             displayName
         }
         ";
@@ -33,28 +47,30 @@ class Customer extends GraphQlBuilder
         return "no query yet";
     }
 
-    public static function searchForGuests($customers_nodes){
-        $displayNames = array_map(function($customer_node){
-            if(is_null($customer_node)){
-                $guest['displayName'] = self::$customer_without_shopify_id;
-                return $guest;
-            }
+    public static function buildCustomersWithAccountData($customers_nodes){
+        // customers with account
+        $customers_with_account = array_map(function($customer_node){
+            $customer_node['id'] = self::getNumericShopifyQl("Customer",$customer_node['id']);
+            $customer_node['number_wishlisted'] = self::countNumberOfWishedProducts($customer_node['id']);
             return $customer_node;
         },$customers_nodes);
 
-        array_walk($displayNames, [__CLASS__, "guestCounting"]);
-
-        return self::$customers_data;
-            
+        return array_filter($customers_with_account);
     }
 
-    public static function guestCounting($value){
-        if($value['displayName'] == self::$customer_without_shopify_id){
-            self::$guests_counter++;
-            $value['displayName'] = $value['displayName']." ".self::$guests_counter;
-        }
+    public static function buildGuestsData($guests_uuid){
+        $guest_data = array_map(function($guest){
+            $guest["displayName"] = "Guest";
+            $guest['number_wishlisted'] = self::countNumberOfWishedProducts($guest['id']);
+            return $guest;
+        }, $guests_uuid);
 
-        array_push(self::$customers_data, $value);
+        return array_filter($guest_data, function($g) {return count($g) > 0;});
     }
+
+    public static function countNumberOfWishedProducts($customer_id){
+        return Wishlist::where('customer_id',$customer_id)->count();
+    }
+
 
 }
