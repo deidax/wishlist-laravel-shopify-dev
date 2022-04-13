@@ -26,21 +26,22 @@ abstract class GraphQlBuilder extends Model implements IGraphQlBuilder
     public static function WishlistGraphQl($id_name, $selector){
         $shop = Auth::user();
 
-        $products_in_wishlist = Wishlist::where('shop_id', $shop->name)->orderBy('updated_at', 'desc')->get();
+        $selector_in_wishlist = Wishlist::where('shop_id', $shop->name)->orderBy('updated_at', 'desc')->get();
         
-        $products_id = $products_in_wishlist->pluck($id_name);
+        $selector_id = $selector_in_wishlist->pluck($id_name);
         
-        $products_gid = self::mapForGids($selector, $products_id);
-        $graphql = self::graphqlQueryWithGids(array_unique($products_gid));
-        $products_list = $shop->api()->graph($graphql);
+        $selector_gid = self::mapForGids($selector, $selector_id);
+        $graphql = self::graphqlQueryWithGids(array_unique($selector_gid));
+        $selector_list = $shop->api()->graph($graphql);
 
-        return $products_list;
+        return $selector_list;
     }
 
     //Create the gid
-    public static function buildGid($product_id, $selector){
-        return "gid://shopify/{$selector}/{$product_id}";
+    public static function buildGid($selector_id, $selector){
+        return "gid://shopify/{$selector}/{$selector_id}";
     }
+    
     //get the main data
     public static function getDataOnly($graphql){
         return $graphql['body']->container['data']['nodes'];
