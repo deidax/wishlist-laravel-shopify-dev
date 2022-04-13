@@ -19,10 +19,10 @@ class Customer extends GraphQlBuilder
 
     public static function mapForGids($selector, $gids){
         $cutomers_gids = array_map(function ($item) use ($selector){
-                if(!Str::isUuid($item)) return self::buildGid($item, $selector);
-                array_push(self::$guests_uuids, array('id' => $item));
+            if(!Str::isUuid($item)) return self::buildGid($item, $selector);
+            array_push(self::$guests_uuids, array('id' => $item));
         }, $gids->toArray());
-        return array_values(array_filter($cutomers_gids));
+        return array_unique(array_filter($cutomers_gids));
     }
 
     //get the main data
@@ -60,7 +60,7 @@ class Customer extends GraphQlBuilder
 
     public static function buildGuestsData($guests_uuid){
         $guest_data = array_map(function($guest){
-            $guest["displayName"] = "Guest";
+            $guest["displayName"] = self::$guest_label;
             $guest['number_wishlisted'] = self::countNumberOfWishedProducts($guest['id']);
             return $guest;
         }, $guests_uuid);
