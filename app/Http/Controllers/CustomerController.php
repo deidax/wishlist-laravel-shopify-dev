@@ -14,7 +14,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers_ql = Customer::WishlistGraphQl("customer_id", "Customer");
+        $customers_wishlist = Customer::getDataOnly($customers_ql);
+        
+        return view('customers', compact('customers_wishlist'));
     }
 
     /**

@@ -13,7 +13,11 @@
   ```
 -->
 <div class="min-h-full">
-    <h1>This is customer</h1>
+  @if(count($customers_wishlist)>0)
+    @include('partials.wishlist-customers', ['customers_wishlist' => $customers_wishlist])
+  @else
+    @include('partials.no-wishlist-products', ['text' => 'No customers yet'])
+  @endif
 </div>
   
 @endsection

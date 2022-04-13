@@ -6,6 +6,8 @@ cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css');
 // app url
 const app_url = 'https://dev.myshopifyapp.com'
 const cookies_days = 365
+// Regular expression to check if string is a valid UUID
+const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 // wishlist button
 var button = document.querySelector('.wishlist-button')
 // button mode
@@ -247,8 +249,7 @@ function initWishlistVariables(){
 // Check if customer is connected and update db user id with customer's shopifyId
 function checkIfCustomerConnected(){
     var c_uuid = getCookie('ws_customer') //get customer uuid from cookies
-    if(c_uuid != "" && c_uuid != null && typeof c_uuid != undefined && button.dataset.customer != ""){
-      console.log('incheckfunction---->!!')
+    if(c_uuid != "" && c_uuid != null && typeof c_uuid != undefined && regexExp.test(c_uuid) && button.dataset.customer != ""){
       tmp_data = data
       data.customer_id = c_uuid
       data.shopify_customer_id = button.dataset.customer

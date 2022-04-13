@@ -3,22 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+
+class Customer extends GraphQlBuilder
 {
     use HasFactory;
 
-    public static function graphqlQuery($gids){
+    
+
+    public static function writeQueryWithGids(){
         return "
-        {
-            nodes(ids:$gids){
-                ... on Customer {
-                    id
-                    displayName
-                }
-            }
-          }";
-        
+        ... on Customer {
+            displayName
+        }
+        ";
+    }
+
+    public static function writeQueryWithFirstOne(){
+        return "no query yet";
     }
 }

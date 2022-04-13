@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Models\Wishlist;
@@ -25,9 +26,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     
     Route::get('/products', [ProductController::class, "index"])->name('wishlist');
 
-    Route::get('/customers', function () {
-        return view('customers');
-    })->name('customers');
+    Route::get('/customers',[CustomerController::class, "index"])->name('customers');
 
     Route::get('/settings', function () {
         return view('settings');

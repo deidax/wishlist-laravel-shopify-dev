@@ -9,8 +9,8 @@ class ProductController extends Controller
 {
     public function index(){
 
-        $wishlist_ql = Product::GraphQl();
-        $wishlist = Product::getProductsDataOnly($wishlist_ql);
+        $wishlist_ql = Product::WishlistGraphQl("product_id", "Product");
+        $wishlist = Product::getDataOnly($wishlist_ql);
         
         return view('products', compact('wishlist'));
     }

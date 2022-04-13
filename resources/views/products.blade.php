@@ -16,7 +16,7 @@
   @if(count($wishlist)>0)
     @include('partials.wishlist-products', ['wishlist' => $wishlist])
   @else
-    @include('partials.no-wishlist-products')
+    @include('partials.no-wishlist-products', ['text' => 'No Products in wishlist'])
   @endif
 </div>
   

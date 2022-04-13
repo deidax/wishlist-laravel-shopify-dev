@@ -2,30 +2,15 @@
 
 namespace App\Models;
 
-use App\Traits\GraphQlBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Product extends Model
+class Product extends GraphQlBuilder
 {
-    use HasFactory, GraphQlBuilder;
+    use HasFactory;
 
-    public static function GraphQl(){
-        $shop = Auth::user();
 
-        $products_in_wishlist = Wishlist::where('shop_id', $shop->name)->orderBy('updated_at', 'desc')->get();
-        
-        $products_id = $products_in_wishlist->pluck('product_id');
-        
-        $products_gid = self::mapForGids("Product", $products_id);
-        $graphql = self::graphqlQuery($products_gid);
-        $products_list = $shop->api()->graph($graphql);
-
-        return $products_list;
-    }
-
-    public static function writeQuery(){
+    public static function writeQueryWithGids(){
         return "
             ...on Product{
               id
@@ -48,6 +33,10 @@ class Product extends Model
                 }
               }
             }";
+    }
+
+    public static function writeQueryWithFirstOne(){
+      return "no query yet";
     }
 
     
