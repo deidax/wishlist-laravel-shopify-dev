@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Home;
 
+use App\Models\Wishlist;
 use Illuminate\View\Component;
 
 class Status extends Component
@@ -47,8 +48,13 @@ class Status extends Component
     {
         $this->type = $type;
         $this->title = $title;
-        $this->number = $number;
+        $this->number = $this->calculateStatistics();
         $this->growth = $growth;
+    }
+
+    public function calculateStatistics(){
+        if($this->type == "positive") return Wishlist::getTodaysWishlist();
+        return "N/A";
     }
 
     /**
