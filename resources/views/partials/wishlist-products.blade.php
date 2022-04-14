@@ -26,6 +26,7 @@
 			<tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
 			  <th class="px-4 py-3">Title</th>
 			  <th class="px-4 py-3">Description</th>
+			  <th class="px-4 py-3">Total customers</th>
 			  <th class="px-4 py-3">Price</th>
 			  <th class="px-4 py-3">Inventory</th>
 			  <th class="px-4 py-3">Added at</th>
@@ -46,11 +47,12 @@
 						</div>
 						<div>
 							<p class="font-semibold text-black">{{$product['title']}}</p>
-							<p class="text-xs text-gray-600">{{$product['id']}}</p>
+							<p class="text-xs text-gray-600">id: {{$product['id']}}</p>
 						</div>
 						</div>
 					</td>
-					<td class="px-4 py-3 text-ms font-semibold border">{{$product['description']}}</td>
+					<td class="px-4 py-3 text-ms font-semibold border">{{ Str::limit($product['description'], 20) }}</td>
+					<td class="px-4 py-3 text-ms font-semibold border">{{ $product['number_of_customers'] }}</td>
 					<td class="px-4 py-3 text-xs border">
 						<span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm"> 
 							{{$product['priceRangeV2']['maxVariantPrice']['amount']}} {{$product['priceRangeV2']['maxVariantPrice']['currencyCode']}} 
