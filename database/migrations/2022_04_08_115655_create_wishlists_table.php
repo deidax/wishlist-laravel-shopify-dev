@@ -18,6 +18,7 @@ class CreateWishlistsTable extends Migration
             $table->string('shop_id');
             $table->string('customer_id');
             $table->string('product_id');
+            $table->float('product_price');
             $table->timestamps();
         });
     }

@@ -65,7 +65,7 @@ class Customer extends GraphQlBuilder
             return $guest;
         }, $guests_uuid);
 
-        return array_filter($guest_data, function($g) {return count($g) > 0;});
+        return array_unique(array_filter($guest_data, function($g) {return count($g) > 0;}), SORT_REGULAR);
     }
 
     public static function countNumberOfWishedProducts($customer_id){

@@ -17,6 +17,7 @@ class Wishlist extends Model
     protected $fillable = [
         'shop_id',
         'product_id',
+        'product_price',
         'customer_id',
     ];
 }

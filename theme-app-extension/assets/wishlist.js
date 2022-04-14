@@ -19,6 +19,8 @@ const buttonMode = {
 }
 // Product id
 var product_id = ''
+// Product price
+var product_price = 0
 // Customer id
 var customer_id = ''
 // Data to send to the Api
@@ -231,12 +233,15 @@ function setProductsIdsCookie(pr_id, mode = buttonMode.ADD){
 function initWishlistVariables(){
   // Product id
   product_id = button.dataset.product
+  // Product price
+  product_price = button.dataset.product_price
   // Customer id
   customer_id = button.dataset.customer != "" ? button.dataset.customer : checkIfNotSetCookie('ws_customer',uuidv4())
   // Data to send to the Api
   data = {
     'shop_id': Shopify.shop,
     'product_id': product_id,
+    'product_price': product_price,
     'customer_id': customer_id
   }
 
