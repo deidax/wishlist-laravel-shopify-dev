@@ -867,7 +867,9 @@ javascriptCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js');
 cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css'); // app url
 
 var app_url = 'https://dev.myshopifyapp.com';
-var cookies_days = 365; // wishlist button
+var cookies_days = 365; // Regular expression to check if string is a valid UUID
+
+var regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi; // wishlist button
 
 var button = document.querySelector('.wishlist-button'); // button mode
 
@@ -878,7 +880,9 @@ var buttonMode = {
   UPDATE_CUSTOMER_ID: '/api/update-customer-id-wishlist'
 }; // Product id
 
-var product_id = ''; // Customer id
+var product_id = ''; // Product price
+
+var product_price = 0; // Customer id
 
 var customer_id = ''; // Data to send to the Api
 
@@ -1121,13 +1125,16 @@ function setProductsIdsCookie(pr_id) {
 
 function initWishlistVariables() {
   // Product id
-  product_id = button.dataset.product; // Customer id
+  product_id = button.dataset.product; // Product price
+
+  product_price = button.dataset.product_price.replace(',', ''); // Customer id
 
   customer_id = button.dataset.customer != "" ? button.dataset.customer : checkIfNotSetCookie('ws_customer', uuidv4()); // Data to send to the Api
 
   data = {
     'shop_id': Shopify.shop,
     'product_id': product_id,
+    'product_price': product_price,
     'customer_id': customer_id
   };
   callApi(buttonMode.UPDATE_CUSTOMER_ID);
@@ -1138,8 +1145,7 @@ function initWishlistVariables() {
 function checkIfCustomerConnected() {
   var c_uuid = getCookie('ws_customer'); //get customer uuid from cookies
 
-  if (c_uuid != "" && c_uuid != null && _typeof(c_uuid) != undefined && button.dataset.customer != "") {
-    console.log('incheckfunction---->!!');
+  if (c_uuid != "" && c_uuid != null && _typeof(c_uuid) != undefined && regexExp.test(c_uuid) && button.dataset.customer != "") {
     tmp_data = data;
     data.customer_id = c_uuid;
     data.shopify_customer_id = button.dataset.customer;

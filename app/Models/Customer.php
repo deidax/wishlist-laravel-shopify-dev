@@ -14,7 +14,7 @@ class Customer extends GraphQlBuilder
     private static $customers_data = [];
     private static $guest_label = "Guest";
     private static $guests_uuids = [];
-    private static $customers_with_account = []; 
+    private static $customers_with_account = [];
 
 
     public static function mapForGids($selector, $gids){
@@ -49,10 +49,11 @@ class Customer extends GraphQlBuilder
 
     public static function buildCustomersWithAccountData($customers_nodes){
         // customers with account
-        $customers_with_account = array_map(function($customer_node){
+        $currency = getCurrency();
+        $customers_with_account = array_map(function($customer_node) use($currency){
             $customer_node['id'] = self::getNumericShopifyQl("Customer",$customer_node['id']);
             $customer_node['number_wishlisted'] = self::countNumberOfWishedProducts($customer_node['id']);
-            $customer_node['price_wishlisted'] = self::countCustomerWishlistedPrice($customer_node['id']);
+            $customer_node['price_wishlisted'] = self::countCustomerWishlistedPrice($customer_node['id'])." ".$currency;
             return $customer_node;
         },$customers_nodes);
 
@@ -60,10 +61,11 @@ class Customer extends GraphQlBuilder
     }
 
     public static function buildGuestsData($guests_uuid){
-        $guest_data = array_map(function($guest){
+        $currency = getCurrency();
+        $guest_data = array_map(function($guest) use($currency){
             $guest["displayName"] = self::$guest_label;
             $guest['number_wishlisted'] = self::countNumberOfWishedProducts($guest['id']);
-            $guest['price_wishlisted'] = self::countCustomerWishlistedPrice($guest['id']);
+            $guest['price_wishlisted'] = self::countCustomerWishlistedPrice($guest['id'])." ".$currency;
             return $guest;
         }, $guests_uuid);
 
@@ -77,6 +79,7 @@ class Customer extends GraphQlBuilder
     public static function countCustomerWishlistedPrice($customer_id){
         $data = Wishlist::where('customer_id',$customer_id)->get();
         $prices = $data->pluck('product_price')->toArray();
+
         return array_sum($prices);
     }
 

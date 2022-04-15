@@ -24,3 +24,18 @@ if(! function_exists('sendNotification')){
     }
 
 }
+
+if(! function_exists('getCurrency')){
+
+    function getCurrency()
+    {
+        $shop = Auth::user();
+
+        $shop_data = $shop->api()->rest('GET', '/admin/api/2022-04/shop.json');
+                
+        $shop_active_currency = $shop_data['body']->shop->currency;
+
+        return $shop_active_currency;
+    }
+
+}

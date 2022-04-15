@@ -234,7 +234,7 @@ function initWishlistVariables(){
   // Product id
   product_id = button.dataset.product
   // Product price
-  product_price = button.dataset.product_price
+  product_price = button.dataset.product_price.replace(',', '')
   // Customer id
   customer_id = button.dataset.customer != "" ? button.dataset.customer : checkIfNotSetCookie('ws_customer',uuidv4())
   // Data to send to the Api

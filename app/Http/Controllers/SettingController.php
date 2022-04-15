@@ -120,10 +120,17 @@ class SettingController extends Controller
 
         $shop->api()->rest('PUT', '/admin/api/2022-04/themes/'.$activeThemeId.'/assets.json', $data);
 
+        // get shop active currency
+
+        $shop_data = $shop->api()->rest('GET', '/admin/api/2022-04/shop.json');
+        
+        $shop_active_currency = $shop_data['body']->shop->currency;
+
         // Save activated shop
         return Setting::updateOrCreate([
             'shop_id' => $shop->name,
             'shop_active_theme_id' => $activeThemeId,
+            'shop_active_currency'=> $shop_active_currency,
             'activated' => true,
         ]) ?  ['message' => 'Theme setup successfully'] : ['message' => 'Theme setup error!'];
 

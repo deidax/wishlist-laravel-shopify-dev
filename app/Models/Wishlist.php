@@ -24,7 +24,14 @@ class Wishlist extends Model
 
 
     public static function getTodaysWishlist(){
-        // return self::where('created_at',Carbon::today())->count();
-        return Carbon::today();
+        return self::whereDate('updated_at', Carbon::today())->count();
+    }
+
+    public static function getYesterdaysWishlist(){
+        return self::whereDate('updated_at', Carbon::yesterday())->count();
+    }
+
+    public static function getTotalWishlist(){
+        return self::all()->count();
     }
 }

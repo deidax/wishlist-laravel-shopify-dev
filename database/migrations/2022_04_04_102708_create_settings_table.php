@@ -17,6 +17,7 @@ class CreateSettingsTable extends Migration
             $table->id();
             $table->string('shop_id')->unique();
             $table->string('shop_active_theme_id');
+            $table->string('shop_active_currency');
             $table->boolean('activated')->default(false);
             $table->timestamps();
         });

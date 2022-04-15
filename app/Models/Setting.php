@@ -17,6 +17,7 @@ class Setting extends Model
     protected $fillable = [
         'shop_id',
         'shop_active_theme_id',
+        'shop_active_currency',
         'activated'
     ];
 }

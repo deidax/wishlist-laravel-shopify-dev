@@ -54,7 +54,10 @@ class Status extends Component
 
     public function calculateStatistics(){
         if($this->type == "positive") return Wishlist::getTodaysWishlist();
-        return "N/A";
+        else if($this->type == "negative") return Wishlist::getYesterdaysWishlist();
+        else return Wishlist::getTotalWishlist();
+        
+        return 0;
     }
 
     /**
