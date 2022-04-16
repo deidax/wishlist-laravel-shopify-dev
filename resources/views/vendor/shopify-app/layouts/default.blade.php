@@ -15,7 +15,6 @@
             <div class="app-content">
                 <main role="main">
                     {{-- navbar --}}
-                    @include('partials.nav')
                     @yield('content')
                 </main>
             </div>
