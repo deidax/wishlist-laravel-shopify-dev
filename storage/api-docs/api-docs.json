@@ -1,0 +1,49 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Wishlist shopify app api",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "WishlistedProducts"
+                ],
+                "summary": "Get list of wishlisted products",
+                "description": "Returns list of wishlisted products",
+                "operationId": "getWishlistedProducts",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. list of wishlisted products"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "SHOPIFY_API_KEY": {
+                "type": "apiKey",
+                "description": "Shopify api key",
+                "name": "api_key",
+                "in": "header"
+            },
+            "SHOPIFY_API_SECRET": {
+                "type": "apiKey",
+                "description": "Shopify secret key",
+                "name": "api_secret_key",
+                "in": "header"
+            }
+        }
+    }
+}

@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 
 class ProductController extends Controller
-{
+{   
     public function index(){
 
         $wishlist_ql = Product::WishlistGraphQl("product_id", "Product");
         $wishlist = Product::getDataOnly($wishlist_ql);
         
-        return view('products', compact('wishlist'));
+        $wishlist_data = new ProductResource($wishlist);
+
+
+        return view('api-docs.products', compact('wishlist_data'));
     }
 }

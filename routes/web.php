@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SwaggerController;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,23 +22,23 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'verify.shopify'], function () {
-    Route::get('/', function () {
-        return view('home');
-    })->name('home');
+    // Route::get('/', function () {
+    //     return view('home');
+    // })->name('home');
     
-    Route::get('/products', [ProductController::class, "index"])->name('wishlist');
+    Route::get('/', [DashboardController::class, 'index'])->name('api-docs.home');
 
-    Route::get('/customers',[CustomerController::class, "index"])->name('customers');
+    // Route::get('/products', [ProductController::class, "index"])->name('wishlist');
 
-    Route::get('/settings', function () {
-        return view('settings');
-    })->name('settings');
+    // Route::get('/customers',[CustomerController::class, "index"])->name('customers');
 
-    Route::post('/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
+    // Route::get('/settings', function () {
+    //     return view('settings');
+    // })->name('settings');
 
-    Route::get('/test', function () {
-        return "testing...";
-    })->name('test');
+    // Route::post('/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
+
+    // Route::get('/swagger', [SwaggerController::class, "index"])->name('swagger');
     
 
 });

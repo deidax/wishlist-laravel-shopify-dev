@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CustomerResource;
-use App\Models\Customer;
-use App\Models\Wishlist;
+use App\Models\Dashboard;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use OpenApi\Annotations as OA;
 
-class CustomerController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +14,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers_ql = Customer::WishlistGraphQl("customer_id", "Customer");
-        $customers_wishlist = Customer::getDataOnly($customers_ql);
-        
-        $customers_data = new CustomerResource($customers_wishlist);
+        $dashboard_data = Dashboard::buildStatusInfo();
 
-        // return view('customers', compact('customers_wishlist'));
-        return view('api-docs.customers', compact('customers_data'));
+        return view('api-docs.home', compact('dashboard_data'));
     }
 
     /**
@@ -51,10 +43,10 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show(Dashboard $dashboard)
     {
         //
     }
@@ -62,10 +54,10 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit(Dashboard $dashboard)
     {
         //
     }
@@ -74,10 +66,10 @@ class CustomerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Customer  $customer
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, Dashboard $dashboard)
     {
         //
     }
@@ -85,10 +77,10 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Dashboard $dashboard)
     {
         //
     }
