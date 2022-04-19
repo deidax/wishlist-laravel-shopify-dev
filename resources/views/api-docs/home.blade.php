@@ -32,7 +32,7 @@
               <a class="nav-link" href="/api/v1/configure-theme-api-docs">Configure-theme</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/api/v1/theme-activated">Theme-activation</a>
+              <a class="nav-link" href="/api/v1/theme-activated">Theme-activation <span class="badge badge-pill badge-danger">new</span></a>
             </li>
           </ul>
         </div>
