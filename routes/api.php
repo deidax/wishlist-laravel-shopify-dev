@@ -37,11 +37,14 @@ Route::group(['middleware' => 'verify.shopify'], function () {
 
     Route::get('/v1/customers',[CustomerController::class, "index"])->name('customers');
 
+    
     Route::get('/v1/configure-theme-api-docs', function () {
         return view('api-docs.configure-theme');
     })->name('api-docs.configure.theme');
+    
 
     Route::post('/v1/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
+    Route::get('/v1/theme-activated',[SettingController::class, "isThemeActivated"])->name('theme.activated');
 
     
 

@@ -137,6 +137,12 @@ class SettingController extends Controller
             'activated' => true,
         ]) ?  ['message' => 'Theme setup successfully'] : ['message' => 'Theme setup error!'];
 
+    }
 
+    //return true or false
+
+    public function isThemeActivated()
+    {
+        return Setting::checkIfThemeIsActive();
     }
 }
