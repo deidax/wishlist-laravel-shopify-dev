@@ -26,6 +26,6 @@ class Setting extends Model
     {
         $shop = Auth::user();
         $shop_data = self::where("shop_id", $shop->name)->first();
-        return $shop_data != null ? $shop_data->activated : false;
+        return $shop_data != null ? $shop_data->activated == 1 : false;
     }
 }
