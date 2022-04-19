@@ -143,6 +143,8 @@ class SettingController extends Controller
 
     public function isThemeActivated()
     {
-        return Setting::checkIfThemeIsActive();
+        $api_data['is_activated'] = Setting::checkIfThemeIsActive();
+
+        return view('api-docs.theme-activation', compact('api_data'));
     }
 }

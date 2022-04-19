@@ -271,17 +271,3 @@ function uuidv4() {
 }
 
 
-//test
-async function getData(url = '') {
-  // Default options are marked with *
-  const response = await fetch(url);
-  return response.json(); // parses JSON response into native JavaScript objects
-}
-
-getData(app_url+'/api/v1/theme-activated')
-  .then(response => {
-    console.log('active response', response)
-  })
-  .catch(error => {
-    console.log(' active error', error)
-  })

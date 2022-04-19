@@ -19,7 +19,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="/api/v1/dashboard">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
@@ -31,16 +31,16 @@
             <li class="nav-item">
               <a class="nav-link" href="/api/v1/configure-theme-api-docs">Configure-theme</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="/api/v1/theme-activated">Theme-activation</a>
             </li>
           </ul>
         </div>
       </nav>
     <br>
-    <h2>Dashboard data</h2>
+    <h2>Check if shop is activated</h2>
     <h3>
-        <span class="badge badge-primary mr-1">GET</span><span class="badge badge-secondary">/api/v1/dashboard</span>
+        <span class="badge badge-primary mr-1">GET</span><span class="badge badge-secondary">/api/v1/theme-activated</span>
     </h3>
     <h5><i>Response: <b>200</b></i></h5>
     <hr>
@@ -75,7 +75,7 @@ Object.prototype.prettyPrint = function(){
 }
 
 
-var account = {!! json_encode($dashboard_data) !!};
+var account = {!! json_encode($api_data) !!};
 
 document.getElementById('api').innerHTML = account.prettyPrint();
 

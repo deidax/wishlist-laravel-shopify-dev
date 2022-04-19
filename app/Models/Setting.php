@@ -25,6 +25,7 @@ class Setting extends Model
     public static function checkIfThemeIsActive()
     {
         $shop = Auth::user();
-        return self::where("shop_id", $shop->name)->first()->activated;
+        $shop_data = self::where("shop_id", $shop->name)->first();
+        return $shop_data != null ? $shop_data->activated : false;
     }
 }
