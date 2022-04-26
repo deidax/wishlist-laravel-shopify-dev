@@ -31,6 +31,9 @@
             <li class="nav-item active">
               <a class="nav-link" href="/api/v1/configure-theme-api-docs">Configure-theme</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api/v1/theme-activated">Theme-activation</a>
+            </li>
           </ul>
         </div>
       </nav>
@@ -81,8 +84,6 @@ Object.prototype.prettyPrint = function(){
                .replace(/</g, '&lt;').replace(/>/g, '&gt;')
                .replace(jsonLine, replacer);
 }
-
-
 
   </script>
   <!-- Optional JavaScript -->

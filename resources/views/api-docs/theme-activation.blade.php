@@ -9,7 +9,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Get Products</title>
+    <title>Dashboard info</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
@@ -22,7 +22,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/api/v1/dashboard">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="/api/v1/products">Wishlist</a>
             </li>
             <li class="nav-item">
@@ -31,16 +31,16 @@
             <li class="nav-item">
               <a class="nav-link" href="/api/v1/configure-theme-api-docs">Configure-theme</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="/api/v1/theme-activated">Theme-activation</a>
             </li>
           </ul>
         </div>
       </nav>
     <br>
-    <h2>Get List of wishlisted products</h2>
+    <h2>Check if shop is activated</h2>
     <h3>
-        <span class="badge badge-primary mr-1">GET</span><span class="badge badge-secondary">/api/v1/products</span>
+        <span class="badge badge-primary mr-1">GET</span><span class="badge badge-secondary">/api/v1/theme-activated</span>
     </h3>
     <h5><i>Response: <b>200</b></i></h5>
     <hr>
@@ -75,7 +75,7 @@ Object.prototype.prettyPrint = function(){
 }
 
 
-var account = {!! json_encode($wishlist_data) !!};
+var account = {!! json_encode($api_data) !!};
 
 document.getElementById('api').innerHTML = account.prettyPrint();
 

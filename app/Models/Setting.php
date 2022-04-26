@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Setting extends Model
 {
@@ -20,4 +21,11 @@ class Setting extends Model
         'shop_active_currency',
         'activated'
     ];
+
+    public static function checkIfThemeIsActive()
+    {
+        $shop = Auth::user();
+        $shop_data = self::where("shop_id", $shop->name)->first();
+        return $shop_data != null ? $shop_data->activated == 1 : false;
+    }
 }
