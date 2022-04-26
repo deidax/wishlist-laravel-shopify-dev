@@ -20,11 +20,11 @@ class CustomerController extends Controller
     {
         $customers_ql = Customer::WishlistGraphQl("customer_id", "Customer");
         $customers_wishlist = Customer::getDataOnly($customers_ql);
-        
+
         $customers_data = new CustomerResource($customers_wishlist);
 
         // return view('customers', compact('customers_wishlist'));
-        return view('api-docs.customers', compact('customers_data'));
+        return $customers_data;
     }
 
     /**

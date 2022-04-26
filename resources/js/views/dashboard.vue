@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PSpinner accessibilityLabel="Spinner Example" v-if="showloading" />
     <PModal
         :open="showmodal"
         sectioned
@@ -17,15 +18,15 @@
         </p>
       </PTextContainer>
     </PModal>
-    <PLayout>
+    <PLayout v-if="!showloading">
       <PLayoutSection oneThird="">
-        <status status="20%" title="32" shortDescription="Today's wishlists" variant="warning"></status>
+        <status status="20%" :title="todayStats" shortDescription="Today's wishlists" variant="warning"></status>
       </PLayoutSection>
       <PLayoutSection oneThird="">
-        <status status="10%" title="20" shortDescription="Yesterday wishlists" variant="success"></status>
+        <status status="10%" :title="yesterdayStats" shortDescription="Yesterday wishlists" variant="success"></status>
       </PLayoutSection>
       <PLayoutSection oneThird="">
-        <status title="4420" shortDescription="Total wishlists"></status>
+        <status :title="TotalStats" shortDescription="Total wishlists"></status>
       </PLayoutSection>
     </PLayout>
   </div>
@@ -38,10 +39,28 @@ export default {
     data(){
         return {
             showmodal:false,
-            showloading:false,
+            showloading:true,
+            todayStats:0,
+            yesterdayStats:0,
+            TotalStats:0,
         }
     },
     methods:{
+        getStats(){
+            axios.get("/api/v1/dashboard").then((response) => {
+                this.todayStats=response.data.todays_wishlist;
+                this.yesterdayStats=response.data.yesterday_wishlist;
+                this.TotalStats=response.data.total_wishlist;
+            this.showloading=false;
+            }).catch((err) => {
+                this.showloading=false;
+                this.$pToast.open({
+                    message: err,
+                    duration:3000,
+                    position:"top-right"
+                })
+            })
+        },
         sendConfigure(param){
             this.showloading=true
             axios.post("/api/configureTheme").then((response) => {
@@ -61,13 +80,10 @@ export default {
                     position:"top-right"
                 })
             })
-        }
+        },
     },
     mounted(){
-        this.showmodal=true;
+        this.getStats();
     }
 };
 </script>
-
-<style>
-</style>

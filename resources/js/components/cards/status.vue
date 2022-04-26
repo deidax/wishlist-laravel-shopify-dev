@@ -1,7 +1,7 @@
 <template>
 <PCard :sectioned="false" :subdued="true">
             <PCardHeader
-            :title="title"
+            :title="''+title"
             :shortDescription="shortDescription"
             v-slot:children
             >

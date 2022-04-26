@@ -19,6 +19,13 @@ class DashboardController extends Controller
         return view('api-docs.home', compact('dashboard_data'));
     }
 
+    public function getInfo()
+    {
+        $dashboard_data = Dashboard::buildStatusInfo();
+
+        return $dashboard_data;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

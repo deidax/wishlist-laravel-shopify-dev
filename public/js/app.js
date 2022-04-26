@@ -5428,6 +5428,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -5436,25 +5437,22 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       showmodal: false,
-      showloading: false
+      showloading: true,
+      todayStats: 0,
+      yesterdayStats: 0,
+      TotalStats: 0
     };
   },
   methods: {
-    sendConfigure: function sendConfigure(param) {
+    getStats: function getStats() {
       var _this = this;
 
-      this.showloading = true;
-      axios.post("/api/configureTheme").then(function (response) {
-        _this.showmodal = false;
+      axios.get("/api/v1/dashboard").then(function (response) {
+        _this.todayStats = response.data.todays_wishlist;
+        _this.yesterdayStats = response.data.yesterday_wishlist;
+        _this.TotalStats = response.data.total_wishlist;
         _this.showloading = false;
-
-        _this.$pToast.open({
-          message: 'App configured',
-          duration: 3000,
-          position: "top-right"
-        });
       })["catch"](function (err) {
-        _this.showmodal = false;
         _this.showloading = false;
 
         _this.$pToast.open({
@@ -5463,10 +5461,34 @@ __webpack_require__.r(__webpack_exports__);
           position: "top-right"
         });
       });
+    },
+    sendConfigure: function sendConfigure(param) {
+      var _this2 = this;
+
+      this.showloading = true;
+      axios.post("/api/configureTheme").then(function (response) {
+        _this2.showmodal = false;
+        _this2.showloading = false;
+
+        _this2.$pToast.open({
+          message: 'App configured',
+          duration: 3000,
+          position: "top-right"
+        });
+      })["catch"](function (err) {
+        _this2.showmodal = false;
+        _this2.showloading = false;
+
+        _this2.$pToast.open({
+          message: err,
+          duration: 3000,
+          position: "top-right"
+        });
+      });
     }
   },
   mounted: function mounted() {
-    this.showmodal = true;
+    this.getStats();
   }
 });
 
@@ -5487,7 +5509,142 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      products: []
+    };
+  },
+  methods: {
+    fetchProducts: function fetchProducts() {
+      var _this = this;
+
+      axios.get("/api/products").then(function (response) {
+        console.log(response);
+        _this.products = response.data;
+      })["catch"](function (err) {
+        _this.$pToast.open({
+          message: err,
+          duration: 3000,
+          position: "top-right"
+        });
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.fetchProducts();
+  }
+});
 
 /***/ }),
 
@@ -12763,6 +12920,21 @@ module.exports = function (cssWithMappingToString) {
 
   return list;
 };
+
+/***/ }),
+
+/***/ "./resources/js/images/empty-state.png":
+/*!*********************************************!*\
+  !*** ./resources/js/images/empty-state.png ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/empty-state.png?b6d45e152410d2147e6e50f597c45aaa");
 
 /***/ }),
 
@@ -31174,7 +31346,10 @@ var render = function () {
     { attrs: { sectioned: false, subdued: true } },
     [
       _c("PCardHeader", {
-        attrs: { title: _vm.title, shortDescription: _vm.shortDescription },
+        attrs: {
+          title: "" + _vm.title,
+          shortDescription: _vm.shortDescription,
+        },
         scopedSlots: _vm._u([
           {
             key: "children",
@@ -31326,6 +31501,10 @@ var render = function () {
   return _c(
     "div",
     [
+      _vm.showloading
+        ? _c("PSpinner", { attrs: { accessibilityLabel: "Spinner Example" } })
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "PModal",
         {
@@ -31372,54 +31551,59 @@ var render = function () {
         1
       ),
       _vm._v(" "),
-      _c(
-        "PLayout",
-        [
-          _c(
-            "PLayoutSection",
-            { attrs: { oneThird: "" } },
+      !_vm.showloading
+        ? _c(
+            "PLayout",
             [
-              _c("status", {
-                attrs: {
-                  status: "20%",
-                  title: "32",
-                  shortDescription: "Today's wishlists",
-                  variant: "warning",
-                },
-              }),
+              _c(
+                "PLayoutSection",
+                { attrs: { oneThird: "" } },
+                [
+                  _c("status", {
+                    attrs: {
+                      status: "20%",
+                      title: _vm.todayStats,
+                      shortDescription: "Today's wishlists",
+                      variant: "warning",
+                    },
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "PLayoutSection",
+                { attrs: { oneThird: "" } },
+                [
+                  _c("status", {
+                    attrs: {
+                      status: "10%",
+                      title: _vm.yesterdayStats,
+                      shortDescription: "Yesterday wishlists",
+                      variant: "success",
+                    },
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "PLayoutSection",
+                { attrs: { oneThird: "" } },
+                [
+                  _c("status", {
+                    attrs: {
+                      title: _vm.TotalStats,
+                      shortDescription: "Total wishlists",
+                    },
+                  }),
+                ],
+                1
+              ),
             ],
             1
-          ),
-          _vm._v(" "),
-          _c(
-            "PLayoutSection",
-            { attrs: { oneThird: "" } },
-            [
-              _c("status", {
-                attrs: {
-                  status: "10%",
-                  title: "20",
-                  shortDescription: "Yesterday wishlists",
-                  variant: "success",
-                },
-              }),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "PLayoutSection",
-            { attrs: { oneThird: "" } },
-            [
-              _c("status", {
-                attrs: { title: "4420", shortDescription: "Total wishlists" },
-              }),
-            ],
-            1
-          ),
-        ],
-        1
-      ),
+          )
+        : _vm._e(),
     ],
     1
   )
@@ -31447,7 +31631,176 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("producs")])
+  return _c(
+    "div",
+    [
+      _vm.products.length == 0
+        ? _c(
+            "PEmptyState",
+            {
+              attrs: {
+                heading: "Products wishlisted",
+                image: __webpack_require__(/*! ../images/empty-state.png */ "./resources/js/images/empty-state.png"),
+              },
+            },
+            [
+              _c("p", [
+                _vm._v(
+                  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo unde libero, ipsa voluptatem iusto numquam minima deleniti. At consequatur aperiam pariatur quis esse hic harum, officiis, est provident error cum!"
+                ),
+              ]),
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "PCard",
+        { attrs: { sectioned: "" } },
+        [
+          _c("PDataTable", {
+            attrs: {
+              resourceName: { singular: "Product", plural: "Products" },
+              headings: [
+                {
+                  content: "Product",
+                  value: "product",
+                  type: "text",
+                  width: "30%",
+                },
+                {
+                  content: "Price",
+                  value: "price",
+                  type: "numeric",
+                },
+                {
+                  content: "SKU Number",
+                  value: "sku",
+                  type: "numeric",
+                },
+                {
+                  content: "Net quantity",
+                  value: "qty",
+                  type: "numeric",
+                },
+                {
+                  content: "Status",
+                  value: "status",
+                  type: "text",
+                  sortable: false,
+                },
+                {
+                  content: "Total customers",
+                  value: "total_customers",
+                  type: "numeric",
+                },
+              ],
+              rows: [
+                {
+                  product: "Emerald Silk Gown",
+                  product_link: "javascript:void(0);",
+                  price: "$875.00",
+                  sku: 124689,
+                  sku_status: "critical",
+                  sku_progress: "incomplete",
+                  qty: 140,
+                  status: true,
+                  total_customers: 5,
+                },
+                {
+                  product: "Mauve Cashmere Scarf",
+                  product_link: "javascript:void(0);",
+                  price: "$230.00",
+                  sku: 124533,
+                  sku_status: "warning",
+                  sku_progress: "partiallyComplete",
+                  qty: 83,
+                  status: false,
+                  total_customers: 3,
+                },
+                {
+                  product:
+                    "Navy Merino Wool Blazer with khaki chinos and yellow belt",
+                  product_link: "javascript:void(0);",
+                  price: "$445.00",
+                  sku: 124518,
+                  sku_status: "success",
+                  sku_progress: "complete",
+                  qty: 32,
+                  status: true,
+                  total_customers: 5,
+                },
+              ],
+              hasPagination: true,
+              pagination: {
+                hasPrevious: true,
+                hasNext: true,
+                onNext: function () {
+                  _vm.alert("Next")
+                },
+                onPrevious: function () {
+                  _vm.alert("Previous")
+                },
+              },
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.product",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c("PLink", { attrs: { url: item.product_link } }, [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(item.product) +
+                          "\n            "
+                      ),
+                    ]),
+                  ]
+                },
+              },
+              {
+                key: "item.sku",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "PBadge",
+                      {
+                        attrs: {
+                          status: item.sku_status,
+                          progress: item.sku_progress,
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(item.sku) +
+                            "\n            "
+                        ),
+                      ]
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.status",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c("PBadge", { attrs: { status: item.sku_status } }, [
+                      _vm._v("\n                active\n            "),
+                    ]),
+                  ]
+                },
+              },
+            ]),
+          }),
+        ],
+        1
+      ),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
