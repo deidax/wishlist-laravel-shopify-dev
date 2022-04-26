@@ -44,11 +44,13 @@ Route::group(['middleware' => 'verify.shopify'], function () {
         return Inertia::render('Home');
     })->name('home');
     Route::get('/users', function () {
-        return Inertia::render('Users');
+        // return Inertia::render('Users');
+        return "Users";
     })->name('users');
 
     Route::get('/settings', function () {
-        return Inertia::render('Settings');
+        // return Inertia::render('Settings');
+        return "Settings";
     })->name('settings');
 
 });
