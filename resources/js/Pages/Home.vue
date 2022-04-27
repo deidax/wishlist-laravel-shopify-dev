@@ -8,5 +8,11 @@
 <script>
 
 export default {
+  created() {
+
+
+    console.log(window.jQuery)
+
+  }
 }
 </script>
