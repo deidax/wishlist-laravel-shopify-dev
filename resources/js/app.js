@@ -8,10 +8,14 @@ import router from './router'
 
 Vue.use(VueRouter)
 
-//setting axios
-// import axios from 'axios'
-// import VueAxios from 'vue-axios'
-// Vue.use(VueAxios, axios)
+//support vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import storeData from "./store/index"
+
+const store = new Vuex.Store(
+   storeData
+)
 
 //Setting vue polaris
 import PolarisVue from '@hulkapps/polaris-vue';
@@ -25,5 +29,6 @@ import footerhelp from "./layouts/footerhelp.vue"
 const app = new Vue({
     el: '#app',
     router,
+    store, //vuex
     components: { navbar,footerhelp }
 });
