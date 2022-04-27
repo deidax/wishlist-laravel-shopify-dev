@@ -6,7 +6,6 @@
 
         <title>{{ \Osiset\ShopifyApp\Util::getShopifyConfig('app_name') }}</title>
         @yield('styles')
-        <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
 
     <body>
@@ -43,6 +42,5 @@
         @endif
 
         @yield('scripts')
-        <script src="{{asset('js/app.js')}}"></script>
     </body>
 </html>

@@ -26,7 +26,12 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     //     return view('home');
     // })->name('home');
     
-    Route::get('/', [DashboardController::class, 'index'])->name('api-docs.home');
+    // Route::get('/', [DashboardController::class, 'index'])->name('api-docs.home');
+    // Route::get('/{any?}', [
+    //     function () {
+    //         return view('welcome');
+    //     }
+    // ])->where('any', '.*');
 
     // Route::get('/products', [ProductController::class, "index"])->name('wishlist');
 

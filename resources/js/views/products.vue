@@ -1,5 +1,6 @@
 <template>
   <div>
+      {{products}}
       <PEmptyState
         heading="Products wishlisted"
         :image="require('../images/empty-state.png')"
@@ -122,7 +123,7 @@ data(){
 },
 methods:{
     fetchProducts(){
-        axios.get("/api/products").then((response) => {
+        axios.get("/api/v1/products").then((response) => {
             console.log(response)
                 this.products=response.data;
             }).catch((err) => {
