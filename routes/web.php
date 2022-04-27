@@ -26,12 +26,19 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     //     return view('home');
     // })->name('home');
     
-    // Route::get('/', [DashboardController::class, 'index'])->name('api-docs.home');
+    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     // Route::get('/{any?}', [
     //     function () {
-    //         return view('welcome');
+    //         // return view('app');
+    //         return "ok";
     //     }
     // ])->where('any', '.*');
+
+    Route::get('/', [
+        function () {
+            return view('shopify-app::home.index');
+        }
+    ])->name('home');
 
     // Route::get('/products', [ProductController::class, "index"])->name('wishlist');
 

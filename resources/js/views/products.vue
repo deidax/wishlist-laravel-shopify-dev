@@ -3,8 +3,9 @@
       {{products}}
       <PEmptyState
         heading="Products wishlisted"
-        :image="require('../images/empty-state.png')"
-        v-if="products.length==0"
+        image="/images/empty-state.png"
+        class="image__inner"
+        v-if="products.data.length==0"
     >
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo unde libero, ipsa voluptatem iusto numquam minima deleniti. At consequatur aperiam pariatur quis esse hic harum, officiis, est provident error cum!</p>
     </PEmptyState>
@@ -141,6 +142,10 @@ mounted(){
 }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+    .image__inner {
+        img{
+            width: 400px;
+        }
+    }
 </style>

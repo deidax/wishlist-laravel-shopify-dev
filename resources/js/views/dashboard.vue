@@ -63,7 +63,7 @@ export default {
         },
         sendConfigure(param){
             this.showloading=true
-            axios.post("/api/configureTheme").then((response) => {
+            axios.post("/api/v1/configureTheme").then((response) => {
                 this.showmodal=false;
                 this.showloading=false;
                 this.$pToast.open({
@@ -83,7 +83,9 @@ export default {
         },
     },
     mounted(){
+      setTimeout(()=>{
         this.getStats();
+      },500)
     }
 };
 </script>
