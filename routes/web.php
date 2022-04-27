@@ -20,23 +20,28 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'verify.shopify'], function () {
-    Route::get('/', function () {
-        return view('home');
-    })->name('home');
+    // Route::get('/', function () {
+    //     return view('home');
+    // })->name('home');
     
-    Route::get('/products', [ProductController::class, "index"])->name('wishlist');
+    // Route::get('/products', [ProductController::class, "index"])->name('wishlist');
 
-    Route::get('/customers',[CustomerController::class, "index"])->name('customers');
+    // Route::get('/customers',[CustomerController::class, "index"])->name('customers');
 
-    Route::get('/settings', function () {
-        return view('settings');
-    })->name('settings');
+    // Route::get('/settings', function () {
+    //     return view('settings');
+    // })->name('settings');
 
-    Route::post('/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
+    // Route::post('/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
 
-    Route::get('/test', function () {
-        return "testing...";
-    })->name('test');
+    // Route::get('/test', function () {
+    //     return "testing...";
+    // })->name('test');
+    Route::get('/{any?}', [
+        function () {
+            return view('home.index');
+        }
+    ])->where('any', '.*');
     
 
 });

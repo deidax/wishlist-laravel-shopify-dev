@@ -5,17 +5,13 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ \Osiset\ShopifyApp\Util::getShopifyConfig('app_name') }}</title>
-        <link rel="stylesheet" href="{{asset('css/app.css')}}">
         @yield('styles')
-        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
 
     <body>
         <div class="app-wrapper">
             <div class="app-content">
                 <main role="main">
-                    {{-- navbar --}}
-                    @include('partials.nav')
                     @yield('content')
                 </main>
             </div>
@@ -46,6 +42,5 @@
         @endif
 
         @yield('scripts')
-        <script src="{{asset('js/app.js')}}"></script>
     </body>
 </html>
