@@ -1,26 +1,42 @@
 <template>
   <div>
-    <PSpinner accessibilityLabel="Spinner Example" v-if="showloading" />
+    <PSpinner v-if="showloading"/>
+
     <PLayout v-if="!showloading">
       <PLayoutSection oneThird="">
-        <status status="20%" :title="todayStats" shortDescription="Today's wishlists" variant="warning"></status>
+        <status status="20%" :title="allStats.todays_wishlist" shortDescription="Today's wishlists" variant="warning"></status>
       </PLayoutSection>
       <PLayoutSection oneThird="">
-        <status status="10%" :title="yesterdayStats" shortDescription="Yesterday wishlists" variant="success"></status>
+        <status status="10%" :title="allStats.yesterday_wishlist" shortDescription="Yesterday wishlists" variant="success"></status>
       </PLayoutSection>
       <PLayoutSection oneThird="">
-        <status :title="TotalStats" shortDescription="Total wishlists"></status>
+        <status :title="allStats.total_wishlist" shortDescription="Total wishlists"></status>
       </PLayoutSection>
     </PLayout>
+
+    <PLayout v-if="!showloading" class="secondlayout__inner">
+    <PLayoutSection oneHalf="">
+      <PCard title="Top Wishlist Users" sectioned="">
+        <resourceList />
+      </PCard>
+    </PLayoutSection>
+    <PLayoutSection oneHalf="">
+      <PCard title="Top Wishlist Products" sectioned="" :actions="[]">
+        <tableProducts />
+      </PCard>
+    </PLayoutSection>
+  </PLayout>
   </div>
 </template>
 
 <script>
 import status from "../components/cards/status"
+import resourceList from "../components/cards/resourceList"
+import tableProducts from "../components/cards/tableProducts.vue"
 export default {
-    components:{status},
+    components:{status,resourceList,tableProducts},
     computed: {
-        getAllStats(){ //final output from here
+        allStats(){ //final output from here
             return this.$store.getters['stats/getGlobalStats'];
         }
     },
@@ -33,11 +49,7 @@ export default {
     methods:{
         getStats(){
             this.$store.dispatch('stats/allStats').then((response) => {
-                debugger
-                this.todayStats=response.data.todays_wishlist;
-                this.yesterdayStats=response.data.yesterday_wishlist;
-                this.TotalStats=response.data.total_wishlist;
-            this.showloading=false;
+                this.showloading=false;
             }).catch((err) => {
                 this.showloading=false;
                 this.$pToast.open({
@@ -55,3 +67,20 @@ export default {
     }
 };
 </script>
+<style >
+    .secondlayout__inner{
+        margin-top: 20px !important;
+    }
+    .Polaris-Spinner{
+        margin: 0 auto;
+        display: flex;
+    }
+    .hide__header__content .Polaris-ResourceList__HeaderOuterWrapper{
+        display: none !important;
+    }
+    .product__info{
+        display: flex !important;
+        align-items: center;
+        column-gap: 10px;
+    }
+</style>

@@ -22,9 +22,6 @@ export default {
             return axios.get("/api/v1/dashboard")
                 .then((response) => {
                     context.commit("globalStats", response.data);
-                })
-                .catch(() => {
-                    console.log("Error........");
                 });
         },
     },
