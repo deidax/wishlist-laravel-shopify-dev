@@ -5819,10 +5819,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      products: []
+      products: [],
+      showloading: true
     };
   },
   methods: {
@@ -5830,9 +5873,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/v1/products").then(function (response) {
-        console.log(response);
-        _this.products = response.data;
+        _this.products = response.data.data;
+        _this.showloading = false;
       })["catch"](function (err) {
+        _this.showloading = false;
+
         _this.$pToast.open({
           message: err,
           duration: 3000,
@@ -13178,30 +13223,6 @@ function blitBuffer (src, dst, offset, length) {
 function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss&":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".image__inner img[data-v-7ed12f63] {\n  width: 400px;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
 /***/ }),
@@ -30883,36 +30904,6 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss&":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_style_index_0_id_7ed12f63_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss&");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_style_index_0_id_7ed12f63_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_style_index_0_id_7ed12f63_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/@hulkapps/polaris-vue/dist/polaris-vue.min.css":
 /*!*********************************************************************!*\
   !*** ./node_modules/@hulkapps/polaris-vue/dist/polaris-vue.min.css ***!
@@ -31570,25 +31561,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _products_vue_vue_type_template_id_7ed12f63_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./products.vue?vue&type=template&id=7ed12f63&scoped=true& */ "./resources/js/views/products.vue?vue&type=template&id=7ed12f63&scoped=true&");
+/* harmony import */ var _products_vue_vue_type_template_id_7ed12f63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./products.vue?vue&type=template&id=7ed12f63& */ "./resources/js/views/products.vue?vue&type=template&id=7ed12f63&");
 /* harmony import */ var _products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./products.vue?vue&type=script&lang=js& */ "./resources/js/views/products.vue?vue&type=script&lang=js&");
-/* harmony import */ var _products_vue_vue_type_style_index_0_id_7ed12f63_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss& */ "./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
-;
 
 
 /* normalize component */
-
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _products_vue_vue_type_template_id_7ed12f63_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _products_vue_vue_type_template_id_7ed12f63_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _products_vue_vue_type_template_id_7ed12f63___WEBPACK_IMPORTED_MODULE_0__.render,
+  _products_vue_vue_type_template_id_7ed12f63___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "7ed12f63",
+  null,
   null
   
 )
@@ -31783,19 +31772,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss&":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss& ***!
-  \***************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_2_node_modules_sass_loader_dist_cjs_js_clonedRuleSet_12_0_rules_0_use_3_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_style_index_0_id_7ed12f63_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!../../../node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-12[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=style&index=0&id=7ed12f63&scoped=true&lang=scss&");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/cards/status.vue?vue&type=style&index=0&id=7e1834e9&scoped=true&lang=css&":
 /*!***********************************************************************************************************!*\
   !*** ./resources/js/components/cards/status.vue?vue&type=style&index=0&id=7e1834e9&scoped=true&lang=css& ***!
@@ -31941,19 +31917,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/products.vue?vue&type=template&id=7ed12f63&scoped=true&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/views/products.vue?vue&type=template&id=7ed12f63&scoped=true& ***!
-  \************************************************************************************/
+/***/ "./resources/js/views/products.vue?vue&type=template&id=7ed12f63&":
+/*!************************************************************************!*\
+  !*** ./resources/js/views/products.vue?vue&type=template&id=7ed12f63& ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_template_id_7ed12f63_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_template_id_7ed12f63_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_template_id_7ed12f63___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_template_id_7ed12f63___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_template_id_7ed12f63_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./products.vue?vue&type=template&id=7ed12f63&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=template&id=7ed12f63&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_products_vue_vue_type_template_id_7ed12f63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./products.vue?vue&type=template&id=7ed12f63& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=template&id=7ed12f63&");
 
 
 /***/ }),
@@ -32641,10 +32617,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=template&id=7ed12f63&scoped=true&":
-/*!***************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=template&id=7ed12f63&scoped=true& ***!
-  \***************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=template&id=7ed12f63&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/products.vue?vue&type=template&id=7ed12f63& ***!
+  \***************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -32660,172 +32636,357 @@ var render = function () {
   return _c(
     "div",
     [
-      _vm._v("\n      " + _vm._s(_vm.products) + "\n      "),
-      _vm.products.data.length == 0
+      _vm.showloading ? _c("PSpinner") : _vm._e(),
+      _vm._v(" "),
+      !_vm.showloading
         ? _c(
-            "PEmptyState",
-            {
-              staticClass: "image__inner",
-              attrs: {
-                heading: "Products wishlisted",
-                image: "/images/empty-state.png",
-              },
-            },
+            "PCard",
+            { attrs: { sectioned: "" } },
             [
-              _c("p", [
-                _vm._v(
-                  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo unde libero, ipsa voluptatem iusto numquam minima deleniti. At consequatur aperiam pariatur quis esse hic harum, officiis, est provident error cum!"
+              _c(
+                "PFilter",
+                {
+                  attrs: {
+                    resourceName: { singular: "Customer", plural: "Customers" },
+                    appliedFilters: [{ value: "Test", key: "test" }],
+                    disabled: false,
+                  },
+                },
+                [
+                  _c(
+                    "PButtonGroup",
+                    { attrs: { segmented: "" } },
+                    [
+                      _c(
+                        "PPopover",
+                        {
+                          attrs: {
+                            id: "popover_1",
+                            active: false,
+                            fullWidth: "",
+                          },
+                        },
+                        [
+                          _c(
+                            "PButton",
+                            {
+                              attrs: {
+                                slot: "activator",
+                                disabled: false,
+                                disclosure: "down",
+                              },
+                              slot: "activator",
+                            },
+                            [_vm._v("\n          Account Status\n        ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "PCard",
+                            {
+                              attrs: { slot: "content", sectioned: "" },
+                              slot: "content",
+                            },
+                            [
+                              _c("PChoiceList", {
+                                attrs: {
+                                  title: "Account Status",
+                                  options: [
+                                    { label: "Enabled", value: "enabled" },
+                                    {
+                                      label: "Not invited",
+                                      value: "not invited",
+                                    },
+                                    { label: "Invited", value: "invited" },
+                                    { label: "Declined", value: "declined" },
+                                  ],
+                                  textField: "label",
+                                  valueField: "value",
+                                  selected: [],
+                                  allowMultiple: "",
+                                  titleHidden: "",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "PPopover",
+                        {
+                          attrs: {
+                            id: "popover_2",
+                            active: false,
+                            fullWidth: "",
+                          },
+                        },
+                        [
+                          _c(
+                            "PButton",
+                            {
+                              attrs: {
+                                slot: "activator",
+                                disabled: false,
+                                disclosure: "down",
+                              },
+                              slot: "activator",
+                            },
+                            [_vm._v("\n          Status\n        ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "PCard",
+                            { attrs: { slot: "content" }, slot: "content" },
+                            [
+                              _c(
+                                "PCardSection",
+                                [
+                                  _c(
+                                    "PStack",
+                                    {
+                                      attrs: { vertical: "", spacing: "tight" },
+                                    },
+                                    [
+                                      _c(
+                                        "PStackItem",
+                                        [
+                                          _c("PTextField", {
+                                            attrs: {
+                                              label: "Tagged with",
+                                              labelHidden: "",
+                                              value: "",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "PStackItem",
+                                        [
+                                          _c(
+                                            "PButton",
+                                            { attrs: { plain: "" } },
+                                            [_vm._v("Clear")]
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("PButton", { attrs: { disabled: false } }, [
+                        _vm._v("Search"),
+                      ]),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("PIndexTable", {
+                attrs: {
+                  rows: _vm.products,
+                  itemCount: _vm.products.length,
+                  appliedFilters: [
+                    {
+                      value: _vm.tag,
+                      key: "test",
+                    },
+                  ],
+                  resourceName: {
+                    singular: "product",
+                    plural: "products",
+                  },
+                  headings: [
+                    {
+                      title: "",
+                      value: "image",
+                    },
+                    {
+                      title: "Product",
+                      value: "title",
+                    },
+                    {
+                      title: "Status",
+                      value: "product_status",
+                    },
+                    {
+                      title: "Inventory",
+                      value: "totalInventory",
+                    },
+                    {
+                      title: "Price",
+                      value: "price",
+                    },
+                    {
+                      title: "Vendor",
+                      value: "vendor",
+                    },
+                    {
+                      title: "Number of customers",
+                      value: "number_of_customers",
+                    },
+                  ],
+                  bulkActions: [
+                    {
+                      content: "Add tags",
+                      onAction: function () {
+                        return _vm.console.log("Todo: implement bulk add tags")
+                      },
+                    },
+                    {
+                      content: "Remove tags",
+                      onAction: function () {
+                        return _vm.console.log(
+                          "Todo: implement bulk remove tags"
+                        )
+                      },
+                    },
+                    {
+                      content: "Delete customers",
+                      onAction: function () {
+                        return _vm.console.log("Todo: implement bulk delete")
+                      },
+                    },
+                  ],
+                  hasMoreItems: true,
+                  promotedBulkActions: [
+                    {
+                      title: "Menu",
+                      actions: [
+                        {
+                          helpText: "Promoted BulkActions Menu",
+                          onAction: function () {
+                            return _vm.console.log(
+                              "Todo: implement promoted bulk actions menu"
+                            )
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      content: "Edit customers",
+                      onAction: function () {
+                        return _vm.console.log("Todo: implement bulk edit")
+                      },
+                    },
+                  ],
+                  lastColumnSticky: true,
+                  pagination: {
+                    hasPrevious: true,
+                    hasNext: true,
+                    onNext: function () {
+                      _vm.alert("Next")
+                    },
+                    onPrevious: function () {
+                      _vm.alert("Previous")
+                    },
+                  },
+                },
+                scopedSlots: _vm._u(
+                  [
+                    {
+                      key: "item.image",
+                      fn: function (ref) {
+                        var item = ref.item
+                        return [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                height: "93px",
+                                display: "block",
+                                padding: "15px 0 15px 0",
+                              },
+                            },
+                            [
+                              _c("PThumbnail", {
+                                attrs: {
+                                  source:
+                                    "https://burst.shopifycdn.com/photos/black-leather-choker-necklace_373x@2x.jpg",
+                                  alt: item.name,
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ]
+                      },
+                    },
+                    {
+                      key: "item.product",
+                      fn: function (ref) {
+                        var item = ref.item
+                        return [
+                          _c(
+                            "PLink",
+                            { attrs: { url: "javascript:void(0)" } },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(item.name) +
+                                  "\n            "
+                              ),
+                            ]
+                          ),
+                        ]
+                      },
+                    },
+                    {
+                      key: "item.product_status",
+                      fn: function (ref) {
+                        var item = ref.item
+                        return [
+                          item.product_status === "Draft"
+                            ? _c("PBadge", { attrs: { status: "info" } }, [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(item.product_status) +
+                                    "\n            "
+                                ),
+                              ])
+                            : item.product_status === "Active"
+                            ? _c("PBadge", { attrs: { status: "success" } }, [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(item.product_status) +
+                                    "\n            "
+                                ),
+                              ])
+                            : _c("PBadge", [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(item.product_status) +
+                                    "\n            "
+                                ),
+                              ]),
+                        ]
+                      },
+                    },
+                  ],
+                  null,
+                  false,
+                  3481612568
                 ),
-              ]),
-            ]
+              }),
+            ],
+            1
           )
         : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "PCard",
-        { attrs: { sectioned: "" } },
-        [
-          _c("PDataTable", {
-            attrs: {
-              resourceName: { singular: "Product", plural: "Products" },
-              headings: [
-                {
-                  content: "Product",
-                  value: "product",
-                  type: "text",
-                  width: "30%",
-                },
-                {
-                  content: "Price",
-                  value: "price",
-                  type: "numeric",
-                },
-                {
-                  content: "SKU Number",
-                  value: "sku",
-                  type: "numeric",
-                },
-                {
-                  content: "Net quantity",
-                  value: "qty",
-                  type: "numeric",
-                },
-                {
-                  content: "Status",
-                  value: "status",
-                  type: "text",
-                  sortable: false,
-                },
-                {
-                  content: "Total customers",
-                  value: "total_customers",
-                  type: "numeric",
-                },
-              ],
-              rows: [
-                {
-                  product: "Emerald Silk Gown",
-                  product_link: "javascript:void(0);",
-                  price: "$875.00",
-                  sku: 124689,
-                  sku_status: "critical",
-                  sku_progress: "incomplete",
-                  qty: 140,
-                  status: true,
-                  total_customers: 5,
-                },
-                {
-                  product: "Mauve Cashmere Scarf",
-                  product_link: "javascript:void(0);",
-                  price: "$230.00",
-                  sku: 124533,
-                  sku_status: "warning",
-                  sku_progress: "partiallyComplete",
-                  qty: 83,
-                  status: false,
-                  total_customers: 3,
-                },
-                {
-                  product:
-                    "Navy Merino Wool Blazer with khaki chinos and yellow belt",
-                  product_link: "javascript:void(0);",
-                  price: "$445.00",
-                  sku: 124518,
-                  sku_status: "success",
-                  sku_progress: "complete",
-                  qty: 32,
-                  status: true,
-                  total_customers: 5,
-                },
-              ],
-              hasPagination: true,
-              pagination: {
-                hasPrevious: true,
-                hasNext: true,
-                onNext: function () {
-                  _vm.alert("Next")
-                },
-                onPrevious: function () {
-                  _vm.alert("Previous")
-                },
-              },
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "item.product",
-                fn: function (ref) {
-                  var item = ref.item
-                  return [
-                    _c("PLink", { attrs: { url: item.product_link } }, [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(item.product) +
-                          "\n            "
-                      ),
-                    ]),
-                  ]
-                },
-              },
-              {
-                key: "item.sku",
-                fn: function (ref) {
-                  var item = ref.item
-                  return [
-                    _c(
-                      "PBadge",
-                      {
-                        attrs: {
-                          status: item.sku_status,
-                          progress: item.sku_progress,
-                        },
-                      },
-                      [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(item.sku) +
-                            "\n            "
-                        ),
-                      ]
-                    ),
-                  ]
-                },
-              },
-              {
-                key: "item.status",
-                fn: function (ref) {
-                  var item = ref.item
-                  return [
-                    _c("PBadge", { attrs: { status: item.sku_status } }, [
-                      _vm._v("\n                active\n            "),
-                    ]),
-                  ]
-                },
-              },
-            ]),
-          }),
-        ],
-        1
-      ),
     ],
     1
   )

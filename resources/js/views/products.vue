@@ -1,88 +1,121 @@
 <template>
   <div>
-      {{products}}
-      <PEmptyState
-        heading="Products wishlisted"
-        image="/images/empty-state.png"
-        class="image__inner"
-        v-if="products.data.length==0"
-    >
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo unde libero, ipsa voluptatem iusto numquam minima deleniti. At consequatur aperiam pariatur quis esse hic harum, officiis, est provident error cum!</p>
-    </PEmptyState>
-
-  <PCard sectioned>
-    <PDataTable
-        :resourceName="{singular: 'Product', plural: 'Products'}"
+      <PSpinner v-if="showloading"/>
+    <PCard sectioned v-if="!showloading" >
+        <PFilter
+    :resourceName='{"singular":"Customer","plural":"Customers"}'
+    :appliedFilters='[{"value":"Test","key":"test"}]'
+    :disabled="false"
+  >
+    <PButtonGroup segmented="">
+      <PPopover id="popover_1" :active="false" fullWidth="">
+        <PButton slot="activator" :disabled="false" disclosure="down">
+          Account Status
+        </PButton>
+        <PCard slot="content" sectioned="">
+          <PChoiceList
+            title="Account Status"
+            :options='[{"label":"Enabled","value":"enabled"},{"label":"Not invited","value":"not invited"},{"label":"Invited","value":"invited"},{"label":"Declined","value":"declined"}]'
+            textField="label"
+            valueField="value"
+            :selected="[]"
+            allowMultiple=""
+            titleHidden=""
+          />
+        </PCard>
+      </PPopover>
+      <PPopover id="popover_2" :active="false" fullWidth="">
+        <PButton slot="activator" :disabled="false" disclosure="down">
+          Status
+        </PButton>
+        <PCard slot="content">
+          <PCardSection>
+            <PStack vertical="" spacing="tight">
+              <PStackItem>
+                <PTextField label="Tagged with" labelHidden="" value="" />
+              </PStackItem>
+              <PStackItem><PButton plain="">Clear</PButton></PStackItem>
+            </PStack>
+          </PCardSection>
+        </PCard>
+      </PPopover>
+      <PButton :disabled="false">Search</PButton>
+    </PButtonGroup>
+  </PFilter>
+    <PIndexTable
+        :rows="products"
+        :itemCount="products.length"
+        :appliedFilters="[
+            {
+                'value': tag,
+                'key': 'test'
+            },
+        ]"
+        :resourceName="{
+            singular: 'product',
+            plural: 'products',
+        }"
         :headings="[
             {
-                content: 'Product',
-                value: 'product',
-                type: 'text',
-                width: '30%'
+                title: '',
+                value: 'image',
             },
             {
-                content: 'Price',
+                title: 'Product',
+                value: 'title',
+            },
+            {
+                title: 'Status',
+                value: 'product_status',
+            },
+            {
+                title: 'Inventory',
+                value: 'totalInventory',
+            },
+            {
+                title: 'Price',
                 value: 'price',
-                type: 'numeric',
             },
             {
-                content: 'SKU Number',
-                value: 'sku',
-                type: 'numeric',
+                title: 'Vendor',
+                value: 'vendor',
             },
             {
-                content: 'Net quantity',
-                value: 'qty',
-                type: 'numeric',
-            },
-            {
-                content: 'Status',
-                value: 'status',
-                type: 'text',
-                sortable: false,
-            },
-            {
-                content: 'Total customers',
-                value: 'total_customers',
-                type: 'numeric',
+                title: 'Number of customers',
+                value: 'number_of_customers',
             },
         ]"
-        :rows="[
+        :bulkActions="[
             {
-                product: 'Emerald Silk Gown',
-                product_link: 'javascript:void(0);',
-                price: '$875.00',
-                sku: 124689,
-                sku_status: 'critical',
-                sku_progress: 'incomplete',
-                qty: 140,
-                status: true,
-                total_customers:5
+                content: 'Add tags',
+                onAction: () => console.log('Todo: implement bulk add tags'),
             },
             {
-                product: 'Mauve Cashmere Scarf',
-                product_link: 'javascript:void(0);',
-                price: '$230.00',
-                sku: 124533,
-                sku_status: 'warning',
-                sku_progress: 'partiallyComplete',
-                qty: 83,
-                status: false,
-                total_customers:3
+                content: 'Remove tags',
+                onAction: () => console.log('Todo: implement bulk remove tags'),
             },
             {
-                product: 'Navy Merino Wool Blazer with khaki chinos and yellow belt',
-                product_link: 'javascript:void(0);',
-                price: '$445.00',
-                sku: 124518,
-                sku_status: 'success',
-                sku_progress: 'complete',
-                qty: 32,
-                status: true,
-                total_customers:5
+                content: 'Delete customers',
+                onAction: () => console.log('Todo: implement bulk delete'),
             },
         ]"
-        :hasPagination="true"
+        :hasMoreItems="true"
+        :promotedBulkActions="[
+            {
+                title: 'Menu',
+                actions: [
+                    {
+                        helpText: 'Promoted BulkActions Menu',
+                        onAction: () => console.log('Todo: implement promoted bulk actions menu'),
+                    },
+                ],
+            },
+            {
+                content: 'Edit customers',
+                onAction: () => console.log('Todo: implement bulk edit'),
+            },
+        ]"
+        :lastColumnSticky="true"
         :pagination="{
             hasPrevious: true,
             hasNext: true,
@@ -91,25 +124,34 @@
             },
             onPrevious: () => {
                 alert('Previous');
-            }
+            },
         }"
     >
+        <template v-slot:item.image="{ item }">
+            <div style="height: 93px; display: block; padding: 15px 0 15px 0;">
+                <PThumbnail
+                    source="https://burst.shopifycdn.com/photos/black-leather-choker-necklace_373x@2x.jpg"
+                    :alt="item.name"
+                />
+            </div>
+        </template>
         <template v-slot:item.product="{item}">
-            <PLink :url="item.product_link">
-                {{item.product}}
+            <PLink url="javascript:void(0)">
+                {{ item.name }}
             </PLink>
         </template>
-        <template v-slot:item.sku="{item}">
-            <PBadge :status="item.sku_status" :progress="item.sku_progress">
-                {{item.sku}}
+        <template v-slot:item.product_status="{item}">
+            <PBadge v-if="item.product_status === 'Draft'" status="info">
+                {{ item.product_status }}
+            </PBadge>
+            <PBadge v-else-if="item.product_status === 'Active'" status="success">
+                {{ item.product_status }}
+            </PBadge>
+            <PBadge v-else>
+                {{ item.product_status }}
             </PBadge>
         </template>
-        <template v-slot:item.status="{item}">
-            <PBadge :status="item.sku_status">
-                active
-            </PBadge>
-        </template>
-    </PDataTable>
+    </PIndexTable>
 </PCard>
   </div>
 </template>
@@ -119,15 +161,17 @@
 export default {
 data(){
     return{
-        products :[]
+        products :[],
+        showloading:true
     }
 },
 methods:{
     fetchProducts(){
         axios.get("/api/v1/products").then((response) => {
-            console.log(response)
-                this.products=response.data;
+                this.products=response.data.data;
+                this.showloading=false
             }).catch((err) => {
+                this.showloading=false
                 this.$pToast.open({
                     message: err,
                     duration:3000,
@@ -142,10 +186,5 @@ mounted(){
 }
 </script>
 
-<style scoped lang="scss">
-    .image__inner {
-        img{
-            width: 400px;
-        }
-    }
+<style>
 </style>
