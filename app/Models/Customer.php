@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\CustomerResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -39,6 +40,7 @@ class Customer extends GraphQlBuilder
         ... on Customer {
             id
             displayName
+            email
         }
         ";
     }
@@ -53,7 +55,8 @@ class Customer extends GraphQlBuilder
         $customers_with_account = array_map(function($customer_node) use($currency){
             $customer_node['id'] = self::getNumericShopifyQl("Customer",$customer_node['id']);
             $customer_node['number_wishlisted'] = self::countNumberOfWishedProducts($customer_node['id']);
-            $customer_node['price_wishlisted'] = self::countCustomerWishlistedPrice($customer_node['id'])." ".$currency;
+            $customer_node['numbre_price_wishlisted'] = self::countCustomerWishlistedPrice($customer_node['id']);
+            $customer_node['string_price_wishlisted'] = self::countCustomerWishlistedPrice($customer_node['id'])." ".$currency;
             return $customer_node;
         },$customers_nodes);
 
@@ -64,8 +67,10 @@ class Customer extends GraphQlBuilder
         $currency = getCurrency();
         $guest_data = array_map(function($guest) use($currency){
             $guest["displayName"] = self::$guest_label;
+            $guest["email"] = null;
             $guest['number_wishlisted'] = self::countNumberOfWishedProducts($guest['id']);
-            $guest['price_wishlisted'] = self::countCustomerWishlistedPrice($guest['id'])." ".$currency;
+            $guest['numbre_price_wishlisted'] = self::countCustomerWishlistedPrice($guest['id']);
+            $guest['string_price_wishlisted'] = self::countCustomerWishlistedPrice($guest['id'])." ".$currency;
             return $guest;
         }, $guests_uuid);
 
@@ -81,6 +86,33 @@ class Customer extends GraphQlBuilder
         $prices = $data->pluck('product_price')->toArray();
 
         return array_sum($prices);
+    }
+
+    public static function getCustomersData()
+    {
+        $customers_ql = self::WishlistGraphQl("customer_id", "Customer");
+        $customers_wishlist = self::getDataOnly($customers_ql);
+
+        $customers_data = new CustomerResource($customers_wishlist);
+
+        // return view('customers', compact('customers_wishlist'));
+        return $customers_data;
+    }
+
+    public static function sortCustomersData(string $sortBy = '', string $orderBy = '', int $number = null)
+    {
+        //sort
+        $data = self::getCustomersData();
+        $customers = $data->resource;
+        if($sortBy != '' && $orderBy != '' && !is_null($number))
+        {
+            $columns = array_column($customers , $sortBy);
+            $orderBy == "DESC" ?  array_multisort($columns, SORT_DESC, $customers) :  array_multisort($columns, SORT_ASC, $customers);
+            return array_slice($customers, 0, $number);
+        }
+
+        return $customers;
+        
     }
 
 

@@ -16,15 +16,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(string $sortBy = '', string $orderBy = '', int $number = null)
     {
-        $customers_ql = Customer::WishlistGraphQl("customer_id", "Customer");
-        $customers_wishlist = Customer::getDataOnly($customers_ql);
-
-        $customers_data = new CustomerResource($customers_wishlist);
-
-        // return view('customers', compact('customers_wishlist'));
-        return $customers_data;
+        return Customer::sortCustomersData($sortBy, $orderBy, $number);
     }
 
     /**
