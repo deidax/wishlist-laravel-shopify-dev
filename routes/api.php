@@ -108,8 +108,8 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     // exemple: get Top10 customers in wishlist : /v1/customers/number_wishlisted/DESC/10
     Route::get('/v1/customers/{sortBy?}/{orderBy?}/{number?}', [CustomerController::class, "index"])->name('customers');
     
-    
-    Route::post('/v1/get-store-themes', [SettingController::class, "getStoreThemes"])->name('get.store.theme');
+
+    Route::get('/v1/get-store-themes', [SettingController::class, "getStoreThemes"])->name('get.store.theme');
 
     Route::get('/v1/configure-theme-api-docs', function () {
         return view('api-docs.configure-theme');

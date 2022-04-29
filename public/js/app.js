@@ -5908,7 +5908,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      themes: []
+    };
+  },
+  methods: {
+    fetchProducts: function fetchProducts() {
+      var _this = this;
+
+      axios.get("/api/v1/get-store-themes").then(function (response) {
+        console.log(response);
+        _this.themes = response.data;
+      })["catch"](function (err) {
+        _this.$pToast.open({
+          message: err,
+          duration: 3000,
+          position: "top-right"
+        });
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.fetchProducts();
+  }
+});
 
 /***/ }),
 
@@ -33112,7 +33140,10 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("settings")])
+  return _c("div", [
+    _c("h1", [_vm._v("settings")]),
+    _vm._v("\n" + _vm._s(_vm.themes) + "\n"),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
