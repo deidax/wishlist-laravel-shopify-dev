@@ -18,6 +18,15 @@ class Product extends GraphQlBuilder
               handle
               description
               totalInventory
+              vendor
+              variants(first: 15) {
+                edges {
+                  node {
+                    id
+                    sku
+                  }
+                }
+              }
               createdAt
               images(first: 1) {
                   edges {

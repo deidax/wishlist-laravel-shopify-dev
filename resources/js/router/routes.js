@@ -2,6 +2,7 @@ import dashboard from '../views/dashboard'
 import products from '../views/products'
 import customers from '../views/customers'
 import settings from '../views/settings'
+import test from '../views/test'
 
 const routes = [
     {
@@ -23,6 +24,11 @@ const routes = [
             path: '/settings',
             name: 'settings',
             component: settings,
+        },
+        {
+            path: '/test',
+            name: 'test',
+            component: test,
         },
 ]
 

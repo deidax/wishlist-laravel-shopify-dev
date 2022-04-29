@@ -33,6 +33,45 @@ Route::post('/update-customer-id-wishlist', [WishlistController::class, "update"
 Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('/v1/dashboard', [DashboardController::class, "getInfo"])->name('home');
 
+    // get products data using graphql
+    // [
+    //  [
+    //     "id" => "6713766215703"
+    //     "title" => "Smart watch"
+    //     "handle" => "t-shir"
+    //     "description" => "La bla bla..."
+    //     "totalInventory" => 0
+    //     "vendor" => "appstoreplayground"
+    //     "variants" => array:1 [
+    //       "edges" => array:1 [
+    //         0 => array:1 [
+    //           "node" => array:2 [
+    //             "id" => "gid://shopify/ProductVariant/39986421661719"
+    //             "sku" => "SI-XD-1"
+    //           ]
+    //         ]
+    //       ]
+    //     ]
+    //     "createdAt" => "2022-04-03T23:25:21Z"
+    //     "images" => array:1 [
+    //       "edges" => array:1 [
+    //         0 => array:1 [
+    //           "node" => array:1 [
+    //             "url" => "https://cdn.shopify.com/s/files/1/0570/4174/7991/products/1.jpg?v=1649925269"
+    //           ]
+    //         ]
+    //       ]
+    //     ]
+    //     "priceRangeV2" => array:1 [
+    //       "maxVariantPrice" => array:2 [
+    //         "amount" => "250.0"
+    //         "currencyCode" => "MAD"
+    //       ]
+    //     ]
+    //     "number_of_customers" => 2
+    //   ],
+    //    ...
+    // ]
     Route::get('/v1/products', [ProductController::class, "index"])->name('wishlist');
 
     // sort customers.
@@ -44,7 +83,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     //     "number_wishlisted" => 3
     //     "numbre_price_wishlisted" => 157250.0
     //     "string_price_wishlisted" => "157250 MAD"
-    //   ]
+    //   ],
     // 1 => array:6 [
     //     "id" => "5572067459095"
     //     "displayName" => "Adam Smith"
@@ -52,7 +91,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     //     "number_wishlisted" => 2
     //     "numbre_price_wishlisted" => 150250.0
     //     "string_price_wishlisted" => "150250 MAD"
-    //     ]
+    //     ],
     // 2 => array:6 [
     //     "id" => "5577605677079"
     //     "displayName" => "David Locas"
@@ -69,6 +108,8 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     // exemple: get Top10 customers in wishlist : /v1/customers/number_wishlisted/DESC/10
     Route::get('/v1/customers/{sortBy?}/{orderBy?}/{number?}', [CustomerController::class, "index"])->name('customers');
     
+    
+    Route::post('/v1/get-store-themes', [SettingController::class, "getStoreThemes"])->name('get.store.theme');
 
     Route::get('/v1/configure-theme-api-docs', function () {
         return view('api-docs.configure-theme');

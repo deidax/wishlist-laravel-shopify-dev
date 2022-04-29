@@ -17,7 +17,6 @@ class ProductController extends Controller
 
         $wishlist_data = new ProductResource($wishlist);
 
-
         return $wishlist_data;
     }
 }

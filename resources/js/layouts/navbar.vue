@@ -1,6 +1,6 @@
 <template>
   <PTabs
-    :tabs='[{"id":"dashboard","content":"Dashboard","to":"/","badge":{"content":"10+","status":"critical"}},{"id":"products","content":"Products","to":"/products"},{"id":"customers","content":"Customers","to":"/customers"},{"id":"settings","content":"Settings","to":"/settings"}]'
+    :tabs='[{"id":"dashboard","content":"Dashboard","to":"/","badge":{"content":"10+","status":"critical"}},{"id":"products","content":"Products","to":"/products"},{"id":"customers","content":"Customers","to":"/customers"},{"id":"settings","content":"Settings","to":"/settings"},{"id":"test","content":"Test","to":"/test"}]'
     :selected="0"
   >
     <PCardSection>

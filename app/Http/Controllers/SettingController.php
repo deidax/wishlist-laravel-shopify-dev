@@ -147,4 +147,12 @@ class SettingController extends Controller
 
         return view('api-docs.theme-activation', compact('api_data'));
     }
+
+    public function getStoreThemes()
+    {
+        $shop = Auth::user();
+        $themes = $shop->api()->rest('GET', '/admin/api/2022-04/themes.json');
+
+        return $themes['body']['themes'];
+    }
 }
