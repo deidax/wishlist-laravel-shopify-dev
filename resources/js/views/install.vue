@@ -1,5 +1,16 @@
 <template>
+<div v-if="!showItems">
+<PLayout class="topnav">
+<PLayoutSection>
+      <PBanner  :action="{}"  status="warning">
+        <p>Dont forget to set up your settings</p>
+      </PBanner>
+      <PHorizontalDivider />
+    </PLayoutSection>
+
+</PLayout>
 <PLayout>
+
     <PLayoutSection oneHalf="">
         <PCard class="themelist__inner">
             <PCardHeader
@@ -21,7 +32,7 @@
 
             <PButtonGroup slot="footer">
                 <!-- <PButton>Dismiss</PButton> -->
-                <PButton primary>Save changes</PButton>
+                <PButton primary>Publish</PButton>
             </PButtonGroup>
       </PCard>
     </PLayoutSection>
@@ -30,7 +41,7 @@
       </PCard>
     </PLayoutSection>
   </PLayout>
-
+</div>
 </template>
 
 <script>
@@ -44,15 +55,17 @@ export default {
 data(){
     return{
         selectedThemes:[],
-        showloading:true
+        showItems:true
     }
 },
 methods:{
     fetchThemes(){
             this.$store.dispatch('themes/fetchThemes').then((response) => {
-                this.showloading=false;
+                this.$pLoading.finish();
+                this.showItems=false;
             }).catch((err) => {
-                this.showloading=false;
+                this.$pLoading.finish();
+                this.showItems=false;
                 this.$pToast.open({
                     message: err,
                     duration:3000,
@@ -62,6 +75,7 @@ methods:{
         },
 },
 mounted(){
+    this.$pLoading.start();
     this.fetchThemes();
 }
 }
@@ -70,5 +84,8 @@ mounted(){
 <style>
     .themelist__inner {
         overflow: visible !important;
+    }
+    .topnav .Polaris-HorizontalDivider{
+        margin: 10px 0px;
     }
 </style>

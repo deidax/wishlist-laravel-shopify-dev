@@ -5461,6 +5461,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -5756,6 +5757,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
     allThemes: function allThemes() {
@@ -5766,7 +5778,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       selectedThemes: [],
-      showloading: true
+      showItems: true
     };
   },
   methods: {
@@ -5774,9 +5786,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('themes/fetchThemes').then(function (response) {
-        _this.showloading = false;
+        _this.$pLoading.finish();
+
+        _this.showItems = false;
       })["catch"](function (err) {
-        _this.showloading = false;
+        _this.$pLoading.finish();
+
+        _this.showItems = false;
 
         _this.$pToast.open({
           message: err,
@@ -5787,6 +5803,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    this.$pLoading.start();
     this.fetchThemes();
   }
 });
@@ -5927,6 +5944,73 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5936,29 +6020,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
+    var _buttonOption;
+
     return {
-      themes: []
+      themes: [],
+      selectedColor: "#B1B1B1",
+      buttonOption: (_buttonOption = {
+        type: "text_with_icon",
+        background_before: "#B1B1B1",
+        background_after: "#FFF",
+        text_after: "#FFF",
+        text_before: "#C5C5C5",
+        icon: "Heart"
+      }, _defineProperty(_buttonOption, "text_after", "Added to Wishlist"), _defineProperty(_buttonOption, "texte_before", "Add to Wishlist"), _defineProperty(_buttonOption, "enable_count", false), _buttonOption)
     };
   },
   methods: {
-    fetchProducts: function fetchProducts() {
-      var _this = this;
-
-      axios.get("/api/v1/products/DESC/10").then(function (response) {
-        console.log(response);
-        _this.themes = response.data;
-      })["catch"](function (err) {
-        _this.$pToast.open({
-          message: err,
-          duration: 3000,
-          position: "top-right"
-        });
-      });
+    updateColor: function updateColor(sel) {
+      console.log(sel);
     }
   },
-  mounted: function mounted() {
-    this.fetchProducts();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -13368,6 +13450,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.Polaris-Card__Header[data-v-7e1834e
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.navbar__inner{\n    min-height: 500px;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/customers.vue?vue&type=style&index=0&lang=css&":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/customers.vue?vue&type=style&index=0&lang=css& ***!
@@ -13433,7 +13539,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.themelist__inner {\n    overflow: visible !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.themelist__inner {\n    overflow: visible !important;\n}\n.topnav .Polaris-HorizontalDivider{\n    margin: 10px 0px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31105,6 +31211,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_navbar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./navbar.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_navbar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_navbar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/customers.vue?vue&type=style&index=0&lang=css&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/customers.vue?vue&type=style&index=0&lang=css& ***!
@@ -31645,15 +31781,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _navbar_vue_vue_type_template_id_abec1d58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navbar.vue?vue&type=template&id=abec1d58& */ "./resources/js/layouts/navbar.vue?vue&type=template&id=abec1d58&");
 /* harmony import */ var _navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navbar.vue?vue&type=script&lang=js& */ "./resources/js/layouts/navbar.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _navbar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navbar.vue?vue&type=style&index=0&lang=css& */ "./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _navbar_vue_vue_type_template_id_abec1d58___WEBPACK_IMPORTED_MODULE_0__.render,
   _navbar_vue_vue_type_template_id_abec1d58___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -32041,6 +32179,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_status_vue_vue_type_style_index_0_id_7e1834e9_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./status.vue?vue&type=style&index=0&id=7e1834e9&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/cards/status.vue?vue&type=style&index=0&id=7e1834e9&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_navbar_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./navbar.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -32541,6 +32692,7 @@ var render = function () {
   return _c(
     "PTabs",
     {
+      staticClass: "navbar__inner",
       attrs: {
         tabs: [
           { id: "dashboard", content: "Dashboard", to: "/" },
@@ -32851,51 +33003,87 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "PLayout",
-    [
-      _c(
-        "PLayoutSection",
-        { attrs: { oneHalf: "" } },
+  return !_vm.showItems
+    ? _c(
+        "div",
         [
           _c(
-            "PCard",
-            { staticClass: "themelist__inner" },
+            "PLayout",
+            { staticClass: "topnav" },
             [
-              _c("PCardHeader", {
-                attrs: {
-                  title: "Automatic Install",
-                  shortDescription:
-                    "Our installation robot will add all the relevant codes to your Shopify theme automatically! We highly recommend creating a duplicate of any theme before proceeding with installation if you do not have a backup .",
-                },
-              }),
-              _vm._v(" "),
               _c(
-                "PCardSection",
+                "PLayoutSection",
                 [
-                  _c("PMultiSelect", {
-                    attrs: {
-                      floatingLabel: "",
-                      label: "Pick a Theme",
-                      options: _vm.allThemes,
-                      textField: "name",
-                      valueField: "id",
-                      value: _vm.selectedThemes,
-                      placeholder: "Select",
-                    },
-                  }),
+                  _c("PBanner", { attrs: { action: {}, status: "warning" } }, [
+                    _c("p", [_vm._v("Dont forget to set up your settings")]),
+                  ]),
+                  _vm._v(" "),
+                  _c("PHorizontalDivider"),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "PLayout",
+            [
+              _c(
+                "PLayoutSection",
+                { attrs: { oneHalf: "" } },
+                [
+                  _c(
+                    "PCard",
+                    { staticClass: "themelist__inner" },
+                    [
+                      _c("PCardHeader", {
+                        attrs: {
+                          title: "Automatic Install",
+                          shortDescription:
+                            "Our installation robot will add all the relevant codes to your Shopify theme automatically! We highly recommend creating a duplicate of any theme before proceeding with installation if you do not have a backup .",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "PCardSection",
+                        [
+                          _c("PMultiSelect", {
+                            attrs: {
+                              floatingLabel: "",
+                              label: "Pick a Theme",
+                              options: _vm.allThemes,
+                              textField: "name",
+                              valueField: "id",
+                              value: _vm.selectedThemes,
+                              placeholder: "Select",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "PButtonGroup",
+                        { attrs: { slot: "footer" }, slot: "footer" },
+                        [
+                          _c("PButton", { attrs: { primary: "" } }, [
+                            _vm._v("Publish"),
+                          ]),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
-                "PButtonGroup",
-                { attrs: { slot: "footer" }, slot: "footer" },
-                [
-                  _c("PButton", { attrs: { primary: "" } }, [
-                    _vm._v("Save changes"),
-                  ]),
-                ],
+                "PLayoutSection",
+                { attrs: { oneHalf: "" } },
+                [_c("PCard", { attrs: { title: "Install instructions" } })],
                 1
               ),
             ],
@@ -32903,17 +33091,8 @@ var render = function () {
           ),
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "PLayoutSection",
-        { attrs: { oneHalf: "" } },
-        [_c("PCard", { attrs: { title: "Install instructions" } })],
-        1
-      ),
-    ],
-    1
-  )
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -33115,10 +33294,282 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h1", [_vm._v("settings")]),
-    _vm._v("\n" + _vm._s(_vm.themes) + "\n"),
-  ])
+  return _c(
+    "div",
+    [
+      _c(
+        "PLayout",
+        [
+          _c(
+            "PLayoutAnnotatedSection",
+            {
+              attrs: {
+                title: "Button Details",
+                description:
+                  "Define the look-and-feel of the Wishlist button on your product pages Or on collection page",
+              },
+            },
+            [
+              _c(
+                "PCard",
+                { attrs: { sectioned: "", actions: [] } },
+                [
+                  _c(
+                    "PAccordion",
+                    { attrs: { id: "Polaris-Accordion" } },
+                    [
+                      _c(
+                        "PAccordionItem",
+                        [
+                          _c("template", { slot: "title" }, [
+                            _vm._v("Apparence"),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "template",
+                            { slot: "actions" },
+                            [
+                              _c("PIcon", {
+                                attrs: { source: "CircleUpMajor" },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { attrs: { slot: "content" }, slot: "content" },
+                            [
+                              _c(
+                                "PFormLayout",
+                                [
+                                  _c("PSelect", {
+                                    attrs: {
+                                      label: "Wishlist Button Type",
+                                      options: [
+                                        {
+                                          label: "Text with icon",
+                                          value: "text_with_icon",
+                                        },
+                                        {
+                                          label: "Only text",
+                                          value: "only_text",
+                                        },
+                                        {
+                                          label: "Only icon",
+                                          value: "only_icon",
+                                        },
+                                      ],
+                                      value: _vm.buttonOption.type,
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("PColorPicker", {
+                                    attrs: {
+                                      label:
+                                        "Pick a color of the background button/icon before user has added to their Wishlist",
+                                      id: "color-picker",
+                                      color: _vm.buttonOption.background_before,
+                                    },
+                                    on: {
+                                      change: function (el) {
+                                        _vm.buttonOption.background_before =
+                                          el.hex
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("PColorPicker", {
+                                    attrs: {
+                                      label:
+                                        "Pick a color of the background button/icon after user has added to their Wishlist",
+                                      id: "color-picker",
+                                      color: _vm.buttonOption.background_after,
+                                    },
+                                    on: {
+                                      change: function (el) {
+                                        _vm.buttonOption.background_after =
+                                          el.hex
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("PColorPicker", {
+                                    attrs: {
+                                      label:
+                                        "Pick a color of the button/icon before user has added to their Wishlist",
+                                      id: "color-picker",
+                                      color: _vm.buttonOption.text_before,
+                                    },
+                                    on: {
+                                      change: function (el) {
+                                        _vm.buttonOption.text_before = el.hex
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("PColorPicker", {
+                                    attrs: {
+                                      label:
+                                        "Pick a color of the button/icon after user has added to their Wishlist",
+                                      id: "color-picker",
+                                      color: _vm.buttonOption.text_after,
+                                    },
+                                    on: {
+                                      change: function (el) {
+                                        _vm.buttonOption.text_after = el.hex
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("PSelect", {
+                                    attrs: {
+                                      label: "Wishlist Button Icon",
+                                      options: [
+                                        {
+                                          label: "Like",
+                                          value: "text_with_icon",
+                                        },
+                                        { label: "Stars", value: "only_text" },
+                                        { label: "Heart", value: "only_icon" },
+                                      ],
+                                      value: _vm.buttonOption.icon,
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "PAccordionItem",
+                        [
+                          _c("template", { slot: "title" }, [_vm._v("Labels")]),
+                          _vm._v(" "),
+                          _c(
+                            "template",
+                            { slot: "actions" },
+                            [
+                              _c("PIcon", {
+                                attrs: { source: "CircleUpMajor" },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { attrs: { slot: "content" }, slot: "content" },
+                            [
+                              _c(
+                                "PFormLayout",
+                                [
+                                  _c("PTextField", {
+                                    attrs: {
+                                      label: "Before Adding to Wishlist",
+                                      connected: "",
+                                      value: _vm.buttonOption.texte_before,
+                                    },
+                                    on: {
+                                      input: function (el) {
+                                        _vm.buttonOption.texte_before = el.value
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("PTextField", {
+                                    attrs: {
+                                      label: "After Adding to Wishlist",
+                                      connected: "",
+                                      value: _vm.buttonOption.text_after,
+                                    },
+                                    on: {
+                                      input: function (el) {
+                                        _vm.buttonOption.text_after = el.value
+                                      },
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "PAccordionItem",
+                        [
+                          _c("template", { slot: "title" }, [
+                            _vm._v("Social Icons"),
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "template",
+                            { slot: "actions" },
+                            [
+                              _c("PIcon", {
+                                attrs: { source: "CircleUpMajor" },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { attrs: { slot: "content" }, slot: "content" },
+                            [
+                              _c("PToggle", {
+                                attrs: {
+                                  label:
+                                    "Display a count of how many users have added this item to their Wishlist",
+                                  value: _vm.buttonOption.enable_count,
+                                },
+                                on: {
+                                  change: function (el) {
+                                    _vm.buttonOption.enable_count = el.value
+                                  },
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        2
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "PButtonGroup",
+                    { attrs: { slot: "footer" }, slot: "footer" },
+                    [
+                      _c("PButton", { attrs: { primary: "" } }, [
+                        _vm._v("Save changes"),
+                      ]),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+        ],
+        1
+      ),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
