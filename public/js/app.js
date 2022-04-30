@@ -5944,8 +5944,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
 //
 //
 //
@@ -6020,27 +6021,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    var _buttonOption;
-
     return {
       themes: [],
       selectedColor: "#B1B1B1",
-      buttonOption: (_buttonOption = {
-        type: "text_with_icon",
-        background_before: "#B1B1B1",
-        background_after: "#FFF",
-        text_after: "#FFF",
-        text_before: "#C5C5C5",
-        icon: "Heart"
-      }, _defineProperty(_buttonOption, "text_after", "Added to Wishlist"), _defineProperty(_buttonOption, "texte_before", "Add to Wishlist"), _defineProperty(_buttonOption, "enable_count", false), _buttonOption)
+      buttonOption: {
+        button_type: "text_icon",
+        bg_color_before: "#B1B1B1",
+        bg_color_after: "#FFF",
+        text_color_before: "#FFF",
+        text_color_after: "#C5C5C5",
+        button_icon: "heart",
+        btn_label_after: "Added to Wishlist",
+        btn_label_before: "Add to Wishlist",
+        display_social_count: true
+      }
     };
   },
   methods: {
-    updateColor: function updateColor(sel) {
-      console.log(sel);
+    updateColor: function updateColor() {
+      console.log(this.buttonOption);
+    },
+    configureTheme: function configureTheme() {
+      var _this = this;
+
+      axios.post("/api/v1/configure-theme", this.buttonOption).then(function (response) {
+        console.log(response);
+        _this.themes = response.data;
+      })["catch"](function (err) {
+        _this.$pToast.open({
+          message: err,
+          duration: 3000,
+          position: "top-right"
+        });
+      });
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    this.configureTheme();
+  }
 });
 
 /***/ }),
@@ -33346,34 +33364,30 @@ var render = function () {
                                   _c("PSelect", {
                                     attrs: {
                                       label: "Wishlist Button Type",
+                                      name: "button_type",
                                       options: [
                                         {
                                           label: "Text with icon",
-                                          value: "text_with_icon",
+                                          value: "text_icon",
                                         },
-                                        {
-                                          label: "Only text",
-                                          value: "only_text",
-                                        },
-                                        {
-                                          label: "Only icon",
-                                          value: "only_icon",
-                                        },
+                                        { label: "Only text", value: "text" },
+                                        { label: "Only icon", value: "icon" },
                                       ],
-                                      value: _vm.buttonOption.type,
+                                      value: _vm.buttonOption.button_type,
                                     },
                                   }),
                                   _vm._v(" "),
                                   _c("PColorPicker", {
                                     attrs: {
+                                      name: "bg_color_before",
                                       label:
                                         "Pick a color of the background button/icon before user has added to their Wishlist",
                                       id: "color-picker",
-                                      color: _vm.buttonOption.background_before,
+                                      color: _vm.buttonOption.bg_color_before,
                                     },
                                     on: {
                                       change: function (el) {
-                                        _vm.buttonOption.background_before =
+                                        _vm.buttonOption.bg_color_before =
                                           el.hex
                                       },
                                     },
@@ -33381,14 +33395,30 @@ var render = function () {
                                   _vm._v(" "),
                                   _c("PColorPicker", {
                                     attrs: {
+                                      name: "bg_color_after",
                                       label:
                                         "Pick a color of the background button/icon after user has added to their Wishlist",
                                       id: "color-picker",
-                                      color: _vm.buttonOption.background_after,
+                                      color: _vm.buttonOption.bg_color_after,
                                     },
                                     on: {
                                       change: function (el) {
-                                        _vm.buttonOption.background_after =
+                                        _vm.buttonOption.bg_color_after = el.hex
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c("PColorPicker", {
+                                    attrs: {
+                                      name: "text_color_before",
+                                      label:
+                                        "Pick a color of the button/icon before user has added to their Wishlist",
+                                      id: "color-picker",
+                                      color: _vm.buttonOption.text_color_before,
+                                    },
+                                    on: {
+                                      change: function (el) {
+                                        _vm.buttonOption.text_color_before =
                                           el.hex
                                       },
                                     },
@@ -33396,28 +33426,16 @@ var render = function () {
                                   _vm._v(" "),
                                   _c("PColorPicker", {
                                     attrs: {
-                                      label:
-                                        "Pick a color of the button/icon before user has added to their Wishlist",
-                                      id: "color-picker",
-                                      color: _vm.buttonOption.text_before,
-                                    },
-                                    on: {
-                                      change: function (el) {
-                                        _vm.buttonOption.text_before = el.hex
-                                      },
-                                    },
-                                  }),
-                                  _vm._v(" "),
-                                  _c("PColorPicker", {
-                                    attrs: {
+                                      name: "text_color_after",
                                       label:
                                         "Pick a color of the button/icon after user has added to their Wishlist",
                                       id: "color-picker",
-                                      color: _vm.buttonOption.text_after,
+                                      color: _vm.buttonOption.text_color_after,
                                     },
                                     on: {
                                       change: function (el) {
-                                        _vm.buttonOption.text_after = el.hex
+                                        _vm.buttonOption.text_color_after =
+                                          el.hex
                                       },
                                     },
                                   }),
@@ -33425,15 +33443,13 @@ var render = function () {
                                   _c("PSelect", {
                                     attrs: {
                                       label: "Wishlist Button Icon",
+                                      name: "button_icon",
                                       options: [
-                                        {
-                                          label: "Like",
-                                          value: "text_with_icon",
-                                        },
-                                        { label: "Stars", value: "only_text" },
-                                        { label: "Heart", value: "only_icon" },
+                                        { label: "Like", value: "like" },
+                                        { label: "Star", value: "star" },
+                                        { label: "Heart", value: "heart" },
                                       ],
-                                      value: _vm.buttonOption.icon,
+                                      value: _vm.buttonOption.button_icon,
                                     },
                                   }),
                                 ],
@@ -33471,26 +33487,30 @@ var render = function () {
                                 [
                                   _c("PTextField", {
                                     attrs: {
+                                      name: "btn_label_before",
                                       label: "Before Adding to Wishlist",
                                       connected: "",
-                                      value: _vm.buttonOption.texte_before,
+                                      value: _vm.buttonOption.btn_label_before,
                                     },
                                     on: {
                                       input: function (el) {
-                                        _vm.buttonOption.texte_before = el.value
+                                        _vm.buttonOption.btn_label_before =
+                                          el.value
                                       },
                                     },
                                   }),
                                   _vm._v(" "),
                                   _c("PTextField", {
                                     attrs: {
+                                      name: "btn_label_after",
                                       label: "After Adding to Wishlist",
                                       connected: "",
-                                      value: _vm.buttonOption.text_after,
+                                      value: _vm.buttonOption.btn_label_after,
                                     },
                                     on: {
                                       input: function (el) {
-                                        _vm.buttonOption.text_after = el.value
+                                        _vm.buttonOption.btn_label_after =
+                                          el.value
                                       },
                                     },
                                   }),
@@ -33508,7 +33528,7 @@ var render = function () {
                         "PAccordionItem",
                         [
                           _c("template", { slot: "title" }, [
-                            _vm._v("Social Icons"),
+                            _vm._v("Display social count"),
                           ]),
                           _vm._v(" "),
                           _c(
@@ -33528,13 +33548,15 @@ var render = function () {
                             [
                               _c("PToggle", {
                                 attrs: {
+                                  name: "display_social_count",
                                   label:
                                     "Display a count of how many users have added this item to their Wishlist",
-                                  value: _vm.buttonOption.enable_count,
+                                  value: _vm.buttonOption.display_social_count,
                                 },
                                 on: {
                                   change: function (el) {
-                                    _vm.buttonOption.enable_count = el.value
+                                    _vm.buttonOption.display_social_count =
+                                      el.value
                                   },
                                 },
                               }),
@@ -33552,9 +33574,14 @@ var render = function () {
                     "PButtonGroup",
                     { attrs: { slot: "footer" }, slot: "footer" },
                     [
-                      _c("PButton", { attrs: { primary: "" } }, [
-                        _vm._v("Save changes"),
-                      ]),
+                      _c(
+                        "PButton",
+                        {
+                          attrs: { primary: "" },
+                          on: { click: _vm.updateColor },
+                        },
+                        [_vm._v("Save changes")]
+                      ),
                     ],
                     1
                   ),

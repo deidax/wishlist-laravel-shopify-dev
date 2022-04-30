@@ -17,17 +17,19 @@
             <PFormLayout>
                 <PSelect
                 label="Wishlist Button Type"
-                :options='[{"label":"Text with icon","value":"text_with_icon"},{"label":"Only text","value":"only_text"},{"label":"Only icon","value":"only_icon"}]'
-                :value="buttonOption.type"
+                name="button_type"
+                :options='[{"label":"Text with icon","value":"text_icon"},{"label":"Only text","value":"text"},{"label":"Only icon","value":"icon"}]'
+                :value="buttonOption.button_type"
                 />
-                <PColorPicker label="Pick a color of the background button/icon before user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.background_before=el.hex}" :color="buttonOption.background_before" />
-                <PColorPicker label="Pick a color of the background button/icon after user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.background_after=el.hex}" :color="buttonOption.background_after"/>
-                <PColorPicker label="Pick a color of the button/icon before user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.text_before=el.hex}" :color="buttonOption.text_before" />
-                <PColorPicker label="Pick a color of the button/icon after user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.text_after=el.hex}" :color="buttonOption.text_after" />
+                <PColorPicker name="bg_color_before" label="Pick a color of the background button/icon before user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.bg_color_before=el.hex}" :color="buttonOption.bg_color_before" />
+                <PColorPicker name="bg_color_after" label="Pick a color of the background button/icon after user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.bg_color_after=el.hex}" :color="buttonOption.bg_color_after"/>
+                <PColorPicker name="text_color_before" label="Pick a color of the button/icon before user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.text_color_before=el.hex}" :color="buttonOption.text_color_before" />
+                <PColorPicker name="text_color_after" label="Pick a color of the button/icon after user has added to their Wishlist" id="color-picker" @change="(el)=>{buttonOption.text_color_after=el.hex}" :color="buttonOption.text_color_after" />
                 <PSelect
                 label="Wishlist Button Icon"
-                :options='[{"label":"Like","value":"text_with_icon"},{"label":"Stars","value":"only_text"},{"label":"Heart","value":"only_icon"}]'
-                :value="buttonOption.icon"
+                name="button_icon"
+                :options='[{"label":"Like","value":"like"},{"label":"Star","value":"star"},{"label":"Heart","value":"heart"}]'
+                :value="buttonOption.button_icon"
                 />
 
             </PFormLayout>
@@ -41,28 +43,29 @@
         </template>
         <div slot="content">
             <PFormLayout>
-                <PTextField label="Before Adding to Wishlist" connected @input="(el)=>{buttonOption.texte_before=el.value}" :value="buttonOption.texte_before"/>
+                <PTextField name="btn_label_before" label="Before Adding to Wishlist" connected @input="(el)=>{buttonOption.btn_label_before=el.value}" :value="buttonOption.btn_label_before"/>
                 <PTextField
-                label="After Adding to Wishlist" connected @input="(el)=>{buttonOption.text_after=el.value}" :value="buttonOption.text_after"
+                name="btn_label_after"
+                label="After Adding to Wishlist" connected @input="(el)=>{buttonOption.btn_label_after=el.value}" :value="buttonOption.btn_label_after"
                 />
             </PFormLayout>
         </div>
         </PAccordionItem>
         <PAccordionItem
         >
-        <template slot="title">Social Icons</template>
+        <template slot="title">Display social count</template>
         <template slot="actions">
             <PIcon source="CircleUpMajor" />
         </template>
         <div slot="content">
-            <PToggle label="Display a count of how many users have added this item to their Wishlist" @change="(el)=>{buttonOption.enable_count=el.value}" :value="buttonOption.enable_count" />
+            <PToggle name="display_social_count" label="Display a count of how many users have added this item to their Wishlist" @change="(el)=>{buttonOption.display_social_count=el.value}" :value="buttonOption.display_social_count" />
         </div>
         </PAccordionItem>
     </PAccordion>
 
         <PButtonGroup slot="footer">
                 <!-- <PButton>Dismiss</PButton> -->
-                <PButton primary>Save changes</PButton>
+                <PButton primary v-on:click="updateColor">Save changes</PButton>
             </PButtonGroup>
       </PCard>
     </PLayoutAnnotatedSection>
@@ -77,24 +80,39 @@ data(){
         themes :[],
         selectedColor:"#B1B1B1",
         buttonOption:{
-            type:"text_with_icon",
-            background_before:"#B1B1B1",
-            background_after:"#FFF",
-            text_after:"#FFF",
-            text_before:"#C5C5C5",
-            icon:"Heart",
-            text_after:"Added to Wishlist",
-            texte_before:"Add to Wishlist",
-            enable_count:false
+            button_type:"text_icon",
+            bg_color_before:"#B1B1B1",
+            bg_color_after:"#FFF",
+            text_color_before:"#FFF",
+            text_color_after:"#C5C5C5",
+            button_icon:"heart",
+            btn_label_after:"Added to Wishlist",
+            btn_label_before:"Add to Wishlist",
+            display_social_count:true
         }
     }
 },
 methods:{
-    updateColor(sel){
-        console.log(sel)
+    updateColor(){
+        console.log(this.buttonOption)
+    },
+    //Api call exemple
+    //use this with a click event
+    configureTheme(){
+        axios.post("/api/v1/configure-theme", this.buttonOption).then((response) => {
+            console.log(response)
+                this.themes=response.data;
+            }).catch((err) => {
+                this.$pToast.open({
+                    message: err,
+                    duration:3000,
+                    position:"top-right"
+                })
+            })
     }
 },
 mounted(){
+
 }
 }
 </script>
