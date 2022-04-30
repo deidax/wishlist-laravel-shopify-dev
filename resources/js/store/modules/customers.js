@@ -27,7 +27,7 @@ export default {
         // call setCustomers mutation
         axios.get("/api/v1/customers")
             .then((response) => {
-                context.commit("setCustomers", response.data.data);
+                context.commit("setCustomers", response.data);
                 resolve()
         });
       })
