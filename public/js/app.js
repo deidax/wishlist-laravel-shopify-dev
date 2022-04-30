@@ -6041,6 +6041,8 @@ __webpack_require__.r(__webpack_exports__);
     updateColor: function updateColor() {
       console.log(this.buttonOption);
     },
+    //Api call exemple
+    //use this with a click event
     configureTheme: function configureTheme() {
       var _this = this;
 

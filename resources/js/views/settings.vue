@@ -112,7 +112,7 @@ methods:{
     }
 },
 mounted(){
-
+    this.configureTheme()
 }
 }
 </script>

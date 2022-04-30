@@ -18,6 +18,27 @@ class Setting extends Model
      */
     protected $guarded = [];
 
+    /**
+     * The params of the wishlist button.
+     *
+     * @return array
+     */
+    public static function setWishlistButtonParams(Request $request)
+    {
+        return 
+        [
+            'display_social_count' => $request->display_social_count,
+            'button_type' => $request->button_type,
+            'button_icon' => $request->button_icon,
+            'btn_label_before' => $request->btn_label_before,
+            'btn_label_after' => $request->btn_label_after,
+            'bg_color_before' => $request->bg_color_before,
+            'bg_color_after' => $request->bg_color_after,
+            'text_color_before' => $request->text_color_before,
+            'text_color_after' => $request->text_color_after,
+        ];
+    }
+
     public static function checkIfThemeIsActive()
     {
         $shop = Auth::user();
@@ -62,24 +83,21 @@ class Setting extends Model
         
         $shop_active_currency = $shop_data['body']->shop->currency;
 
+        $shop_details = 
+        [
+            'shop_active_theme_id' => $activeThemeId,
+            'shop_active_currency'=> $shop_active_currency,
+            'activated' => true,
+        ];
+
+        $shop_theme_configs = array_merge($shop_details, self::setWishlistButtonParams($request));
+
         // Save activated shop
         return Setting::updateOrCreate(
         [
             'shop_id' => $shop->name
         ],
-        [
-            'shop_active_theme_id' => $activeThemeId,
-            'shop_active_currency'=> $shop_active_currency,
-            'activated' => true,
-            'display_social_count' => $request->display_social_count,
-            'button_type' => $request->button_type,
-            'button_icon' => $request->button_icon,
-            'btn_label_before' => $request->btn_label_before,
-            'btn_label_after' => $request->btn_label_after,
-            'bg_color_before' => $request->bg_color_before,
-            'bg_color_after' => $request->bg_color_after,
-            'text_color_before' => $request->text_color_before,
-            'text_color_after' => $request->text_color_after,
-        ]) ?  ['message' => 'Theme setup successfully'] : ['message' => 'Theme setup error!'];
+        $shop_theme_configs
+        ) ?  ['message' => 'Theme setup successfully'] : ['message' => 'Theme setup error!'];
     }
 }
