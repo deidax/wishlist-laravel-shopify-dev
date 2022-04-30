@@ -48,16 +48,6 @@
                 sortable: false,
             },
         ]"
-        :pagination="{
-            hasPrevious: true,
-            hasNext: true,
-            onNext: () => {
-                alert('Next');
-            },
-            onPrevious: () => {
-                alert('Previous');
-            },
-        }"
     >
         <template v-slot:item.image="{ item }">
             <div style="height: 93px; display: block; padding: 15px 0 15px 0;">
