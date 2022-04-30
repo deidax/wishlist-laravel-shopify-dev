@@ -17,6 +17,13 @@ use Illuminate\Support\Facades\Auth;
 abstract class GraphQlBuilder extends Model implements IGraphQlBuilder
 {
     /**
+     * return data to user
+     *
+     * @return object
+     */
+    abstract public static function getData();
+
+    /**
      * Get shopify GraphQl information from wishlist table
      *
      * @param  string  $id_name the name of id in the wishlist model
