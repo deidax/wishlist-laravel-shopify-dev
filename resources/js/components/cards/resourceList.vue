@@ -1,89 +1,25 @@
 <template>
   <PResourceList
-      :loading="false"
-      :resourceName='{"singular":"Product","plural":"Products"}'
-      hideFilters
-      :showHeader="false"
-      class="hide__header__content"
+      :selectable="false"
+      hasMore
+      :resourceName='{"singular":"Customer","plural":"Customers"}'
+      :totalCount="customers.length"
     >
-    <PResourceListItem
-        :id="700"
-        persistActions=""
-        :shortcutActions='[{"content":"View wishlists"}]'
-      >
-        <PAvatar slot="media" size="medium" customer="" name="Ruby" />
-        <div class="resource-list-item">
-          <div ><p>Sanela antonijevic</p></div>
-          <div >
-            <h3><PTextStyle variation="subdued">sanela.antonijevic@yahoo.com</PTextStyle></h3>
-          </div>
-        </div>
-        <div class="resource-list-item">
-          <div class="resource-list-item__book--name"><p>39 wishlists</p></div>
-        </div>
-      </PResourceListItem>
       <PResourceListItem
-        :id="700"
+        v-for="customer in customers"
+        :key="customer.id"
+        :selectable="false"
+        :selectMode="false"
         persistActions=""
         :shortcutActions='[{"content":"View wishlists"}]'
       >
-        <PAvatar slot="media" size="medium" customer="" name="Ruby" />
+        <PAvatar slot="media" size="medium" :customer="true" :name="customer.displayName" />
         <div class="resource-list-item">
-          <div ><p>Sanela antonijevic</p></div>
-          <div >
-            <h3><PTextStyle variation="subdued">sanela.antonijevic@yahoo.com</PTextStyle></h3>
+            <div class="resource-list-item__book--name"><p>{{customer.displayName}}</p></div>
+          <div class="resource-list-item__resource--status">
+            <h3><PTextStyle variation="positive">{{customer.number_wishlisted}}</PTextStyle> Item to wishlist</h3>
+            <h3><PTextStyle variation="positive">{{customer.string_price_wishlisted}}</PTextStyle> Total of wishlisted products</h3>
           </div>
-        </div>
-        <div class="resource-list-item">
-          <div class="resource-list-item__book--name"><p>39 wishlists</p></div>
-        </div>
-      </PResourceListItem>
-      <PResourceListItem
-        :id="700"
-        persistActions=""
-        :shortcutActions='[{"content":"View wishlists"}]'
-      >
-        <PAvatar slot="media" size="medium" customer="" name="Ruby" />
-        <div class="resource-list-item">
-          <div ><p>Sanela antonijevic</p></div>
-          <div >
-            <h3><PTextStyle variation="subdued">sanela.antonijevic@yahoo.com</PTextStyle></h3>
-          </div>
-        </div>
-        <div class="resource-list-item">
-          <div class="resource-list-item__book--name"><p>39 wishlists</p></div>
-        </div>
-      </PResourceListItem>
-      <PResourceListItem
-        :id="700"
-        persistActions=""
-        :shortcutActions='[{"content":"View wishlists"}]'
-      >
-        <PAvatar slot="media" size="medium" customer="" name="Ruby" />
-        <div class="resource-list-item">
-          <div ><p>Sanela antonijevic</p></div>
-          <div >
-            <h3><PTextStyle variation="subdued">sanela.antonijevic@yahoo.com</PTextStyle></h3>
-          </div>
-        </div>
-        <div class="resource-list-item">
-          <div class="resource-list-item__book--name"><p>39 wishlists</p></div>
-        </div>
-      </PResourceListItem>
-      <PResourceListItem
-        :id="700"
-        persistActions=""
-        :shortcutActions='[{"content":"View wishlists"}]'
-      >
-        <PAvatar slot="media" size="medium" customer="" name="Ruby" />
-        <div class="resource-list-item">
-          <div ><p>Sanela antonijevic</p></div>
-          <div >
-            <h3><PTextStyle variation="subdued">sanela.antonijevic@yahoo.com</PTextStyle></h3>
-          </div>
-        </div>
-        <div class="resource-list-item">
-          <div class="resource-list-item__book--name"><p>39 wishlists</p></div>
         </div>
       </PResourceListItem>
     </PResourceList>
@@ -91,7 +27,7 @@
 
 <script>
 export default {
-
+    props:["customers"],
 }
 </script>
 

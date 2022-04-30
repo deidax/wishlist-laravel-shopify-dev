@@ -21,11 +21,15 @@ export default {
   },
 
   actions: {
-    fetchCustomers(context) {
+      fetchCustomers(context, params) {
+          var link = "/api/v1/customers"
+          if (params) {
+              link=link+"/"+params.sortBy+"/"+params.orderBy+"/"+params.number
+          }
       return new Promise((resolve, reject) => {
         // make the call
         // call setCustomers mutation
-        axios.get("/api/v1/customers")
+        axios.get(link)
             .then((response) => {
                 context.commit("setCustomers", response.data);
                 resolve()

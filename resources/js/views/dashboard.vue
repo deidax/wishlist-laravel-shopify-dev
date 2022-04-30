@@ -14,10 +14,31 @@
       </PLayoutSection>
     </PLayout>
 
+     <!-- <PSkeletonPage>
+    <PLayout>
+      <PLayoutSection oneHalf="">
+        <PCard sectioned="">
+          <PTextContainer>
+            <PSkeletonDisplayText size="medium" />
+            <PSkeletonBodyText />
+          </PTextContainer>
+        </PCard>
+        </PLayoutSection>
+        <PLayoutSection oneHalf="">
+        <PCard sectioned="">
+          <PTextContainer>
+            <PSkeletonDisplayText size="medium" />
+            <PSkeletonBodyText />
+          </PTextContainer>
+        </PCard>
+      </PLayoutSection>
+      </PLayout>
+    </PSkeletonPage> -->
+
     <PLayout v-if="!showloading" class="secondlayout__inner">
     <PLayoutSection oneHalf="">
       <PCard title="Top Wishlist Users">
-        <resourceList />
+        <resourceList :customers="allCustomers"/>
       </PCard>
     </PLayoutSection>
     <PLayoutSection oneHalf="">
@@ -41,12 +62,16 @@ export default {
         },
         allProducts(){ //final output from here
             return this.$store.getters['products/getProducts'];
+        },
+        allCustomers(){ //final output from here
+            return this.$store.getters['customers/getCustomers'];
         }
     },
     data(){
         return {
             showmodal:false,
             showloading:true,
+            customersLoading:true,
         }
     },
     methods:{
@@ -55,6 +80,18 @@ export default {
                 this.showloading=false;
             }).catch((err) => {
                 this.showloading=false;
+                this.$pToast.open({
+                    message: err,
+                    duration:3000,
+                    position:"top-right"
+                })
+            })
+        },
+        fetchCustomers(){
+            this.$store.dispatch('customers/fetchCustomers',{sortBy:'number_wishlisted',orderBy:'DESC',number:5}).then((response) => {
+                this.customersLoading=false;
+            }).catch((err) => {
+                this.customersLoading=false;
                 this.$pToast.open({
                     message: err,
                     duration:3000,
@@ -79,6 +116,7 @@ export default {
       setTimeout(()=>{
         this.getStats();
         this.fetchProducts();
+        this.fetchCustomers();
       },500)
     }
 };
@@ -98,5 +136,9 @@ export default {
         display: flex !important;
         align-items: center;
         column-gap: 10px;
+    }
+    .addmargins{
+        margin-top: 15px;
+        margin-right: 15px;
     }
 </style>

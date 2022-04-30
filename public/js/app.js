@@ -5325,71 +5325,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["customers"]
+});
 
 /***/ }),
 
@@ -5652,6 +5590,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5669,12 +5628,17 @@ __webpack_require__.r(__webpack_exports__);
     allProducts: function allProducts() {
       //final output from here
       return this.$store.getters['products/getProducts'];
+    },
+    allCustomers: function allCustomers() {
+      //final output from here
+      return this.$store.getters['customers/getCustomers'];
     }
   },
   data: function data() {
     return {
       showmodal: false,
-      showloading: true
+      showloading: true,
+      customersLoading: true
     };
   },
   methods: {
@@ -5693,15 +5657,34 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    getStats: function getStats() {
+    fetchCustomers: function fetchCustomers() {
       var _this2 = this;
 
-      this.$store.dispatch('stats/allStats').then(function (response) {
-        _this2.showloading = false;
+      this.$store.dispatch('customers/fetchCustomers', {
+        sortBy: 'number_wishlisted',
+        orderBy: 'DESC',
+        number: 5
+      }).then(function (response) {
+        _this2.customersLoading = false;
       })["catch"](function (err) {
-        _this2.showloading = false;
+        _this2.customersLoading = false;
 
         _this2.$pToast.open({
+          message: err,
+          duration: 3000,
+          position: "top-right"
+        });
+      });
+    },
+    getStats: function getStats() {
+      var _this3 = this;
+
+      this.$store.dispatch('stats/allStats').then(function (response) {
+        _this3.showloading = false;
+      })["catch"](function (err) {
+        _this3.showloading = false;
+
+        _this3.$pToast.open({
           message: err,
           duration: 3000,
           position: "top-right"
@@ -5710,12 +5693,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     setTimeout(function () {
-      _this3.getStats();
+      _this4.getStats();
 
-      _this3.fetchProducts();
+      _this4.fetchProducts();
+
+      _this4.fetchCustomers();
     }, 500);
   }
 });
@@ -6194,11 +6179,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   actions: {
-    fetchCustomers: function fetchCustomers(context) {
+    fetchCustomers: function fetchCustomers(context, params) {
+      var link = "/api/v1/customers";
+
+      if (params) {
+        link = link + "/" + params.sortBy + "/" + params.orderBy + "/" + params.number;
+      }
+
       return new Promise(function (resolve, reject) {
         // make the call
         // call setCustomers mutation
-        axios.get("/api/v1/customers").then(function (response) {
+        axios.get(link).then(function (response) {
           context.commit("setCustomers", response.data);
           resolve();
         });
@@ -13409,7 +13400,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.secondlayout__inner{\n    margin-top: 20px !important;\n}\n.Polaris-Spinner{\n    margin: 0 auto;\n    display: flex;\n}\n.hide__header__content .Polaris-ResourceList__HeaderOuterWrapper{\n    display: none !important;\n}\n.product__info{\n    display: flex !important;\n    align-items: center;\n    -moz-column-gap: 10px;\n         column-gap: 10px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.secondlayout__inner{\n    margin-top: 20px !important;\n}\n.Polaris-Spinner{\n    margin: 0 auto;\n    display: flex;\n}\n.hide__header__content .Polaris-ResourceList__HeaderOuterWrapper{\n    display: none !important;\n}\n.product__info{\n    display: flex !important;\n    align-items: center;\n    -moz-column-gap: 10px;\n         column-gap: 10px;\n}\n.addmargins{\n    margin-top: 15px;\n    margin-right: 15px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -32273,20 +32264,21 @@ var render = function () {
   return _c(
     "PResourceList",
     {
-      staticClass: "hide__header__content",
       attrs: {
-        loading: false,
-        resourceName: { singular: "Product", plural: "Products" },
-        hideFilters: "",
-        showHeader: false,
+        selectable: false,
+        hasMore: "",
+        resourceName: { singular: "Customer", plural: "Customers" },
+        totalCount: _vm.customers.length,
       },
     },
-    [
-      _c(
+    _vm._l(_vm.customers, function (customer) {
+      return _c(
         "PResourceListItem",
         {
+          key: customer.id,
           attrs: {
-            id: 700,
+            selectable: false,
+            selectMode: false,
             persistActions: "",
             shortcutActions: [{ content: "View wishlists" }],
           },
@@ -32296,217 +32288,45 @@ var render = function () {
             attrs: {
               slot: "media",
               size: "medium",
-              customer: "",
-              name: "Ruby",
+              customer: true,
+              name: customer.displayName,
             },
             slot: "media",
           }),
           _vm._v(" "),
           _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", [_c("p", [_vm._v("Sanela antonijevic")])]),
+            _c("div", { staticClass: "resource-list-item__book--name" }, [
+              _c("p", [_vm._v(_vm._s(customer.displayName))]),
+            ]),
             _vm._v(" "),
-            _c("div", [
+            _c("div", { staticClass: "resource-list-item__resource--status" }, [
               _c(
                 "h3",
                 [
-                  _c("PTextStyle", { attrs: { variation: "subdued" } }, [
-                    _vm._v("sanela.antonijevic@yahoo.com"),
+                  _c("PTextStyle", { attrs: { variation: "positive" } }, [
+                    _vm._v(_vm._s(customer.number_wishlisted)),
                   ]),
+                  _vm._v(" Item to wishlist"),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "h3",
+                [
+                  _c("PTextStyle", { attrs: { variation: "positive" } }, [
+                    _vm._v(_vm._s(customer.string_price_wishlisted)),
+                  ]),
+                  _vm._v(" Total of wishlisted products"),
                 ],
                 1
               ),
             ]),
           ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", { staticClass: "resource-list-item__book--name" }, [
-              _c("p", [_vm._v("39 wishlists")]),
-            ]),
-          ]),
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "PResourceListItem",
-        {
-          attrs: {
-            id: 700,
-            persistActions: "",
-            shortcutActions: [{ content: "View wishlists" }],
-          },
-        },
-        [
-          _c("PAvatar", {
-            attrs: {
-              slot: "media",
-              size: "medium",
-              customer: "",
-              name: "Ruby",
-            },
-            slot: "media",
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", [_c("p", [_vm._v("Sanela antonijevic")])]),
-            _vm._v(" "),
-            _c("div", [
-              _c(
-                "h3",
-                [
-                  _c("PTextStyle", { attrs: { variation: "subdued" } }, [
-                    _vm._v("sanela.antonijevic@yahoo.com"),
-                  ]),
-                ],
-                1
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", { staticClass: "resource-list-item__book--name" }, [
-              _c("p", [_vm._v("39 wishlists")]),
-            ]),
-          ]),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "PResourceListItem",
-        {
-          attrs: {
-            id: 700,
-            persistActions: "",
-            shortcutActions: [{ content: "View wishlists" }],
-          },
-        },
-        [
-          _c("PAvatar", {
-            attrs: {
-              slot: "media",
-              size: "medium",
-              customer: "",
-              name: "Ruby",
-            },
-            slot: "media",
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", [_c("p", [_vm._v("Sanela antonijevic")])]),
-            _vm._v(" "),
-            _c("div", [
-              _c(
-                "h3",
-                [
-                  _c("PTextStyle", { attrs: { variation: "subdued" } }, [
-                    _vm._v("sanela.antonijevic@yahoo.com"),
-                  ]),
-                ],
-                1
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", { staticClass: "resource-list-item__book--name" }, [
-              _c("p", [_vm._v("39 wishlists")]),
-            ]),
-          ]),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "PResourceListItem",
-        {
-          attrs: {
-            id: 700,
-            persistActions: "",
-            shortcutActions: [{ content: "View wishlists" }],
-          },
-        },
-        [
-          _c("PAvatar", {
-            attrs: {
-              slot: "media",
-              size: "medium",
-              customer: "",
-              name: "Ruby",
-            },
-            slot: "media",
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", [_c("p", [_vm._v("Sanela antonijevic")])]),
-            _vm._v(" "),
-            _c("div", [
-              _c(
-                "h3",
-                [
-                  _c("PTextStyle", { attrs: { variation: "subdued" } }, [
-                    _vm._v("sanela.antonijevic@yahoo.com"),
-                  ]),
-                ],
-                1
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", { staticClass: "resource-list-item__book--name" }, [
-              _c("p", [_vm._v("39 wishlists")]),
-            ]),
-          ]),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "PResourceListItem",
-        {
-          attrs: {
-            id: 700,
-            persistActions: "",
-            shortcutActions: [{ content: "View wishlists" }],
-          },
-        },
-        [
-          _c("PAvatar", {
-            attrs: {
-              slot: "media",
-              size: "medium",
-              customer: "",
-              name: "Ruby",
-            },
-            slot: "media",
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", [_c("p", [_vm._v("Sanela antonijevic")])]),
-            _vm._v(" "),
-            _c("div", [
-              _c(
-                "h3",
-                [
-                  _c("PTextStyle", { attrs: { variation: "subdued" } }, [
-                    _vm._v("sanela.antonijevic@yahoo.com"),
-                  ]),
-                ],
-                1
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "resource-list-item" }, [
-            _c("div", { staticClass: "resource-list-item__book--name" }, [
-              _c("p", [_vm._v("39 wishlists")]),
-            ]),
-          ]),
-        ],
-        1
-      ),
-    ],
+      )
+    }),
     1
   )
 }
@@ -32966,7 +32786,11 @@ var render = function () {
                   _c(
                     "PCard",
                     { attrs: { title: "Top Wishlist Users" } },
-                    [_c("resourceList")],
+                    [
+                      _c("resourceList", {
+                        attrs: { customers: _vm.allCustomers },
+                      }),
+                    ],
                     1
                   ),
                 ],
@@ -33225,6 +33049,16 @@ var render = function () {
                             [
                               _c(
                                 "PStackItem",
+                                {
+                                  directives: [
+                                    {
+                                      name: "p-tooltip",
+                                      rawName: "v-p-tooltip",
+                                      value: "Show all customers",
+                                      expression: "'Show all customers'",
+                                    },
+                                  ],
+                                },
                                 [
                                   _c("PIcon", {
                                     attrs: { source: "ViewMajor" },
@@ -33241,7 +33075,7 @@ var render = function () {
                   ],
                   null,
                   false,
-                  1718811065
+                  2758980358
                 ),
               }),
             ],

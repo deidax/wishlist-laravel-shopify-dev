@@ -64,7 +64,7 @@
         </template>
         <template v-slot:item.actions="{item}">
             <PStack>
-                        <PStackItem>
+                        <PStackItem v-p-tooltip="'Show all customers'">
                             <PIcon source="ViewMajor" />
                         </PStackItem>
                     </PStack>
