@@ -2,7 +2,7 @@ import dashboard from '../views/dashboard'
 import products from '../views/products'
 import customers from '../views/customers'
 import settings from '../views/settings'
-import test from '../views/test'
+import install from '../views/install'
 
 const routes = [
     {
@@ -26,9 +26,9 @@ const routes = [
             component: settings,
         },
         {
-            path: '/test',
-            name: 'test',
-            component: test,
+            path: '/install',
+            name: 'install',
+            component: install,
         },
 ]
 

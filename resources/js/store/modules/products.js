@@ -27,7 +27,6 @@ export default {
         // call setProducts mutation
         axios.get("/api/v1/products")
             .then((response) => {
-                debugger
                 context.commit("setProducts", response.data.data);
                 resolve()
         });

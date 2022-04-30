@@ -9,43 +9,17 @@
                 width: '80%'
             },
             {
-                content: 'Net quantity',
-                value: 'qty',
+                content: 'Inventory',
+                value: 'totalInventory',
                 type: 'numeric',
             },
             {
                 content: 'Total customers',
-                value: 'total_customers',
+                value: 'number_of_customers',
                 type: 'numeric',
             },
         ]"
-        :rows="[
-            {
-                product: 'Emerald Silk Gown',
-                qty: 140,
-                total_customers:5
-            },
-            {
-                product: 'Mauve Cashmere Scarf',
-                qty: 83,
-                total_customers:3
-            },
-            {
-                product: 'Navy Merino Wool Blazer with khaki chinos and yellow belt',
-                qty: 32,
-                total_customers:5
-            },
-            {
-                product: 'Navy Merino Wool Blazer with khaki chinos and yellow belt',
-                qty: 32,
-                total_customers:5
-            },
-            {
-                product: 'Navy Merino Wool Blazer with khaki chinos and yellow belt',
-                qty: 32,
-                total_customers:5
-            },
-        ]"
+        :rows="products"
     >
         <template v-slot:item.product="{item}">
             <PLink :url="item.product_link" class="product__info">
@@ -53,7 +27,7 @@
                     source="https://burst.shopifycdn.com/photos/black-leather-choker-necklace_373x@2x.jpg"
                     alt="Black choker necklace"
                 />
-                {{item.product}}
+                {{item.title}}
             </PLink>
         </template>
         <template v-slot:item.qty="{item}">
@@ -66,7 +40,7 @@
 
 <script>
 export default {
-
+    props:["products"]
 }
 </script>
 

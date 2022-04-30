@@ -1,43 +1,35 @@
 
+
 export default {
   namespaced: true,
 
   state: {
-    items: []
+    customers: []
   },
 
   getters: {
-    availableProducts (state, getters) {
-      return state.items.filter(product => product.inventory > 0)
-    },
-
-    productIsInStock () {
-      return (product) => {
-        return product.inventory > 0
-      }
-    }
+     getCustomers(state) {
+        return state.customers;
+     }
   },
 
   mutations: {
-    setProducts (state, products) {
-      // update products
-      state.items = products
+    setCustomers (state, customers) {
+      // update customers
+      state.customers = customers
     },
-
-    decrementProductInventory (state, product) {
-      product.inventory--
-    }
   },
 
   actions: {
-    fetchProducts({commit}) {
+    fetchCustomers(context) {
       return new Promise((resolve, reject) => {
         // make the call
-        // call setProducts mutation
-        shop.getProducts(products => {
-          commit('setProducts', products)
-          resolve()
-        })
+        // call setCustomers mutation
+        axios.get("/api/v1/customers")
+            .then((response) => {
+                context.commit("setCustomers", response.data.data);
+                resolve()
+        });
       })
     }
   }

@@ -16,13 +16,13 @@
 
     <PLayout v-if="!showloading" class="secondlayout__inner">
     <PLayoutSection oneHalf="">
-      <PCard title="Top Wishlist Users" sectioned="">
+      <PCard title="Top Wishlist Users">
         <resourceList />
       </PCard>
     </PLayoutSection>
     <PLayoutSection oneHalf="">
-      <PCard title="Top Wishlist Products" sectioned="" :actions="[]">
-        <tableProducts />
+      <PCard title="Top Wishlist Products">
+        <tableProducts :products="allProducts" />
       </PCard>
     </PLayoutSection>
   </PLayout>
@@ -38,6 +38,9 @@ export default {
     computed: {
         allStats(){ //final output from here
             return this.$store.getters['stats/getGlobalStats'];
+        },
+        allProducts(){ //final output from here
+            return this.$store.getters['products/getProducts'];
         }
     },
     data(){
@@ -47,6 +50,18 @@ export default {
         }
     },
     methods:{
+        fetchProducts(){
+            this.$store.dispatch('products/fetchProducts').then((response) => {
+                this.showloading=false;
+            }).catch((err) => {
+                this.showloading=false;
+                this.$pToast.open({
+                    message: err,
+                    duration:3000,
+                    position:"top-right"
+                })
+            })
+        },
         getStats(){
             this.$store.dispatch('stats/allStats').then((response) => {
                 this.showloading=false;
@@ -63,6 +78,7 @@ export default {
     mounted(){
       setTimeout(()=>{
         this.getStats();
+        this.fetchProducts();
       },500)
     }
 };
