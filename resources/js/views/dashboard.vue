@@ -38,7 +38,7 @@
     <PLayout v-if="!showloading" class="secondlayout__inner">
     <PLayoutSection oneHalf="">
       <PCard title="Top Wishlist Users">
-        <resourceList :customers="allCustomers"/>
+        <resourceList :customers="allCustomers" v-if="!customersLoading"/>
       </PCard>
     </PLayoutSection>
     <PLayoutSection oneHalf="">
@@ -76,7 +76,7 @@ export default {
     },
     methods:{
         fetchProducts(){
-            this.$store.dispatch('products/fetchProducts').then((response) => {
+            this.$store.dispatch('products/fetchProducts',{orderBy:'number_wishlisted',number:5}).then((response) => {
                 this.showloading=false;
             }).catch((err) => {
                 this.showloading=false;
@@ -140,5 +140,8 @@ export default {
     .addmargins{
         margin-top: 15px;
         margin-right: 15px;
+    }
+    .Polaris-Card{
+        min-height: 75px;
     }
 </style>
