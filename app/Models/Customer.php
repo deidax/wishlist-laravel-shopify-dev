@@ -57,7 +57,7 @@ class Customer extends GraphQlBuilder
             $customer_node['id'] = self::getNumericShopifyQl("Customer",$customer_node['id']);
             $customer_node['number_wishlisted'] = self::countNumberOfWishedProducts($customer_node['id']);
             $customer_node['numbre_price_wishlisted'] = self::countCustomerWishlistedPrice($customer_node['id']);
-            $customer_node['string_price_wishlisted'] = self::countCustomerWishlistedPrice($customer_node['id'])." ".$currency;
+            $customer_node['string_price_wishlisted'] = number_format(self::countCustomerWishlistedPrice($customer_node['id']),2)." ".$currency;
             return $customer_node;
         },$customers_nodes);
 
@@ -71,7 +71,7 @@ class Customer extends GraphQlBuilder
             $guest["email"] = null;
             $guest['number_wishlisted'] = self::countNumberOfWishedProducts($guest['id']);
             $guest['numbre_price_wishlisted'] = self::countCustomerWishlistedPrice($guest['id']);
-            $guest['string_price_wishlisted'] = self::countCustomerWishlistedPrice($guest['id'])." ".$currency;
+            $guest['string_price_wishlisted'] = number_format(self::countCustomerWishlistedPrice($guest['id']),2)." ".$currency;
             return $guest;
         }, $guests_uuid);
 
