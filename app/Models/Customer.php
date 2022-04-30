@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Http\Resources\CustomerResource;
+use App\Traits\SortData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Customer extends GraphQlBuilder
 {
-    use HasFactory;
+    use HasFactory, SortData;
 
     private static $guests_counter = 0;
     private static $customers_data = [];
@@ -88,32 +89,17 @@ class Customer extends GraphQlBuilder
         return array_sum($prices);
     }
 
-    public static function getCustomersData()
+    public static function getData()
     {
         $customers_ql = self::WishlistGraphQl("customer_id", "Customer");
         $customers_wishlist = self::getDataOnly($customers_ql);
 
-        $customers_data = new CustomerResource($customers_wishlist);
+        $customers_data = CustomerResource::collection($customers_wishlist);
 
         // return view('customers', compact('customers_wishlist'));
         return $customers_data;
     }
 
-    public static function sortCustomersData(string $sortBy = '', string $orderBy = '', int $number = null)
-    {
-        //sort
-        $data = self::getCustomersData();
-        $customers = $data->resource;
-        if($sortBy != '' && $orderBy != '' && !is_null($number))
-        {
-            $columns = array_column($customers , $sortBy);
-            $orderBy == "DESC" ?  array_multisort($columns, SORT_DESC, $customers) :  array_multisort($columns, SORT_ASC, $customers);
-            return array_slice($customers, 0, $number);
-        }
-
-        return $customers;
-        
-    }
-
+    
 
 }

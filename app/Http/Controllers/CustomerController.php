@@ -18,7 +18,7 @@ class CustomerController extends Controller
      */
     public function index(string $sortBy = '', string $orderBy = '', int $number = null)
     {
-        return Customer::sortCustomersData($sortBy, $orderBy, $number);
+        return Customer::sortData($sortBy, $orderBy, $number);
     }
 
     /**

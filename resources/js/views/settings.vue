@@ -14,7 +14,7 @@ data(){
 },
 methods:{
     fetchProducts(){
-        axios.get("/api/v1/get-store-themes").then((response) => {
+        axios.get("/api/v1/products/DESC/10").then((response) => {
             console.log(response)
                 this.themes=response.data;
             }).catch((err) => {

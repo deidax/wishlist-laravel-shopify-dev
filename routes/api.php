@@ -72,7 +72,11 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     //   ],
     //    ...
     // ]
-    Route::get('/v1/products', [ProductController::class, "index"])->name('wishlist');
+    // orderBy and number are optional
+    // orderBy accept DESC | ASC (string)
+    // number is the number of results to show (exemple: number = 10 for Top10 products) (int)
+    // sorting will be by the number_of_customers
+    Route::get('/v1/products/{orderBy?}/{number?}', [ProductController::class, "index"])->name('wishlist');
 
     // sort customers.
     // exemple of api result.

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Resources\ProductResource;
+use App\Traits\SortData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 
 class Product extends GraphQlBuilder
 {
-    use HasFactory;
+    use HasFactory, SortData;
 
 
     public static function writeQueryWithGids(){
@@ -71,6 +73,16 @@ class Product extends GraphQlBuilder
 
     public static function countNumberCustomers($product_id){
         return Wishlist::where('product_id',$product_id)->count();
+    }
+
+    public static function getData()
+    {
+      $wishlist_ql = self::WishlistGraphQl("product_id", "Product");
+      $wishlist = self::getDataOnly($wishlist_ql);
+
+      $wishlist_data = ProductResource::collection($wishlist);
+
+      return $wishlist_data;
     }
 
     
