@@ -4,30 +4,30 @@ export default {
   namespaced: true,
 
   state: {
-    customers: []
+    themes: []
   },
 
   getters: {
-     getCustomers(state) {
-        return state.customers;
+     getThemes(state) {
+        return state.themes;
      }
   },
 
   mutations: {
-    setCustomers (state, customers) {
-      // update customers
-      state.customers = customers
+    setThemes (state, themes) {
+      // update themes
+      state.themes = themes
     },
   },
 
   actions: {
-    fetchCustomers(context) {
+    fetchThemes(context) {
       return new Promise((resolve, reject) => {
         // make the call
         // call setCustomers mutation
-        axios.get("/api/v1/customers")
+        axios.get("/api/v1/get-store-themes")
             .then((response) => {
-                context.commit("setCustomers", response.data);
+                context.commit("setThemes", response.data);
                 resolve()
         });
       })

@@ -6,7 +6,6 @@
       :selectable="false"
       hasMore
       :resourceName='{"singular":"Customer","plural":"Customers"}'
-      :sortOptions='[{"label":"Newest update","value":"DATE_MODIFIED_DESC","disabled":false},{"label":"Oldest update","value":"DATE_MODIFIED_ASC","disabled":false}]'
       :totalCount="allCustomers.length"
     >
       <PResourceListItem
@@ -17,20 +16,17 @@
         :selectMode="false"
         :shortcutActions='[{"content":"View listed products"}]'
       >
-        <PAvatar slot="media" size="medium" customer="" name="PHP" />
-        <div class="resource-list-item">
-          <div class="resource-list-item__book--name"><p>PHP</p></div>
+        <PAvatar slot="media" size="medium" :customer="true" :name="customer.displayName" />
+        <div class="resource-list-item resourse-ist-item__inner">
+            <div class="info__panel"><div class="resource-list-item__book--name"><p>{{customer.displayName}}</p></div>
           <div class="resource-list-item__resource--status">
-            <h3><PTextStyle variation="positive">Published</PTextStyle></h3>
+            <h3><PTextStyle variation="positive">{{customer.numbre_price_wishlisted}}</PTextStyle> Item to wishlist</h3>
           </div>
+          </div>
+            <h3><PTextStyle variation="positive">{{customer.string_price_wishlisted}}</PTextStyle> Total of wishlisted products</h3>
         </div>
       </PResourceListItem>
     </PResourceList>
-    <PCardSection>
-      <PStack distribution="center">
-        <PPagination hasNext hasPrevious :total="allCustomers.length" />
-      </PStack>
-    </PCardSection>
   </PCard>
   </div>
 </template>
@@ -68,5 +64,8 @@ mounted(){
 </script>
 
 <style>
-
+    .resourse-ist-item__inner{
+        display: flex;
+        column-gap: 80px;
+    }
 </style>

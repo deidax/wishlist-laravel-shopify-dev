@@ -3,7 +3,7 @@
       :loading="false"
       :resourceName='{"singular":"Product","plural":"Products"}'
       hideFilters
-      showHeader="false"
+      :showHeader="false"
       class="hide__header__content"
     >
     <PResourceListItem
