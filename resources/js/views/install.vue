@@ -1,14 +1,5 @@
 <template>
 <div v-if="!showItems">
-<PLayout class="topnav">
-<PLayoutSection>
-      <PBanner  :action="{}"  status="warning">
-        <p>Dont forget to set up your settings</p>
-      </PBanner>
-      <PHorizontalDivider />
-    </PLayoutSection>
-
-</PLayout>
 <PLayout>
 
     <PLayoutSection oneHalf="">
@@ -38,6 +29,16 @@
     </PLayoutSection>
     <PLayoutSection oneHalf="">
       <PCard title="Install instructions">
+          <PCardSection>
+              <p>Open Online store > Themes > Actions -> Edit code and paste this shortcode in the desired place. <b>Don't forget to set up your settings.</b></p>
+              <PTextField
+                    type="text"
+                    value=""
+                    class="mt-2"
+                />
+              <PButton class="mt-2">Copy</PButton>
+          </PCardSection>
+
       </PCard>
     </PLayoutSection>
   </PLayout>
@@ -87,5 +88,8 @@ mounted(){
     }
     .topnav .Polaris-HorizontalDivider{
         margin: 10px 0px;
+    }
+    .mt-2{
+        margin-top: 10px;
     }
 </style>
