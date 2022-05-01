@@ -90,9 +90,10 @@ class Setting extends Model
             'activated' => true,
         ];
 
+        // merge shop config with wishlist button params
         $shop_theme_configs = array_merge($shop_details, self::setWishlistButtonParams($request));
 
-        // Save activated shop
+        // Save activated shop with wishlist button params
         return Setting::updateOrCreate(
         [
             'shop_id' => $shop->name
