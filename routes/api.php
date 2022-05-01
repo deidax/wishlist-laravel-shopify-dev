@@ -115,11 +115,18 @@ Route::group(['middleware' => 'verify.shopify'], function () {
 
     Route::get('/v1/get-store-themes', [SettingController::class, "getStoreThemes"])->name('get.store.theme');
 
-    Route::get('/v1/configure-theme-api-docs', function () {
-        return view('api-docs.configure-theme');
-    })->name('api-docs.configure.theme');
 
-
+    //params:
+    // display_social_count: bool
+    // button_type: enum ['text', 'icon', 'text_icon']
+    // button_icon: enum ['like', 'star', 'heart'] 
+    // btn_label_before: string
+    // btn_label_after: string
+    // bg_color_before: string (hex)
+    // bg_color_after: string (hex)
+    // text_color_before: string (hex) 
+    // text_color_after: string (hex)
     Route::post('/v1/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
+    
     Route::get('/v1/theme-activated', [SettingController::class, "isThemeActivated"])->name('theme.activated');
 });
