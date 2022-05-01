@@ -63,11 +63,11 @@ class Product extends GraphQlBuilder
       // customers with account
       $products_data = array_map(function($product_node){
           $product_node['id'] = self::getNumericShopifyQl("Product",$product_node['id']);
+          $product_node['thumbnail'] = $product_node['images']['edges'] != null ? $product_node['images']['edges'][0]['node']['url'] : null;
           $product_node['number_of_customers'] = self::countNumberCustomers($product_node['id']);
           // $product_node['price_wishlisted'] = self::countCustomerWishlistedPrice($product_node['id']);
           return $product_node;
       },$products_nodes);
-
       return array_filter($products_data);
     }
 

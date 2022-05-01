@@ -24,7 +24,7 @@
         <template v-slot:item.product="{item}">
             <PLink :url="item.product_link" class="product__info">
                  <PThumbnail
-                    source="https://burst.shopifycdn.com/photos/black-leather-choker-necklace_373x@2x.jpg"
+                    :source="item.thumbnail"
                     alt="Black choker necklace"
                 />
                 {{item.title}}

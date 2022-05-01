@@ -52,7 +52,7 @@
         <template v-slot:item.image="{ item }">
             <div style="height: 93px; display: block; padding: 15px 0 15px 0;">
                 <PThumbnail
-                    source="https://burst.shopifycdn.com/photos/black-leather-choker-necklace_373x@2x.jpg"
+                    :source="item.thumbnail"
                     :alt="item.name"
                 />
             </div>

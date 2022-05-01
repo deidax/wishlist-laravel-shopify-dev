@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
             "totalInventory" => $this['totalInventory'],
             "variants" => $this['variants'],
             "createdAt" => $this['createdAt'],
-            "images" => $this['images'],
+            "thumbnail" => $this['thumbnail'],
             "vendor" => $this['vendor'],
             "priceRangeV2" => $this['priceRangeV2'],
             "number_of_customers" => $this['number_of_customers']
