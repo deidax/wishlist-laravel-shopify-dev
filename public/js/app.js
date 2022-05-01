@@ -5779,7 +5779,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       selectedThemes: [],
-      showItems: true
+      showItems: true,
+      settingClass: "<div class='whp-icon-block' data-block-id='44e7bba8-76e0-4455-bd6a-c8aa4913bad7' data-product-id='your product id'></div>"
     };
   },
   methods: {
@@ -13626,7 +13627,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card_container{\n    overflow: visible  !important;\n}\n.card_container .Polaris-Card__Section{\n    padding: 0px !important;\n}\n.topnav .Polaris-HorizontalDivider{\n        margin: 10px 0px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card_container{\n    overflow: visible  !important;\n}\n.card_container .Polaris-Card__Section{\n    padding: 0px !important;\n}\n.topnav .Polaris-HorizontalDivider{\n    margin: 10px 0px;\n}\n.mt-2{\n    margin-top: 20px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -33215,7 +33216,7 @@ var render = function () {
                           _vm._v(" "),
                           _c("PTextField", {
                             staticClass: "mt-2",
-                            attrs: { type: "text", value: "" },
+                            attrs: { type: "text", value: _vm.settingsClass },
                           }),
                           _vm._v(" "),
                           _c("PButton", { staticClass: "mt-2" }, [
@@ -33941,6 +33942,7 @@ var render = function () {
       _vm._v(" "),
       _c(
         "PLayout",
+        { staticClass: "mt-2" },
         [
           _c(
             "PLayoutSection",
@@ -33956,9 +33958,7 @@ var render = function () {
                   },
                 },
                 [
-                  _vm._v(
-                    "\n      View a summary of your online store’s performance\n      "
-                  ),
+                  _vm._v("\n      Button generated style\n      "),
                   _c(
                     "PButtonGroup",
                     { attrs: { slot: "footer" }, slot: "footer" },

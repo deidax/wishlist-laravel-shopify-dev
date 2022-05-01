@@ -33,7 +33,7 @@
               <p>Open Online store > Themes > Actions -> Edit code and paste this shortcode in the desired place. <b>Don't forget to set up your settings.</b></p>
               <PTextField
                     type="text"
-                    value=""
+                    :value="settingsClass"
                     class="mt-2"
                 />
               <PButton class="mt-2">Copy</PButton>
@@ -56,7 +56,8 @@ export default {
 data(){
     return{
         selectedThemes:[],
-        showItems:true
+        showItems:true,
+        settingClass:"<div class='whp-icon-block' data-block-id='44e7bba8-76e0-4455-bd6a-c8aa4913bad7' data-product-id='your product id'></div>"
     }
 },
 methods:{

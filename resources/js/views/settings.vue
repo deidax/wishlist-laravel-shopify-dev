@@ -102,10 +102,10 @@
     </PLayoutAnnotatedSection>
   </PLayout>
 
-  <PLayout>
+  <PLayout class="mt-2">
     <PLayoutSection>
       <PCard sectioned="" :actions="[]" subdued :title="'Preview'">
-        View a summary of your online store’s performance
+        Button generated style
         <PButtonGroup slot="footer">
             <PButton primary>Save</PButton>
         </PButtonGroup>
@@ -161,13 +161,16 @@ mounted(){
 </script>
 
 <style>
-.card_container{
-    overflow: visible  !important;;
-}
-.card_container .Polaris-Card__Section{
-    padding: 0px !important;
-}
-.topnav .Polaris-HorizontalDivider{
+    .card_container{
+        overflow: visible  !important;;
+    }
+    .card_container .Polaris-Card__Section{
+        padding: 0px !important;
+    }
+    .topnav .Polaris-HorizontalDivider{
         margin: 10px 0px;
+    }
+    .mt-2{
+        margin-top: 20px;
     }
 </style>
