@@ -36,7 +36,7 @@ initWishlistVariables()
 
 // call api. default mode = Add to wishlist
 function callApi(mode = buttonMode.ADD){
-  button.innerText = "Loading..."
+  //button.innerText = "Loading..."
   if( mode === buttonMode.UPDATE_CUSTOMER_ID ) checkIfCustomerConnected()
   console.log('data', data)
   // api to be called
@@ -45,7 +45,7 @@ function callApi(mode = buttonMode.ADD){
         .then(response => {
           if( mode  !== buttonMode.CHECK && mode !== buttonMode.UPDATE_CUSTOMER_ID ){
             // Switch the wishlist button to the correct mode
-            mode === buttonMode.ADD ? 
+            mode === buttonMode.ADD ?
                       ( buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id) ) :
                       ( buttonSwitch(), setWishlistCookies(data.product_id, buttonMode.REMOVE) )
             // fire response notification
@@ -72,7 +72,7 @@ function callApi(mode = buttonMode.ADD){
           // Reset button to add mode
           resetButton()
         });
-} 
+}
 
 // wishlist function
 function myFunction() {
@@ -111,7 +111,7 @@ function notification(type, text){
 function javascriptCdn(cdn){
   let script = document.createElement('script');
   script.type = 'text/javascript';
-  
+
   script.src = cdn;
   document.body.appendChild(script);
 }
@@ -120,7 +120,7 @@ function javascriptCdn(cdn){
 function cssCdn(cdn){
   var link = document.createElement('link');
   link.rel = 'stylesheet';
-  
+
   link.href = cdn;
   document.body.appendChild(link);
 }
@@ -129,11 +129,11 @@ function cssCdn(cdn){
 function buttonSwitch(btnMode = buttonMode.ADD){
   if(btnMode === buttonMode.ADD){
     button.classList.add('active');
-    button.innerText = "Add To Wishlist";
+    //button.innerText = "Add To Wishlist";
   }
   else{
     button.classList.remove('active')
-    button.innerText = "Remove From Wishlist";
+    //button.innerText = "Remove From Wishlist";
   }
 
 }
@@ -142,7 +142,6 @@ function buttonSwitch(btnMode = buttonMode.ADD){
 function resetButton(){
   button.classList.remove('active')
   button.classList.add('active');
-  button.innerText = "Add To Wishlist";
 }
 
 // POST method implementation using fetch:
@@ -224,7 +223,7 @@ function setProductsIdsCookie(pr_id, mode = buttonMode.ADD){
       if(products_ids !== undefined || products_ids.length > 0){
         let tmp_products_ids = products_ids.filter((pid) => pid !== pr_id)
         products_ids = tmp_products_ids
-      } 
+      }
   }
   // set the new cookie value for products
   setCookie('ws_products', JSON.stringify(products_ids))
@@ -248,7 +247,7 @@ function initWishlistVariables(){
   callApi(buttonMode.UPDATE_CUSTOMER_ID)
 
   callApi(buttonMode.CHECK)
-  
+
 }
 
 // Check if customer is connected and update db user id with customer's shopifyId
