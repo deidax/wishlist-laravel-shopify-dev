@@ -113,4 +113,9 @@ class SettingController extends Controller
 
         return $themes['body']['themes'];
     }
+
+    public function getButtonParams(Request $request)
+    {
+        return Setting::getButtonParams($request);
+    }
 }

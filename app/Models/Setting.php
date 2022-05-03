@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class Setting extends Model
 {
@@ -18,6 +19,21 @@ class Setting extends Model
      */
     protected $guarded = [];
 
+    protected $casts = [
+        'button' => 'array'
+    ];
+
+    public function setButtonAttribute($value)
+    {
+        $result = array_filter($value, array(__CLASS__, 'buttonAttributeFilter'));
+        $this->attributes['button'] = json_encode($result);
+    }
+
+    // Defining a callback function
+    private static function buttonAttributeFilter($var){
+        return ($var !== NULL && $var !== "");
+    }
+
     /**
      * The params of the wishlist button.
      *
@@ -27,16 +43,16 @@ class Setting extends Model
     {
         return 
         [
-            'display_social_count' => $request->display_social_count,
-            'button_type' => $request->button_type,
-            'button_icon' => $request->button_icon,
-            'btn_label_before' => $request->btn_label_before,
-            'btn_label_after' => $request->btn_label_after,
-            'bg_color_before' => $request->bg_color_before,
-            'bg_color_after' => $request->bg_color_after,
-            'text_color_before' => $request->text_color_before,
-            'text_color_after' => $request->text_color_after,
+            'button' => $request->button,
+            'innerHtml' => $request->innerHtml,
         ];
+    }
+
+    public static function getWishlistButtonParamsNames()
+    {
+        $empty_request = new Request();
+        $fake_wishlist_settings = self::setWishlistButtonParams($empty_request);
+        return array_keys($fake_wishlist_settings);
     }
 
     public static function checkIfThemeIsActive()
@@ -100,5 +116,13 @@ class Setting extends Model
         ],
         $shop_theme_configs
         ) ?  ['message' => 'Theme setup successfully'] : ['message' => 'Theme setup error!'];
+    }
+
+    public static function getButtonParams(Request $request)
+    {
+        return self::where('shop_id', $request->shop_id)
+                              ->where('shop_active_theme_id', $request->shop_active_theme_id)
+                              ->first()
+                              ->only(self::getWishlistButtonParamsNames());
     }
 }

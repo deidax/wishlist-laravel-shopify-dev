@@ -145,8 +145,9 @@ methods:{
     },
     //Api call exemple
     //use this with a click event
-    configureTheme(){
-        axios.post("/api/v1/configure-theme", this.buttonOption).then((response) => {
+    saveSettings(){
+        let wishlist_settings_params = {button:this.buttonOption,innerHtml:document.getElementById('wh_button_handle').outerHTML}
+        axios.post("/api/v1/configure-theme", wishlist_settings_params).then((response) => {
             console.log(response)
                 this.themes=response.data;
             }).catch((err) => {
@@ -156,10 +157,21 @@ methods:{
                     position:"top-right"
                 })
             })
-    },
-    saveSettings(){
-        console.log({settings:this.buttonOption,innerHtml:document.getElementById('wh_button_handle').outerHTML})
+        // let wishlist_settings_params = {shop_id:"appstoreplayground.myshopify.com",shop_active_theme_id:122979975191}
+        // axios.post("/api/v1/get-button-params", wishlist_settings_params).then((response) => {
+        //     console.log(response)
+        //         this.themes=response.data;
+        //     }).catch((err) => {
+        //         this.$pToast.open({
+        //             message: err,
+        //             duration:3000,
+        //             position:"top-right"
+        //         })
+        //     })
     }
+    // saveSettings(){
+    //     console.log('wishlist_settings_params',wishlist_settings_params)
+    // }
 },
 mounted(){
     //this.configureTheme()

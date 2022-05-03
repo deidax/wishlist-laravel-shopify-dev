@@ -19,16 +19,8 @@ class CreateSettingsTable extends Migration
             $table->string('shop_active_theme_id');
             $table->string('shop_active_currency');
             $table->boolean('activated')->default(false);
-            $table->boolean('display_social_count')->default(false);
-            $table->enum('button_type', ['text', 'icon', 'text_icon'])->default('text');
-            $table->enum('button_icon', ['like', 'star', 'heart'])->default('heart');;
-            $table->string('btn_label_before')->default('Add to wishlist');
-            $table->string('btn_label_after')->default('Added to wishlist');
-            //colors
-            $table->string('bg_color_before')->default('#B1B1B1');
-            $table->string('bg_color_after')->default('#FFFFFF');
-            $table->string('text_color_before')->default('#B1B1B1');
-            $table->string('text_color_after')->default('#FFFFFF');
+            $table->json('button');
+            $table->text('innerHtml');
             $table->timestamps();
         });
     }
