@@ -1,23 +1,28 @@
+<<<<<<< HEAD
 /* .wishlist-button {
+=======
+ @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css';
+
+.wishlist-button {
+>>>>>>> a1206d5c986a1b01d78a42b0584127ace1a54f49
   display: inline-block;
   padding: 0.85em 1.5em;
-  font-size: 1.5em;
   cursor: pointer;
   text-decoration: none;
-  color: #ffffff;
-  background-color: #5c6ac4;
-  border: none;
-  border-radius: 0.62em;
-  box-shadow: 0 0.25em #999999; 
 }
-
-
-.wishlist-button:hover {
-  background-color: #202e78;
+.btnwishlisted{display:none}
+.active .btnwishlisted{
+    display: initial !important;
 }
+.active .notwishlisted{
+    display: none !important;
+}
+<<<<<<< HEAD
 
 .wishlist-button:active {
   background-color: #5c6ac4;
   box-shadow: 0 0.125em #666666;
   transform: translateY(0.25em);
 } */
+=======
+>>>>>>> a1206d5c986a1b01d78a42b0584127ace1a54f49

@@ -1,25 +1,66 @@
-<hr>
-<div id="section-cta">
+<div id="block-{{block.id}}">
   <h3> {{ block.settings.text-box }}</h3>
+<<<<<<< HEAD
   <button onclick="myFunction()" class="wishlist-button active" data-customer="{{ customer.id }}" data-product="{{ product.id }}" data-product_price="{{ product.price | money_without_currency }}" disabled>Checking wishlist...</button>
+=======
+  <button onclick="myFunction()" class="wishlist-button active" data-customer="{{ customer.id }}" data-product="{{ product.id }}" data-product_price="{{ product.price | money_without_currency }}">
+    <span class="notwishlisted">{{block.settings.content_before}}</span>
+    <span class="btnwishlisted">{{block.settings.content_after}}</span>
+  </button>
+>>>>>>> a1206d5c986a1b01d78a42b0584127ace1a54f49
 </div>
-<hr>
-
+<style>
+      #block-{{ block.id }} .wishlist-button {
+        background: {{ block.settings.background }};
+        color: {{ block.settings.text_color }};
+      }
+       #block-{{ block.id }} .wishlist-button{
+           font-size: {{ block.settings.fonts }}px;
+       }
+</style>
 
 {% schema %}
   {
     "name": "Add to wishlist button",
     "target": "section",
     "stylesheet": "wishlist-button.css",
-    "javascript": "wishlist.js",
+    "javascript": "_old_wishlist.js",
     "templates": ["product", "index"],
     "settings": [
-      {
-        "id": "text-box",
-        "type": "text",
-        "label": "Heading",
-        "default": "Title"
-      }
+        {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#000000"
+        },
+        {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text",
+            "default": "#ffffff"
+        },
+        {
+            "type": "text",
+            "id": "content_before",
+            "label": "Text before add to wishlist"
+        },
+        {
+            "type": "text",
+            "id": "content_after",
+            "label": "Text after add to wishlist"
+        },
+        {
+		"type": "range",
+		"id" : "fonts",
+		"label": "Font size",
+		"min" : 5,
+		"max" : 50,
+		"step" : 1,
+		"unit" : "px",
+		"default": 13
+
+
+	}
     ]
   }
 {% endschema %}

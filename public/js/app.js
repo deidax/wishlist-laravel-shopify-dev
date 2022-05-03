@@ -5417,6 +5417,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['options'],
+  computed: {
+    getIconClass: function getIconClass() {
+      switch (this.options.button_icon) {
+        case "like":
+          return {
+            "before": "fa-regular fa-thumbs-up",
+            "after": "fa-solid fa-thumbs-up"
+          };
+
+        case "heart":
+          return {
+            "before": "fa-regular fa-heart",
+            "after": "fa-solid fa-heart"
+          };
+
+        case "star":
+          return {
+            "before": "fa-regular fa-star",
+            "after": "fa-solid fa-star"
+          };
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/footerhelp.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/footerhelp.vue?vue&type=script&lang=js& ***!
@@ -5946,6 +6002,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_preview__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/preview */ "./resources/js/components/preview.vue");
 //
 //
 //
@@ -6059,32 +6116,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    preview: _components_preview__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       themes: [],
       selectedColor: "#B1B1B1",
       buttonOption: {
         button_type: "text_icon",
-        bg_color_before: "#B1B1B1",
-        bg_color_after: "#FFF",
-        text_color_before: "#FFF",
-        text_color_after: "#C5C5C5",
+        bg_color: "#B1B1B1",
+        text_color: "#5C5C5C",
         button_icon: "heart",
+        text_size: 15,
+        icon_size: 15,
+        paddingtop: 5,
+        paddingbottom: 5,
+        paddingleft: 5,
+        paddingright: 5,
+        borderwidth: 1,
+        bordercolor: "#bababa",
+        borderradius: 0,
         btn_label_after: "Added to Wishlist",
         btn_label_before: "Add to Wishlist",
-        display_social_count: true
+        display_social_count: false
       }
     };
   },
   methods: {
-    updateColor: function updateColor() {
-      console.log(this.buttonOption);
+    updateColor: function updateColor(el) {
+      console.log(el);
     },
     //Api call exemple
     //use this with a click event
@@ -6100,6 +6163,12 @@ __webpack_require__.r(__webpack_exports__);
           duration: 3000,
           position: "top-right"
         });
+      });
+    },
+    saveSettings: function saveSettings() {
+      console.log({
+        settings: this.buttonOption,
+        innerHtml: document.getElementById('wh_button_handle').outerHTML
       });
     }
   },
@@ -13508,6 +13577,31 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.Polaris-Card__Header[data-v-7e1834e9]{\n    padding-bottom: 2rem !important;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css);"]);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31299,6 +31393,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./preview.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css& ***!
@@ -31847,6 +31971,47 @@ component.options.__file = "resources/js/components/cards/tableProducts.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/preview.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/preview.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _preview_vue_vue_type_template_id_271d414d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./preview.vue?vue&type=template&id=271d414d& */ "./resources/js/components/preview.vue?vue&type=template&id=271d414d&");
+/* harmony import */ var _preview_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./preview.vue?vue&type=script&lang=js& */ "./resources/js/components/preview.vue?vue&type=script&lang=js&");
+/* harmony import */ var _preview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./preview.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/preview.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _preview_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _preview_vue_vue_type_template_id_271d414d___WEBPACK_IMPORTED_MODULE_0__.render,
+  _preview_vue_vue_type_template_id_271d414d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/preview.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/layouts/footerhelp.vue":
 /*!*********************************************!*\
   !*** ./resources/js/layouts/footerhelp.vue ***!
@@ -32178,6 +32343,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/preview.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/preview.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./preview.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/layouts/footerhelp.vue?vue&type=script&lang=js&":
 /*!**********************************************************************!*\
   !*** ./resources/js/layouts/footerhelp.vue?vue&type=script&lang=js& ***!
@@ -32303,6 +32484,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/preview.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/preview.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./preview.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
 /***/ "./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css&":
 /*!**************************************************************************!*\
   !*** ./resources/js/layouts/navbar.vue?vue&type=style&index=0&lang=css& ***!
@@ -32415,6 +32609,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tableProducts_vue_vue_type_template_id_24286eaa___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tableProducts_vue_vue_type_template_id_24286eaa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./tableProducts.vue?vue&type=template&id=24286eaa& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/cards/tableProducts.vue?vue&type=template&id=24286eaa&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/preview.vue?vue&type=template&id=271d414d&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/preview.vue?vue&type=template&id=271d414d& ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_template_id_271d414d___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_template_id_271d414d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_preview_vue_vue_type_template_id_271d414d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./preview.vue?vue&type=template&id=271d414d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=template&id=271d414d&");
 
 
 /***/ }),
@@ -32762,6 +32973,130 @@ var render = function () {
       },
     ]),
   })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=template&id=271d414d&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/preview.vue?vue&type=template&id=271d414d& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticStyle: { "text-align": "center" } }, [
+    _c(
+      "div",
+      {
+        style:
+          "display:inline-flex;align-items:center;letter-spacing:0.5px;cursor:pointer;font-size:" +
+          _vm.options.text_size +
+          "px;background-color:" +
+          _vm.options.bg_color +
+          ";color:" +
+          _vm.options.text_color +
+          ";padding:" +
+          _vm.options.paddingtop +
+          "px " +
+          _vm.options.paddingright +
+          "px " +
+          _vm.options.paddingbottom +
+          "px " +
+          _vm.options.paddingleft +
+          "px; border:" +
+          _vm.options.borderwidth +
+          "px solid " +
+          _vm.options.bordercolor +
+          ";border-radius:" +
+          _vm.options.borderradius +
+          "px",
+        attrs: { id: "wh_button_handle" },
+      },
+      [
+        _c("div", { attrs: { id: "addto_wl_text_wrapp_before" } }, [
+          _vm.options.button_type == "text_icon" ||
+          _vm.options.button_type == "only_icon"
+            ? _c("i", {
+                class: _vm.getIconClass.before,
+                style:
+                  "color:" +
+                  _vm.options.text_color +
+                  ";font-size:" +
+                  _vm.options.icon_size +
+                  "px;",
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.options.button_type == "text_icon" ||
+          _vm.options.button_type == "only_text"
+            ? _c("span", [_vm._v(_vm._s(_vm.options.btn_label_before))])
+            : _vm._e(),
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticStyle: { display: "none" },
+            attrs: { id: "addto_wl_text_wrapp_after" },
+          },
+          [
+            _vm.options.button_type == "text_icon" ||
+            _vm.options.button_type == "only_icon"
+              ? _c("i", {
+                  class: _vm.getIconClass.after,
+                  style:
+                    "color:" +
+                    _vm.options.text_color +
+                    ";font-size:" +
+                    _vm.options.icon_size +
+                    "px;",
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.options.button_type == "text_icon" ||
+            _vm.options.button_type == "only_text"
+              ? _c("span", [_vm._v(_vm._s(_vm.options.btn_label_after))])
+              : _vm._e(),
+          ]
+        ),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "span",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.options.display_social_count,
+            expression: "options.display_social_count",
+          },
+        ],
+        style:
+          "color:" +
+          _vm.options.text_color +
+          ";font-size:" +
+          _vm.options.text_size +
+          "px",
+        attrs: { id: "wp_count" },
+      },
+      [_vm._v("(2)")]
+    ),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -33444,20 +33779,19 @@ var render = function () {
         "PLayout",
         [
           _c(
-            "PLayoutAnnotatedSection",
-            {
-              attrs: {
-                title: "Button Details",
-                description:
-                  "Define the look-and-feel of the Wishlist button on your product pages Or on collection page",
-              },
-            },
+            "PLayoutSection",
             [
               _c(
                 "PCard",
                 {
                   staticClass: "card_container",
-                  attrs: { sectioned: "", actions: [] },
+                  attrs: {
+                    sectioned: "",
+                    actions: [],
+                    title: "Button Details",
+                    shortDescription:
+                      "Define the look-and-feel of the Wishlist button on your product pages Or on collection page",
+                  },
                 },
                 [
                   _c(
@@ -33476,7 +33810,10 @@ var render = function () {
                             { slot: "actions" },
                             [
                               _c("PIcon", {
-                                attrs: { source: "CircleUpMajor" },
+                                attrs: {
+                                  source: "CircleUpMajor",
+                                  color: "success",
+                                },
                               }),
                             ],
                             1
@@ -33498,7 +33835,7 @@ var render = function () {
                                       options: [
                                         {
                                           label: "Text with icon",
-                                          value: "text_with_icon",
+                                          value: "text_icon",
                                         },
                                         {
                                           label: "Only text",
@@ -33509,7 +33846,13 @@ var render = function () {
                                           value: "only_icon",
                                         },
                                       ],
-                                      value: _vm.buttonOption.type,
+                                      value: _vm.buttonOption.button_type,
+                                      id: "button_type",
+                                    },
+                                    on: {
+                                      change: function (el) {
+                                        _vm.buttonOption.button_type = el
+                                      },
                                     },
                                   }),
                                   _vm._v(" "),
@@ -33519,10 +33862,16 @@ var render = function () {
                                       name: "button_icon",
                                       options: [
                                         { label: "Like", value: "like" },
-                                        { label: "Star", value: "star" },
                                         { label: "Heart", value: "heart" },
+                                        { label: "Stars", value: "star" },
                                       ],
                                       value: _vm.buttonOption.button_icon,
+                                      id: "button_icon",
+                                    },
+                                    on: {
+                                      change: function (el) {
+                                        _vm.buttonOption.button_icon = el
+                                      },
                                     },
                                   }),
                                   _vm._v(" "),
@@ -33542,15 +33891,13 @@ var render = function () {
                                           _c("PColorPicker", {
                                             attrs: {
                                               label: "background",
-                                              id: "color-picker",
-                                              color:
-                                                _vm.buttonOption
-                                                  .background_before,
+                                              id: "bg_color",
+                                              color: _vm.buttonOption.bg_color,
                                             },
                                             on: {
                                               change: function (el) {
-                                                _vm.buttonOption.background_before =
-                                                  el.hex
+                                                _vm.buttonOption.bg_color =
+                                                  el.hex8
                                               },
                                             },
                                           }),
@@ -33567,15 +33914,14 @@ var render = function () {
                                           _c("PColorPicker", {
                                             attrs: {
                                               label: "Text/Icon",
-                                              id: "color-picker",
+                                              id: "text_color",
                                               color:
-                                                _vm.buttonOption
-                                                  .background_after,
+                                                _vm.buttonOption.text_color,
                                             },
                                             on: {
                                               change: function (el) {
-                                                _vm.buttonOption.background_after =
-                                                  el.hex
+                                                _vm.buttonOption.text_color =
+                                                  el.hex8
                                               },
                                             },
                                           }),
@@ -33604,12 +33950,12 @@ var render = function () {
                                               label: "Text size",
                                               min: 8,
                                               max: 30,
+                                              id: "text_size",
                                               value: _vm.buttonOption.text_size,
                                             },
                                             on: {
                                               change: function (el) {
-                                                _vm.buttonOption.text_size =
-                                                  el.value
+                                                _vm.buttonOption.text_size = el
                                               },
                                             },
                                           }),
@@ -33628,12 +33974,12 @@ var render = function () {
                                               label: "Icon size",
                                               min: 8,
                                               max: 30,
+                                              id: "icon_size",
                                               value: _vm.buttonOption.icon_size,
                                             },
                                             on: {
                                               change: function (el) {
-                                                _vm.buttonOption.icon_size =
-                                                  el.value
+                                                _vm.buttonOption.icon_size = el
                                               },
                                             },
                                           }),
@@ -33659,10 +34005,18 @@ var render = function () {
                                         [
                                           _c("PTextField", {
                                             attrs: {
+                                              id: "paddingtop",
                                               label: "Inside top",
                                               type: "number",
                                               align: "left",
                                               suffix: "px",
+                                              value:
+                                                _vm.buttonOption.paddingtop,
+                                            },
+                                            on: {
+                                              input: function (el) {
+                                                _vm.buttonOption.paddingtop = el
+                                              },
                                             },
                                           }),
                                         ],
@@ -33677,10 +34031,19 @@ var render = function () {
                                         [
                                           _c("PTextField", {
                                             attrs: {
+                                              id: "paddingbottom",
                                               label: "Inside bottom",
                                               type: "number",
                                               align: "left",
                                               suffix: "px",
+                                              value:
+                                                _vm.buttonOption.paddingbottom,
+                                            },
+                                            on: {
+                                              input: function (el) {
+                                                _vm.buttonOption.paddingbottom =
+                                                  el
+                                              },
                                             },
                                           }),
                                         ],
@@ -33695,10 +34058,19 @@ var render = function () {
                                         [
                                           _c("PTextField", {
                                             attrs: {
+                                              id: "paddingleft",
                                               label: "Inside left",
                                               type: "number",
                                               align: "left",
                                               suffix: "px",
+                                              value:
+                                                _vm.buttonOption.paddingleft,
+                                            },
+                                            on: {
+                                              input: function (el) {
+                                                _vm.buttonOption.paddingleft =
+                                                  el
+                                              },
                                             },
                                           }),
                                         ],
@@ -33713,10 +34085,19 @@ var render = function () {
                                         [
                                           _c("PTextField", {
                                             attrs: {
+                                              id: "paddingright",
                                               label: "Inside right",
                                               type: "number",
                                               align: "left",
                                               suffix: "px",
+                                              value:
+                                                _vm.buttonOption.paddingright,
+                                            },
+                                            on: {
+                                              input: function (el) {
+                                                _vm.buttonOption.paddingright =
+                                                  el
+                                              },
                                             },
                                           }),
                                         ],
@@ -33741,10 +34122,19 @@ var render = function () {
                                         [
                                           _c("PTextField", {
                                             attrs: {
+                                              id: "borderwidth",
                                               label: "Width",
                                               type: "number",
                                               align: "left",
                                               suffix: "px",
+                                              value:
+                                                _vm.buttonOption.borderwidth,
+                                            },
+                                            on: {
+                                              input: function (el) {
+                                                _vm.buttonOption.borderwidth =
+                                                  el
+                                              },
                                             },
                                           }),
                                         ],
@@ -33759,10 +34149,19 @@ var render = function () {
                                         [
                                           _c("PTextField", {
                                             attrs: {
+                                              id: "borderradius",
                                               label: "Radius",
                                               type: "number",
                                               align: "left",
                                               suffix: "px",
+                                              value:
+                                                _vm.buttonOption.borderradius,
+                                            },
+                                            on: {
+                                              input: function (el) {
+                                                _vm.buttonOption.borderradius =
+                                                  el
+                                              },
                                             },
                                           }),
                                         ],
@@ -33777,14 +34176,14 @@ var render = function () {
                                         [
                                           _c("PColorPicker", {
                                             attrs: {
+                                              id: "bordercolor",
                                               label: "Color",
                                               color:
-                                                _vm.buttonOption
-                                                  .background_before,
+                                                _vm.buttonOption.bordercolor,
                                             },
                                             on: {
                                               change: function (el) {
-                                                _vm.buttonOption.background_before =
+                                                _vm.buttonOption.bordercolor =
                                                   el.hex
                                               },
                                             },
@@ -33815,7 +34214,10 @@ var render = function () {
                             { slot: "actions" },
                             [
                               _c("PIcon", {
-                                attrs: { source: "CircleUpMajor" },
+                                attrs: {
+                                  source: "CircleUpMajor",
+                                  color: "success",
+                                },
                               }),
                             ],
                             1
@@ -33832,13 +34234,13 @@ var render = function () {
                                     attrs: {
                                       name: "btn_label_before",
                                       label: "Before Adding to Wishlist",
+                                      id: "btn_label_before",
                                       connected: "",
                                       value: _vm.buttonOption.btn_label_before,
                                     },
                                     on: {
                                       input: function (el) {
-                                        _vm.buttonOption.btn_label_before =
-                                          el.value
+                                        _vm.buttonOption.btn_label_before = el
                                       },
                                     },
                                   }),
@@ -33847,13 +34249,13 @@ var render = function () {
                                     attrs: {
                                       name: "btn_label_after",
                                       label: "After Adding to Wishlist",
+                                      id: "btn_label_after",
                                       connected: "",
                                       value: _vm.buttonOption.btn_label_after,
                                     },
                                     on: {
                                       input: function (el) {
-                                        _vm.buttonOption.btn_label_after =
-                                          el.value
+                                        _vm.buttonOption.btn_label_after = el
                                       },
                                     },
                                   }),
@@ -33879,7 +34281,10 @@ var render = function () {
                             { slot: "actions" },
                             [
                               _c("PIcon", {
-                                attrs: { source: "CircleUpMajor" },
+                                attrs: {
+                                  source: "CircleUpMajor",
+                                  color: "success",
+                                },
                               }),
                             ],
                             1
@@ -33891,15 +34296,15 @@ var render = function () {
                             [
                               _c("PToggle", {
                                 attrs: {
+                                  id: "display_social_count",
                                   name: "display_social_count",
                                   label:
                                     "Display a count of how many users have added this item to their Wishlist",
-                                  value: _vm.buttonOption.display_social_count,
                                 },
                                 on: {
                                   change: function (el) {
                                     _vm.buttonOption.display_social_count =
-                                      el.value
+                                      el.checked
                                   },
                                 },
                               }),
@@ -33912,6 +34317,29 @@ var render = function () {
                     ],
                     1
                   ),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "PLayoutSection",
+            { attrs: { secondary: "" } },
+            [
+              _c(
+                "PCard",
+                {
+                  attrs: {
+                    sectioned: "",
+                    actions: [],
+                    subdued: "",
+                    title: "Preview",
+                  },
+                },
+                [
+                  _c("preview", { attrs: { options: _vm.buttonOption } }),
                   _vm._v(" "),
                   _c(
                     "PButtonGroup",
@@ -33921,9 +34349,9 @@ var render = function () {
                         "PButton",
                         {
                           attrs: { primary: "" },
-                          on: { click: _vm.updateColor },
+                          on: { click: _vm.saveSettings },
                         },
-                        [_vm._v("Save changes")]
+                        [_vm._v("Save")]
                       ),
                     ],
                     1
@@ -33937,47 +34365,6 @@ var render = function () {
         ],
         1
       ),
-      _vm._v(" "),
-      _c(
-        "PLayout",
-        { staticClass: "mt-2" },
-        [
-          _c(
-            "PLayoutSection",
-            [
-              _c(
-                "PCard",
-                {
-                  attrs: {
-                    sectioned: "",
-                    actions: [],
-                    subdued: "",
-                    title: "Preview",
-                  },
-                },
-                [
-                  _vm._v("\n      Button generated style\n      "),
-                  _c(
-                    "PButtonGroup",
-                    { attrs: { slot: "footer" }, slot: "footer" },
-                    [
-                      _c("PButton", { attrs: { primary: "" } }, [
-                        _vm._v("Save"),
-                      ]),
-                    ],
-                    1
-                  ),
-                ],
-                1
-              ),
-            ],
-            1
-          ),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("PHorizontalDivider", { staticClass: "topnav" }),
     ],
     1
   )
@@ -50607,7 +50994,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\hp\\\\Desktop\\\\ld\\\\wishlist-laravel-shopify-dev"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\hp\\\\Desktop\\\\ld\\\\wishlist-laravel-shopify-dev","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\ZAKARIA\\\\Documents\\\\laravel\\\\wishlist-laravel-shopify-dev"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\ZAKARIA\\\\Documents\\\\laravel\\\\wishlist-laravel-shopify-dev","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 
