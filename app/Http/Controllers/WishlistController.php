@@ -37,7 +37,7 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        if($request['shopify_customer_id'] != null) unset($request['shopify_customer_id']);
+        if($request['uuid_customer_id'] != null) unset($request['uuid_customer_id']);
         //add the product to wishlist
         $product_to_wishlist = Wishlist::updateOrCreate($request->all());
         if ($product_to_wishlist->wasRecentlyCreated) return sendNotification('success', 'Product added to wishlist');
@@ -75,12 +75,13 @@ class WishlistController extends Controller
      */
     public function update(Request $request)
     {
-        if($request['shopify_customer_id'] != null){
-            return DB::table('wishlists')
-                        ->where('customer_id', $request['customer_id'])
-                        ->update(['customer_id' => $request['shopify_customer_id']]);
+        if($request['uuid_customer_id'] != null){
+            DB::table('wishlists')
+                        ->where('customer_id', $request['uuid_customer_id'])
+                        ->update(['customer_id' => $request['customer_id']]);
+            return 1;
         }
-        return false;
+        return 0;
        
     }
 
@@ -110,13 +111,12 @@ class WishlistController extends Controller
     {
         //find product in wishlist
         $product = $this->getProductInWishlist($request);
-        
-        return $product == true;
+        return $product == true ? 1 : 0;
     }
 
     // find product in customer's wishlist
     public function getProductInWishlist(Request $request)
-    {
+    {   
         return Wishlist::where('shop_id', $request['shop_id'])
                         ->where('customer_id', $request['customer_id'])
                         ->where('product_id', $request['product_id'])

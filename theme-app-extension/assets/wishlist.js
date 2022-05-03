@@ -8,6 +8,9 @@ const API = {
 // APP URL
 const APP_URL = 'https://dev.myshopifyapp.com'
 const cookies_days = 365
+// Regular expression to check if string is a valid UUID
+const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+
 
 // Class To manage Wishlist states
 class WishlistManager {
@@ -21,25 +24,62 @@ class WishlistManager {
         this.product_price = this.button.dataset.product_price.replace(',', '')
         // Customer id
         this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.cookiesManager.checkIfNotSetCookie('ws_customer',this.uuidv4())
+        // Create a uuidv4 id to use later
+        if(regexExp.test(this.customer_id)){
+            // This will be used to update the customer id in the backend
+            this.cookiesManager.setCookie('ws_uuid_customer_id', this.customer_id)
+        }
+        //set customer_id cookie
+        this.cookiesManager.setCookie('ws_customer', this.customer_id)
         // Data to send to the Api
         this.data = {
             'shop_id': Shopify.shop,
             'product_id': this.product_id,
             'product_price': this.product_price,
-            'customer_id': this.customer_id
+            'customer_id': this.customer_id,
+            'uuid_customer_id': this.cookiesManager.getCookie('ws_uuid_customer_id')
         }
         console.log('data', this.data)
-        this.states = [new AddToWishlist(this.button), new RemoveFromWishlist(this.button), new CheckWishlist(this.button), new UpdateCustomerIdWishlist(this.button)];
-        this.current = this.states[3];
-        this.current.buttonSwitch();
+        //default state is CheckWishlist 
+        this.initWishlist();
+    }
+
+    initWishlist()
+    {
+        //default state is CheckWishlist 
+        // let checkWishlist = this.checkWishlist()
+        // checkWishlist.buttonSwitch()
+        // checkWishlist.nextState()
+        let updateCustomerIdWishlist = this.updateCustomerIdWishlist()
+        let initState = updateCustomerIdWishlist.checkIfCustomerConnected()
+        initState.buttonSwitch()
+        initState.nextState()
+    }
+
+
+    isWishlistButtonActive()
+    {
+        return this.button.classList.contains('active')
     }
   
-    change() {
-      const totalStates = this.states.length;
-      console.log("this.current",this.current);
-      let currentIndex = this.states.findIndex(light => light === this.current);
-      if (currentIndex + 1 < totalStates) this.current = this.states[currentIndex + 1];
-      else this.current = this.states[0];
+    addToWishlist()
+    {
+        return new AddToWishlist(this.button, this.data);
+    }
+
+    removeFromWishlist()
+    {
+        return new RemoveFromWishlist(this.button, this.data);
+    }
+
+    checkWishlist()
+    {
+        return new CheckWishlist(this.button, this.data);
+    }
+
+    updateCustomerIdWishlist()
+    {
+        return new UpdateCustomerIdWishlist(this.button, this.data)
     }
 
     // Call the correct api
@@ -57,6 +97,25 @@ class WishlistManager {
             (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
         );
     }
+
+    // add js cdn
+    javascriptCdn(cdn){
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        
+        script.src = cdn;
+        document.body.appendChild(script);
+    }
+      
+    // add css cdn
+    cssCdn(cdn){
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        
+        link.href = cdn;
+        document.body.appendChild(link);
+    }
+    
     
 }
 // Super abstract class for wishlist apis
@@ -68,7 +127,6 @@ class WishlistApi {
         this.end_point = APP_URL+api
         this.button = button
         this.cookiesManager = new CookiesManager()
-        this.fetchApi = new FetchApi()
         this.data = data
     }
 
@@ -79,7 +137,8 @@ class WishlistApi {
     buttonSwitch(){
         throw new Error('You have to implement the method buttonSwitch');
     }
-    postData(data = {}) {
+
+    async postData(data = {}) {
         // Default options are marked with *
         const response = await fetch(this.end_point, {
           method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -105,102 +164,179 @@ class AddToWishlist extends WishlistApi {
 
 
     buttonSwitch(){
+        if(this.button.disabled) this.button.disabled = false
         this.button.classList.add('active');
         this.button.innerText = "Add To Wishlist";
-        return "Add To Wishlist ";
+        return "Remove From Wishlist ";
     }
 
-    setProductsIdsCookie(pr_id){
-        let products_ids_cookie = this.cookiesManager.getCookie('ws_products')
-        // Check if it's not null or empty
-        if(products_ids_cookie != "" && products_ids_cookie != null){
-            // get the products ids into array
-            products_ids = JSON.parse(products_ids_cookie)
-        }
-        // Push new product id into array (without duplicates)
-        if(!products_ids.includes(pr_id)) products_ids.push(pr_id)
-        // set the new cookie value for products
-        setCookie('ws_products', JSON.stringify(products_ids))
+    //set next state to follow
+    nextState(){
+        let nextState = new RemoveFromWishlist(this.button, this.data)
+        return nextState
     }
+
 
     callApi(){
+        console.log(this.end_point);
+        let loadingState = new LoadingWishlistNextState(null, this.button)
+        loadingState.buttonSwitch('Adding to wishlist...')
         super.postData(this.data).then(response => {
-              // Switch the wishlist button to the correct mode
-             buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id)
-              // fire response notification
-              notification(response.type, response.message)
+                this.cookiesManager.addProductsIdToCookies(this.data.product_id)
+                notification(response.type, response.message)
+                return this.nextState().buttonSwitch()
           })
           .catch(error => {
-            if(mode  === buttonMode.ADD ){
               // fire error notification
+              console.log('error', error)
               notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
-            }
-            // Reset button to add mode
-            resetButton()
           });
     }
 }
 
 class RemoveFromWishlist extends WishlistApi {
-    constructor(button) {
-        super(API.REMOVE, button);
-    }
-
-    callApi() {
-        return this.end_point;
+    constructor(button, data) {
+        super(API.REMOVE, button, data);
     }
 
     buttonSwitch(){
+        if(this.button.disabled) this.button.disabled = false
         this.button.classList.remove('active');
         this.button.innerText = "Remove from Wishlist";
-        return "Remove from Wishlist";
+        return "Add to Wishlist";
     }
 
-    setProductsIdsCookie(pr_id){
-        let products_ids_cookie = this.cookiesManager.getCookie('ws_products')
-        // Check if it's not null or empty
-        if(products_ids_cookie != "" && products_ids_cookie != null){
-            // get the products ids into array
-            products_ids = JSON.parse(products_ids_cookie)
-        }
-        if(products_ids !== undefined || products_ids.length > 0){
-            let tmp_products_ids = products_ids.filter((pid) => pid !== pr_id)
-            products_ids = tmp_products_ids
-        } 
-        // set the new cookie value for products
-        setCookie('ws_products', JSON.stringify(products_ids))
+    nextState(){
+        let nextState = new AddToWishlist(this.button, this.data)
+        return nextState
+    }
+
+    callApi() {
+        console.log(this.end_point);
+        let loadingState = new LoadingWishlistNextState(null, this.button)
+        loadingState.buttonSwitch('Removing from wishlist...')
+        super.postData(this.data).then(response => {
+              this.cookiesManager.removeProductsIdFromCookies(this.data.product_id)
+              notification(response.type, response.message)
+              return this.nextState().buttonSwitch()
+          })
+          .catch(error => {
+              // fire error notification
+              notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
+          });
     }
 }
 
 class CheckWishlist extends WishlistApi {
-    constructor(button) {
-        super(API.CHECK, button);
+    constructor(button, data) {
+        super(API.CHECK, button, data);
     }
 
-    callApi() {
-        return this.end_point;
+    nextState(){
+        // check if products is already in products cookie
+        // if product exist in products cookie we don't need to do an api call, and we move to the next button state
+        let products_ids_cookie = this.cookiesManager.getCookie('ws_products')
+        if(products_ids_cookie != "" && products_ids_cookie != null){
+            
+            // get the products ids into array
+            let products_ids = JSON.parse(products_ids_cookie)
+            // check if product in cookie
+            // if true button state should be on the Remove
+            if(products_ids.includes(this.data.product_id)){
+                let nextState = new RemoveFromWishlist(this.button, this.data)
+                return nextState.buttonSwitch()
+            }
+            //if not, we should double check if product exists in the backend and add it again to product cookie
+            
+            this.callApi()
+            
+        }
+        // The ws_products cookie could be empty or it doesn't exist so we double check the backend,
+        // and we move to the next State
+        this.callApi()
     }
 
     buttonSwitch(){
         this.button.classList.add('active');
         this.button.innerText = "Add To Wishlist";
         return "Add To Wishlist";
+    }
+
+    callApi() {
+        console.log(this.end_point);
+        let loadingState = new LoadingWishlistNextState(null, this.button)
+        loadingState.buttonSwitch('Checking wishlist...')
+        super.postData(this.data).then((response) => {
+            console.log('checklist respinse', response)
+            var nextState = null
+            if(response === 1){
+                // add the product id to the cookie and set the button next state
+                this.cookiesManager.addProductsIdToCookies(this.data.product_id)
+                nextState = new RemoveFromWishlist(this.button, this.data)
+                return nextState.buttonSwitch()
+            }
+            nextState = new AddToWishlist(this.button, this.data)
+            return nextState.buttonSwitch()
+        })
+        .catch(error => {
+            // fire error notification
+            // console.log('error', error)
+            notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
+        });
     }
 }
 
 class  UpdateCustomerIdWishlist extends WishlistApi {
-    constructor(button) {
-        super(API.UPDATE_CUSTOMER_ID, button);
+    constructor(button, data) {
+        super(API.UPDATE_CUSTOMER_ID, button, data);
     }
 
-    callApi() {
-        return this.end_point;
-    }
-
+    
     buttonSwitch(){
         this.button.classList.add('active');
         this.button.innerText = "Add To Wishlist";
         return "Add To Wishlist";
+    }
+
+    nextState(){
+        let nextState = new CheckWishlist(this.button, this.data)
+        return nextState
+    }
+
+    // Check if customer is connected and update db user id with customer's shopifyId
+    checkIfCustomerConnected(){
+        let c_uuid = this.cookiesManager.getCookie('ws_customer') //get customer uuid from cookies
+        if(c_uuid != "" && c_uuid != null && typeof c_uuid != undefined && !regexExp.test(c_uuid) && this.button.dataset.customer != ""){
+            this.callApi()
+        }
+
+        return this.nextState()
+
+    }   
+
+    callApi() {
+        console.log(this.end_point);
+        super.postData(this.data).then(response => {
+                this.cookiesManager.setCookie('ws_customer', this.data.customer_id)
+                return this.nextState()
+          })
+          .catch(error => {
+              // fire error notification
+              console.log('error', error)
+          });
+    }
+}
+
+class LoadingWishlistNextState extends WishlistApi {
+
+    callApi() {
+        return;
+    }
+
+    buttonSwitch(innerText = ''){
+        this.button.disabled = true;
+        this.button.innerText = innerText;
+        return innerText;
     }
 }
 
@@ -227,7 +363,7 @@ class CookiesManager {
         return "";
     }
     // Set cookie if customer is not authenticated
-    setCookie(cname, cvalue, exdays) {
+    setCookie(cname, cvalue, exdays = cookies_days) {
         const d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         let expires = "expires="+ d.toUTCString();
@@ -237,29 +373,70 @@ class CookiesManager {
     deleteCookie(cname) {
         document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
+
+    addProductsIdToCookies(pr_id){
+        // Get value of ws_products cookie
+        let products_ids_cookie = this.getCookie('ws_products')
+        // Check if it's not null or empty
+        if(products_ids_cookie != "" && products_ids_cookie != null){
+            // get the products ids into array
+            let products_ids = JSON.parse(products_ids_cookie)
+            // Push new product id into array (without duplicates)
+            if(!products_ids.includes(pr_id)) products_ids.push(pr_id)
+            // set the new cookie value for products
+            this.setCookie('ws_products', JSON.stringify(products_ids))
+        }
+
+        else{
+            // set the first cookie value for product
+            this.setCookie('ws_products', JSON.stringify([pr_id]))
+        }
+    
+    }
+
+    removeProductsIdFromCookies(pr_id){
+        // Get value of ws_products cookie
+        let products_ids_cookie = this.getCookie('ws_products')
+        if(products_ids_cookie != "" && products_ids_cookie != null){
+            // get the products ids into array
+            let products_ids = JSON.parse(products_ids_cookie)
+            if(products_ids !== undefined || products_ids.length > 0){
+                let tmp_products_ids = products_ids.filter((pid) => pid !== pr_id)
+                console.log('tmp_products_ids',tmp_products_ids)
+                tmp_products_ids != null && tmp_products_ids !== undefined
+                products_ids = tmp_products_ids
+                this.setCookie('ws_products', JSON.stringify(products_ids))
+            }
+        }
+    }
 }
 
-
-function myFunction() {
-    alert('kabbbom')
-}
 
 // usage
 const wishlistManager = new WishlistManager('wishlist-button');
+// noty cdn
+wishlistManager.javascriptCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js')
+wishlistManager.cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css');
 
 
-wishlistManager.change();
-
-console.log(wishlistManager.buttonSwitch()); 
-
-wishlistManager.change();
-
-console.log(wishlistManager.buttonSwitch()); 
-
-wishlistManager.change();
-
-console.log(wishlistManager.buttonSwitch()); 
-
-wishlistManager.change();
-
-console.log(wishlistManager.buttonSwitch()); 
+function myFunction() {
+    // Add to wishlist if button is active
+    // switch button label after adding product to wishlist (Remove from wishlist)
+    if(wishlistManager.isWishlistButtonActive()){
+        wishlistManager.addToWishlist().callApi()
+    }
+    // Remove product from wishlist if buuton is not active
+    // switch button label after removing from wishlist (Add to wishlist)
+    else{
+        wishlistManager.removeFromWishlist().callApi()
+    }
+}
+// notify user
+function notification(type, text){
+    new Noty({
+        type: type,
+        layout: 'topRight',
+        text: text,
+        timeout: 3000
+    }).show();
+}
