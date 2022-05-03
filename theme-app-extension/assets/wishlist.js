@@ -47,9 +47,6 @@ class WishlistManager {
     initWishlist()
     {
         //default state is CheckWishlist 
-        // let checkWishlist = this.checkWishlist()
-        // checkWishlist.buttonSwitch()
-        // checkWishlist.nextState()
         let updateCustomerIdWishlist = this.updateCustomerIdWishlist()
         let initState = updateCustomerIdWishlist.checkIfCustomerConnected()
         initState.buttonSwitch()
@@ -82,14 +79,6 @@ class WishlistManager {
         return new UpdateCustomerIdWishlist(this.button, this.data)
     }
 
-    // Call the correct api
-    callApi() {
-      return this.current.callApi();
-    }
-    // switchButton
-    buttonSwitch() {
-        return this.current.buttonSwitch();
-    }
     
     // create a unique id (will be used for customer)
     uuidv4() {
