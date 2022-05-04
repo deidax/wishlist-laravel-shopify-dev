@@ -3,7 +3,15 @@ const API = {
     ADD: '/api/add-to-wishlist',
     REMOVE: '/api/remove-from-wishlist',
     CHECK: '/api/check-wishlist',
-    UPDATE_CUSTOMER_ID: '/api/update-customer-id-wishlist'
+    UPDATE_CUSTOMER_ID: '/api/update-customer-id-wishlist',
+    BUILD_WISHLIST_BUTTON: '/api/get-button-params'
+}
+// Wishlist button
+const WISHLIST_BUTTON = {
+    BUTTON_DATA: 'ws_button_data',
+    BUTTON_HANDLE: 'wh_button_handle',
+    BUTTON_TEXT_WRAPPER_BEFORE: 'addto_wl_text_wrapp_before',
+    BUTTON_TEXT_WRAPPER_AFTER: 'addto_wl_text_wrapp_after'
 }
 // APP URL
 const APP_URL = 'https://dev.myshopifyapp.com'
@@ -16,7 +24,7 @@ const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F
 class WishlistManager {
     constructor(wishlist_button_selector) {
         // select the wishlist button
-        this.button = document.querySelector('.'+wishlist_button_selector)
+        this.button = document.querySelector('#'+wishlist_button_selector)
         this.cookiesManager = new CookiesManager()
         // Product id
         this.product_id = this.button.dataset.product
@@ -47,18 +55,25 @@ class WishlistManager {
     initWishlist()
     {
         //default state is CheckWishlist 
-        let updateCustomerIdWishlist = this.updateCustomerIdWishlist()
-        let initState = updateCustomerIdWishlist.checkIfCustomerConnected()
-        initState.buttonSwitch()
-        initState.nextState()
+        // let updateCustomerIdWishlist = this.updateCustomerIdWishlist()
+        // let initState = updateCustomerIdWishlist.checkIfCustomerConnected()
+        // initState.buttonSwitch()
+        // initState.nextState()
+        let buildButton = this.buildWishlistButton()
+        buildButton.callApi()
     }
 
 
     isWishlistButtonActive()
     {
-        return this.button.classList.contains('active')
+        return this.button.firstChild.classList.contains('active')
     }
-  
+    
+    buildWishlistButton()
+    {
+        return new BuildWishlistButton(this.button, this.data);
+    }
+
     addToWishlist()
     {
         return new AddToWishlist(this.button, this.data);
@@ -110,14 +125,38 @@ class WishlistManager {
 // Super abstract class for wishlist apis
 class WishlistApi {
     
-    constructor(api, button, data) {
+    constructor(api, button, data = {}) {
         if(this.constructor == WishlistApi) throw new Error(" Object of Abstract Class cannot be created");
             
         this.end_point = APP_URL+api
         this.button = button
         this.cookiesManager = new CookiesManager()
         this.data = data
+
     }
+    
+    getCustomizedButton(){
+        let customized_wishlist_button = document.querySelector('#'+WISHLIST_BUTTON.BUTTON_HANDLE)
+        customized_wishlist_button.classList.add("active")
+        return customized_wishlist_button
+    }
+    
+    setWishListButtonToActive(){
+        // this.getCustomizedButton().classList.add('active');
+        // let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        // let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        // wl_text_wrapp_before.style.display = 'block'
+        // wl_text_wrapp_after.style.display = 'none'
+    }
+
+    setWishListButtonToInActive(){
+        // this.getCustomizedButton().classList.remove('active');
+        // let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        // let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        // wl_text_wrapp_before.style.display = 'none'
+        // wl_text_wrapp_after.style.display = 'block'
+    }
+
 
     // These methods should be implemented (override)
     callApi(){
@@ -146,6 +185,49 @@ class WishlistApi {
     }
 }
 
+class BuildWishlistButton extends WishlistApi {
+
+    constructor(button, data) {
+        super(API.BUILD_WISHLIST_BUTTON, button, data)
+        this.shop_data = {
+            'shop_id': Shopify.shop,
+            'shop_active_theme_id': Shopify.theme.id
+        }
+    }
+
+    nextState(){
+        console.log('build called!')
+        let nextState = new UpdateCustomerIdWishlist(this.button, this.data)
+        return nextState
+    }
+
+    buttonSwitch(innerText = ''){
+        this.button.disabled = true;
+        this.button.innerText = innerText;
+        return innerText;
+    }
+
+    callApi() {
+        console.log(this.end_point);
+        //let loadingState = new LoadingWishlistNextState(null, this.button)
+        //loadingState.buttonSwitch('Adding to wishlist...')
+        super.postData(this.shop_data).then(response => {
+                // return 
+                this.button.innerHTML = response.innerHtml
+                super.getCustomizedButton().setAttribute("onclick","myFunction();");
+                let updateCustomerIdWishlist = this.nextState().checkIfCustomerConnected()
+                updateCustomerIdWishlist.buttonSwitch()
+                updateCustomerIdWishlist.nextState()
+          })
+          .catch(error => {
+              // fire error notification
+              console.log('error', error)
+          });
+    }
+
+    
+}
+
 class AddToWishlist extends WishlistApi {
     constructor(button, data) {
         super(API.ADD, button, data);
@@ -153,10 +235,9 @@ class AddToWishlist extends WishlistApi {
 
 
     buttonSwitch(){
-        if(this.button.disabled) this.button.disabled = false
-        this.button.classList.add('active');
-        this.button.innerText = "Add To Wishlist";
-        return "Remove From Wishlist ";
+        // if(this.button.disabled) this.button.disabled = false
+        super.setWishListButtonToActive()
+        // this.button.innerText = "Add To Wishlist";
     }
 
     //set next state to follow
@@ -189,10 +270,8 @@ class RemoveFromWishlist extends WishlistApi {
     }
 
     buttonSwitch(){
-        if(this.button.disabled) this.button.disabled = false
-        this.button.classList.remove('active');
-        this.button.innerText = "Remove from Wishlist";
-        return "Add to Wishlist";
+        //if(this.button.disabled) this.button.disabled = false
+        super.setWishListButtonToInActive()
     }
 
     nextState(){
@@ -253,8 +332,8 @@ class CheckWishlist extends WishlistApi {
 
     callApi() {
         console.log(this.end_point);
-        let loadingState = new LoadingWishlistNextState(null, this.button)
-        loadingState.buttonSwitch('Checking wishlist...')
+        // let loadingState = new LoadingWishlistNextState(null, this.button)
+        // loadingState.buttonSwitch('Checking wishlist...')
         super.postData(this.data).then((response) => {
             console.log('checklist respinse', response)
             var nextState = null
@@ -269,7 +348,7 @@ class CheckWishlist extends WishlistApi {
         })
         .catch(error => {
             // fire error notification
-            // console.log('error', error)
+            console.log('error', error)
             notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(')
         });
     }
@@ -328,6 +407,8 @@ class LoadingWishlistNextState extends WishlistApi {
         return innerText;
     }
 }
+
+
 
 class CookiesManager {
     // Check if cookie is set
@@ -402,10 +483,12 @@ class CookiesManager {
 
 
 // usage
-const wishlistManager = new WishlistManager('wishlist-button');
+const wishlistManager = new WishlistManager(WISHLIST_BUTTON.BUTTON_DATA);
 // noty cdn
 wishlistManager.javascriptCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js')
 wishlistManager.cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css');
+// font awesome
+wishlistManager.cssCdn('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css');
 
 
 function myFunction() {
