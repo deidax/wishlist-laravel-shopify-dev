@@ -58,6 +58,7 @@ class Setting extends Model
     public static function checkIfThemeIsActive()
     {
         $shop = Auth::user();
+        if($shop == null) return false;
         $shop_data = self::where("shop_id", $shop->name)->first();
         return $shop_data != null ? $shop_data->activated == 1 : false;
     }
@@ -120,9 +121,12 @@ class Setting extends Model
 
     public static function getButtonParams(Request $request)
     {
-        return self::where('shop_id', $request->shop_id)
-                              ->where('shop_active_theme_id', $request->shop_active_theme_id)
-                              ->first()
-                              ->only(self::getWishlistButtonParamsNames());
+        $buttonParams = self::where('shop_id', $request->shop_id)
+                            ->where('shop_active_theme_id', $request->shop_active_theme_id)
+                            ->first();
+
+        if($buttonParams == null) return sendNotification('error','Please activate wishlist theme in app settings.');
+            
+        return $buttonParams->only(self::getWishlistButtonParamsNames());
     }
 }

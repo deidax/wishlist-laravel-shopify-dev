@@ -103,7 +103,7 @@ class SettingController extends Controller
     {
         $api_data['is_activated'] = Setting::checkIfThemeIsActive();
 
-        return view('api-docs.theme-activation', compact('api_data'));
+        return $api_data;
     }
 
     public function getStoreThemes()

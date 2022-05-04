@@ -29,7 +29,7 @@ Route::post('/remove-from-wishlist', [WishlistController::class, "destroy"])->na
 Route::post('/check-wishlist', [WishlistController::class, "checkIfInWishlist"])->name('check.wishlist');
 Route::post('/update-customer-id-wishlist', [WishlistController::class, "update"])->name('update.customer.id.wishlist');
 Route::post('/get-button-params', [SettingController::class, "getButtonParams"])->name('get.button.params');
-
+Route::post('/get-button-params', [SettingController::class, "getButtonParams"])->name('get.button.params');
 // App api
 Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('/v1/dashboard', [DashboardController::class, "getInfo"])->name('home');

@@ -142,19 +142,19 @@ class WishlistApi {
     }
     
     setWishListButtonToActive(){
-        // this.getCustomizedButton().classList.add('active');
-        // let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
-        // let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
-        // wl_text_wrapp_before.style.display = 'block'
-        // wl_text_wrapp_after.style.display = 'none'
+        this.getCustomizedButton().classList.add('active');
+        let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        wl_text_wrapp_before.style.display = 'block'
+        wl_text_wrapp_after.style.display = 'none'
     }
 
     setWishListButtonToInActive(){
-        // this.getCustomizedButton().classList.remove('active');
-        // let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
-        // let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
-        // wl_text_wrapp_before.style.display = 'none'
-        // wl_text_wrapp_after.style.display = 'block'
+        this.getCustomizedButton().classList.remove('active');
+        let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        wl_text_wrapp_before.style.display = 'none'
+        wl_text_wrapp_after.style.display = 'block'
     }
 
 
@@ -165,7 +165,7 @@ class WishlistApi {
     buttonSwitch(){
         throw new Error('You have to implement the method buttonSwitch');
     }
-
+    //post
     async postData(data = {}) {
         // Default options are marked with *
         const response = await fetch(this.end_point, {
@@ -183,7 +183,21 @@ class WishlistApi {
         });
         return response.json(); // parses JSON response into native JavaScript objects
     }
+    //get
+    async getData() {
+        // Default options are marked with *
+        const response = await fetch(this.end_point, {
+          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
 }
+
 
 class BuildWishlistButton extends WishlistApi {
 
@@ -207,25 +221,37 @@ class BuildWishlistButton extends WishlistApi {
         return innerText;
     }
 
+    pleaseActivateWishlistTheme(activation_message)
+    {
+        this.button.innerText = activation_message  ?? 'Please activate wishlist theme in app settings';
+    }
+
     callApi() {
         console.log(this.end_point);
         //let loadingState = new LoadingWishlistNextState(null, this.button)
         //loadingState.buttonSwitch('Adding to wishlist...')
         super.postData(this.shop_data).then(response => {
                 // return 
-                this.button.innerHTML = response.innerHtml
-                super.getCustomizedButton().setAttribute("onclick","myFunction();");
-                let updateCustomerIdWishlist = this.nextState().checkIfCustomerConnected()
-                updateCustomerIdWishlist.buttonSwitch()
-                updateCustomerIdWishlist.nextState()
+                if(response.type != undefined && response.type == "error")
+                {
+                    this.pleaseActivateWishlistTheme(response.message)
+                }
+                else 
+                {
+                    this.button.innerHTML = response.innerHtml
+                    super.getCustomizedButton().setAttribute("onclick","myFunction();");
+                    //let updateCustomerIdWishlist = this.nextState().checkIfCustomerConnected()
+                    // updateCustomerIdWishlist.buttonSwitch()
+                    //updateCustomerIdWishlist.nextState()
+                }
+                
           })
           .catch(error => {
               // fire error notification
-              console.log('error', error)
+              console.log(error)
           });
     }
 
-    
 }
 
 class AddToWishlist extends WishlistApi {
@@ -325,9 +351,9 @@ class CheckWishlist extends WishlistApi {
     }
 
     buttonSwitch(){
-        this.button.classList.add('active');
-        this.button.innerText = "Add To Wishlist";
-        return "Add To Wishlist";
+        // this.button.classList.add('active');
+        // this.button.innerText = "Add To Wishlist";
+        // return "Add To Wishlist";
     }
 
     callApi() {
