@@ -143,24 +143,34 @@ class WishlistApi {
     
     setWishListButtonToActive(){
         this.getCustomizedButton().classList.add('active');
+        let text_loading = this.getCustomizedButton().querySelector('#text_loading')
         let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
-        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_AFTER)
+        if(text_loading != null ) text_loading.style.display = 'none'
         wl_text_wrapp_before.style.display = 'block'
         wl_text_wrapp_after.style.display = 'none'
     }
 
     setWishListButtonToInActive(){
         this.getCustomizedButton().classList.remove('active');
+        let text_loading = this.getCustomizedButton().querySelector('#text_loading')
         let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
-        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_AFTER)
+        if(text_loading != null ) text_loading.style.display = 'none'
         wl_text_wrapp_before.style.display = 'none'
         wl_text_wrapp_after.style.display = 'block'
     }
 
     setTextForWishListButton(text){
-        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
-        let span = wl_text_wrapp_after.querySelector("span")
-        span != undefined ? span.innerHTML = text : wl_text_wrapp_after.innerHTML = text
+        
+        //set text loading span
+        this.getCustomizedButton().querySelector("#text_loading") != undefined ? 
+            this.getCustomizedButton().querySelector("#text_loading").innerHTML = text : 
+            this.getCustomizedButton().insertAdjacentHTML("afterbegin","<span id='text_loading'>"+text+"</span>");
+
+        this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE).style.display = 'none'
+        this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_AFTER).style.display = 'none'
+        
     }
 
 
@@ -232,14 +242,7 @@ class BuildWishlistButton extends WishlistApi {
                     this.button.innerHTML = response.innerHtml
                     super.getCustomizedButton().setAttribute("onclick","myFunction();");
                     let updateCustomerIdWishlist = this.nextState()
-                    //this not working
-                    //should use a callback
-                    //search for how to wait for a function to finish executing.
-                    updateCustomerIdWishlist.checkIfCustomerConnected()
-                        .then(nextState => {
-
-                            console.log('checkWishlist', nextState)
-                        })
+                    let checkWishlist = updateCustomerIdWishlist.checkIfCustomerConnected()
                     //checkWishlist.nextState()
                     // updateCustomerIdWishlist.buttonSwitch()
                     //updateCustomerIdWishlist.nextState()
@@ -392,7 +395,7 @@ class  UpdateCustomerIdWishlist extends WishlistApi {
 
     nextState(){
         let nextState = new CheckWishlist(this.button, this.data)
-        console.log('nextState', nextState)
+        nextState.nextState()
         return nextState
     }
 
