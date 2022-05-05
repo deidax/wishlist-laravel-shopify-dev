@@ -118,4 +118,9 @@ class SettingController extends Controller
     {
         return Setting::getButtonParams($request);
     }
+
+    public function getButtonParamsApp()
+    {
+        return Setting::getButtonParamsApp();
+    }
 }

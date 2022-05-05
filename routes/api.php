@@ -133,4 +133,6 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('/v1/configure-theme', [SettingController::class, "ConfigureTheme"])->name('configure.theme');
     
     Route::get('/v1/theme-activated', [SettingController::class, "isThemeActivated"])->name('theme.activated');
+    
+    Route::get('/v1/get-button-params-app', [SettingController::class, "getButtonParamsApp"])->name('get.button.params.app');
 });

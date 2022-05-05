@@ -156,9 +156,26 @@ methods:{
                     position:"top-right"
                 })
             })
-}},
+    },
+
+    getButtonParams(){
+        axios.get("/api/v1/get-button-params-app").then((response) => {
+            console.log(response)
+            this.buttonOption = response.data.button != undefined ? response.data.button : this.buttonOption
+            console.log('this.buttonOption',response.data.button)
+            }).catch((err) => {
+                this.$pToast.open({
+                    message: err,
+                    duration:3000,
+                    position:"top-right"
+                })
+            })
+    }
+
+},
 mounted(){
     //this.configureTheme()
+    this.getButtonParams();
 }
 }
 </script>

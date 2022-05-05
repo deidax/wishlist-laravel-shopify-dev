@@ -63,9 +63,8 @@ class Setting extends Model
         return $shop_data != null ? $shop_data->activated == 1 : false;
     }
 
-    public static function ConfigureTheme(Request $request)
+    public static function getActiveThemeId($shop)
     {
-        $shop = Auth::user();
         $themes = $shop->api()->rest('GET', '/admin/api/2022-04/themes.json');
 
         $shopThemes = $themes['body']['themes'];
@@ -80,7 +79,17 @@ class Setting extends Model
             }
         );
 
+        
         $activeThemeId = $activeTheme[0]['id'];
+
+        return $activeThemeId;
+
+    }
+
+    public static function ConfigureTheme(Request $request)
+    {
+        $shop = Auth::user();
+        $activeThemeId = self::getActiveThemeId($shop);
 
         $snippet = "Your snippet code updated 3";
 
@@ -129,4 +138,15 @@ class Setting extends Model
             
         return $buttonParams->only(self::getWishlistButtonParamsNames());
     }
+
+    public static function getButtonParamsApp()
+    {
+        $shop_details = new Request();
+        $shop = Auth::user();
+        $shop_details->shop_id = $shop->name;
+        $shop_details->shop_active_theme_id = self::getActiveThemeId($shop);
+        
+        return self::getButtonParams($shop_details);
+    }
+    
 }
