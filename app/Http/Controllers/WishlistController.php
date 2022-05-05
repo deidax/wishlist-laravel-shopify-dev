@@ -36,8 +36,8 @@ class WishlistController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        if($request['uuid_customer_id'] != null) unset($request['uuid_customer_id']);
+    {   
+        unset($request['uuid_customer_id']);
         //add the product to wishlist
         $product_to_wishlist = Wishlist::updateOrCreate($request->all());
         if ($product_to_wishlist->wasRecentlyCreated) return sendNotification('success', 'Product added to wishlist');

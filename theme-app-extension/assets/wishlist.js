@@ -137,11 +137,11 @@ class WishlistApi {
     
     getCustomizedButton(){
         let customized_wishlist_button = document.querySelector('#'+WISHLIST_BUTTON.BUTTON_HANDLE)
-        customized_wishlist_button.classList.add("active")
         return customized_wishlist_button
     }
     
     setWishListButtonToActive(){
+        this.getCustomizedButton().style.pointerEvents = 'auto';
         this.getCustomizedButton().classList.add('active');
         let text_loading = this.getCustomizedButton().querySelector('#text_loading')
         let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
@@ -152,6 +152,7 @@ class WishlistApi {
     }
 
     setWishListButtonToInActive(){
+        this.getCustomizedButton().style.pointerEvents = 'auto';
         this.getCustomizedButton().classList.remove('active');
         let text_loading = this.getCustomizedButton().querySelector('#text_loading')
         let wl_text_wrapp_before = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
@@ -164,10 +165,14 @@ class WishlistApi {
     setTextForWishListButton(text){
         
         //set text loading span
+        this.getCustomizedButton().style.pointerEvents = 'none';
+        console.log('cursor', this.getCustomizedButton().style.pointerEvents)
         this.getCustomizedButton().querySelector("#text_loading") != undefined ? 
-            this.getCustomizedButton().querySelector("#text_loading").innerHTML = text : 
+        (this.getCustomizedButton().querySelector("#text_loading").style.display = 'block', this.getCustomizedButton().querySelector("#text_loading").innerHTML = text) : 
             this.getCustomizedButton().insertAdjacentHTML("afterbegin","<span id='text_loading'>"+text+"</span>");
-
+        
+        console.log(text)
+        console.log('this.getCustomizedButton().querySelector("#text_loading")', this.getCustomizedButton().querySelector("#text_loading"))
         this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE).style.display = 'none'
         this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_AFTER).style.display = 'none'
         
@@ -402,8 +407,13 @@ class  UpdateCustomerIdWishlist extends WishlistApi {
     // Check if customer is connected and update db user id with customer's shopifyId
     checkIfCustomerConnected(){
         let c_uuid = this.cookiesManager.getCookie('ws_customer') //get customer uuid from cookies
-        
-        if(c_uuid != "" && c_uuid != null && typeof c_uuid != undefined && !regexExp.test(c_uuid) && this.button.dataset.customer != ""){
+        let products_ids_cookie = this.cookiesManager.getCookie('ws_products') //get customer uuid from cookies
+        let products_ids = []
+        if(products_ids_cookie != "" && products_ids_cookie != null)
+        {
+            products_ids = JSON.parse(products_ids_cookie)
+        }
+        if(c_uuid != "" && c_uuid != null && typeof c_uuid != undefined && !regexExp.test(c_uuid) && this.button.dataset.customer != "" && products_ids.length > 0){
             return this.callApi()
         }
 
