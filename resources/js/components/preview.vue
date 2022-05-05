@@ -9,8 +9,8 @@
             <i v-if="options.button_type=='text_icon' || options.button_type=='only_icon'" :class="getIconClass.after" :style="'color:'+options.text_color+';font-size:'+options.icon_size+'px;'"></i>
             <span v-if="options.button_type=='text_icon' || options.button_type=='only_text'" >{{options.btn_label_after}}</span>
         </div>
+    <span id="wp_count" :style="'color:'+options.text_color+';font-size:'+options.text_size+'px; margin-left: 2px'" v-show="options.display_social_count">(2)</span>
     </div>
-    <span id="wp_count" :style="'color:'+options.text_color+';font-size:'+options.text_size+'px'" v-show="options.display_social_count">(2)</span>
 </div>
 </template>
 

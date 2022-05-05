@@ -33106,29 +33106,29 @@ var render = function () {
               : _vm._e(),
           ]
         ),
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "span",
-      {
-        directives: [
+        _vm._v(" "),
+        _c(
+          "span",
           {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.options.display_social_count,
-            expression: "options.display_social_count",
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.options.display_social_count,
+                expression: "options.display_social_count",
+              },
+            ],
+            style:
+              "color:" +
+              _vm.options.text_color +
+              ";font-size:" +
+              _vm.options.text_size +
+              "px; margin-left: 2px",
+            attrs: { id: "wp_count" },
           },
-        ],
-        style:
-          "color:" +
-          _vm.options.text_color +
-          ";font-size:" +
-          _vm.options.text_size +
-          "px",
-        attrs: { id: "wp_count" },
-      },
-      [_vm._v("(2)")]
+          [_vm._v("(2)")]
+        ),
+      ]
     ),
   ])
 }

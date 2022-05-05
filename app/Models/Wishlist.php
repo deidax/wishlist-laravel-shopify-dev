@@ -34,4 +34,11 @@ class Wishlist extends Model
     public static function getTotalWishlist(){
         return self::all()->count();
     }
+
+    public static function getWishlistSocialCount($shop_id, $product_id){
+
+        return self::where('shop_id', $shop_id)
+                    ->where('product_id', $product_id)
+                    ->count();
+    }
 }

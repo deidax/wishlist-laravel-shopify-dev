@@ -4,7 +4,8 @@ const API = {
     REMOVE: '/api/remove-from-wishlist',
     CHECK: '/api/check-wishlist',
     UPDATE_CUSTOMER_ID: '/api/update-customer-id-wishlist',
-    BUILD_WISHLIST_BUTTON: '/api/get-button-params'
+    BUILD_WISHLIST_BUTTON: '/api/get-button-params',
+    SOCIAL_COUNT: '/api/get-social-count'
 }
 // Wishlist button
 const WISHLIST_BUTTON = {
@@ -19,6 +20,8 @@ const cookies_days = 365
 // Regular expression to check if string is a valid UUID
 const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
+// Display social count?
+var display_social_count = false
 
 // Class To manage Wishlist states
 class WishlistManager {
@@ -94,6 +97,7 @@ class WishlistManager {
         return new UpdateCustomerIdWishlist(this.button, this.data)
     }
 
+    
     
     // create a unique id (will be used for customer)
     uuidv4() {
@@ -178,6 +182,15 @@ class WishlistApi {
         
     }
 
+    // calculate social count
+    socialCountCalculation()
+    {
+        if(display_social_count){
+            let social_count = new SocialCountCalculation(this.button, this.data)
+            social_count.callApi()
+        }
+    }
+
 
     // These methods should be implemented (override)
     callApi(){
@@ -219,6 +232,7 @@ class BuildWishlistButton extends WishlistApi {
 
     nextState(){
         console.log('build called!')
+
         let nextState = new UpdateCustomerIdWishlist(this.button, this.data)
         return nextState
     }
@@ -245,9 +259,11 @@ class BuildWishlistButton extends WishlistApi {
                 else 
                 {
                     this.button.innerHTML = response.innerHtml
+                    display_social_count = response.display_social_count
                     super.getCustomizedButton().setAttribute("onclick","myFunction();");
                     let updateCustomerIdWishlist = this.nextState()
                     let checkWishlist = updateCustomerIdWishlist.checkIfCustomerConnected()
+                    super.socialCountCalculation()
                     //checkWishlist.nextState()
                     // updateCustomerIdWishlist.buttonSwitch()
                     //updateCustomerIdWishlist.nextState()
@@ -287,6 +303,7 @@ class AddToWishlist extends WishlistApi {
         loadingState.buttonSwitch('Adding to wishlist...')
         super.postData(this.data).then(response => {
                 this.cookiesManager.addProductsIdToCookies(this.data.product_id)
+                super.socialCountCalculation()
                 notification(response.type, response.message)
                 return this.nextState().buttonSwitch()
           })
@@ -319,6 +336,7 @@ class RemoveFromWishlist extends WishlistApi {
         loadingState.buttonSwitch('Removing from wishlist...')
         super.postData(this.data).then(response => {
               this.cookiesManager.removeProductsIdFromCookies(this.data.product_id)
+              super.socialCountCalculation()
               notification(response.type, response.message)
               return this.nextState().buttonSwitch()
           })
@@ -447,6 +465,29 @@ class LoadingWishlistNextState extends WishlistApi {
     }
 }
 
+class SocialCountCalculation extends WishlistApi {
+
+    constructor(button, data) {
+        super(API.SOCIAL_COUNT, button, data);
+    }
+
+    callApi() {
+        console.log(this.end_point);
+        super.postData(this.data).then(response => {
+                this.buttonSwitch(response)
+          })
+          .catch(error => {
+              // fire error notification
+              console.log('error', error)
+          });
+    }
+
+    buttonSwitch(innerText = ''){
+        let count = document.querySelector('#wp_count')
+        count.innerHTML = '('+innerText+')'
+    }
+}
+
 
 
 class CookiesManager {
@@ -541,6 +582,7 @@ function myFunction() {
     else{
         wishlistManager.removeFromWishlist().callApi()
     }
+
 }
 // notify user
 function notification(type, text){

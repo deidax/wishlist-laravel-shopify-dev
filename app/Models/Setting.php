@@ -136,7 +136,12 @@ class Setting extends Model
 
         if($buttonParams == null) return sendNotification('error','Please activate wishlist theme in app settings.');
             
-        return $buttonParams->only(self::getWishlistButtonParamsNames());
+        //return $buttonParams->only(self::getWishlistButtonParamsNames());
+        $btn_params = $buttonParams->only(self::getWishlistButtonParamsNames());
+
+        $btn_params['display_social_count'] = $btn_params['button']['display_social_count'];
+        return $btn_params;
+
     }
 
     public static function getButtonParamsApp()

@@ -28,8 +28,11 @@ Route::post('/add-to-wishlist', [WishlistController::class, "store"])->name('add
 Route::post('/remove-from-wishlist', [WishlistController::class, "destroy"])->name('remove.from.wishlist');
 Route::post('/check-wishlist', [WishlistController::class, "checkIfInWishlist"])->name('check.wishlist');
 Route::post('/update-customer-id-wishlist', [WishlistController::class, "update"])->name('update.customer.id.wishlist');
+Route::post('/get-social-count', [WishlistController::class, "getWishlistSocialCount"])->name('get.social.count');
+
+// settings api
 Route::post('/get-button-params', [SettingController::class, "getButtonParams"])->name('get.button.params');
-Route::post('/get-button-params', [SettingController::class, "getButtonParams"])->name('get.button.params');
+
 // App api
 Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('/v1/dashboard', [DashboardController::class, "getInfo"])->name('home');
