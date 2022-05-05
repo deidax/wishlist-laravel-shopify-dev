@@ -140,16 +140,15 @@ data(){
     }
 },
 methods:{
-    updateColor(el){
-        console.log(el)
-    },
-    //Api call exemple
-    //use this with a click event
     saveSettings(){
         let wishlist_settings_params = {button:this.buttonOption,innerHtml:document.getElementById('wh_button_handle').outerHTML}
-        axios.post("/api/v1/configure-theme", wishlist_settings_params).then((response) => {
-            console.log(response)
-                this.themes=response.data;
+
+            this.$store.dispatch('settings/saveSettings',wishlist_settings_params).then((response) => {
+                this.$pToast.open({
+                    message: "settings successfully saved",
+                    duration:3000,
+                    position:"top-right"
+                })
             }).catch((err) => {
                 this.$pToast.open({
                     message: err,
@@ -157,22 +156,7 @@ methods:{
                     position:"top-right"
                 })
             })
-        // let wishlist_settings_params = {shop_id:"appstoreplayground.myshopify.com",shop_active_theme_id:122979975191}
-        // axios.post("/api/v1/get-button-params", wishlist_settings_params).then((response) => {
-        //     console.log(response)
-        //         this.themes=response.data;
-        //     }).catch((err) => {
-        //         this.$pToast.open({
-        //             message: err,
-        //             duration:3000,
-        //             position:"top-right"
-        //         })
-        //     })
-    }
-    // saveSettings(){
-    //     console.log('wishlist_settings_params',wishlist_settings_params)
-    // }
-},
+}},
 mounted(){
     //this.configureTheme()
 }

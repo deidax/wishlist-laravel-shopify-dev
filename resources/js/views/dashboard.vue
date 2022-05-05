@@ -14,27 +14,6 @@
       </PLayoutSection>
     </PLayout>
 
-     <!-- <PSkeletonPage>
-    <PLayout>
-      <PLayoutSection oneHalf="">
-        <PCard sectioned="">
-          <PTextContainer>
-            <PSkeletonDisplayText size="medium" />
-            <PSkeletonBodyText />
-          </PTextContainer>
-        </PCard>
-        </PLayoutSection>
-        <PLayoutSection oneHalf="">
-        <PCard sectioned="">
-          <PTextContainer>
-            <PSkeletonDisplayText size="medium" />
-            <PSkeletonBodyText />
-          </PTextContainer>
-        </PCard>
-      </PLayoutSection>
-      </PLayout>
-    </PSkeletonPage> -->
-
     <PLayout v-if="!showloading" class="secondlayout__inner">
     <PLayoutSection oneHalf="">
       <PCard title="Top Wishlist Users">
