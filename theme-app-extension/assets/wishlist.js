@@ -157,6 +157,12 @@ class WishlistApi {
         wl_text_wrapp_after.style.display = 'block'
     }
 
+    setTextForWishListButton(text){
+        let wl_text_wrapp_after = this.getCustomizedButton().querySelector('#'+WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE)
+        let span = wl_text_wrapp_after.querySelector("span")
+        span != undefined ? span.innerHTML = text : wl_text_wrapp_after.innerHTML = text
+    }
+
 
     // These methods should be implemented (override)
     callApi(){
@@ -183,19 +189,6 @@ class WishlistApi {
         });
         return response.json(); // parses JSON response into native JavaScript objects
     }
-    //get
-    async getData() {
-        // Default options are marked with *
-        const response = await fetch(this.end_point, {
-          method: 'GET', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, *cors, same-origin
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, *same-origin, omit
-          redirect: 'follow', // manual, *follow, error
-          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        });
-        return response.json(); // parses JSON response into native JavaScript objects
-    }
 }
 
 
@@ -216,9 +209,7 @@ class BuildWishlistButton extends WishlistApi {
     }
 
     buttonSwitch(innerText = ''){
-        this.button.disabled = true;
-        this.button.innerText = innerText;
-        return innerText;
+        return;
     }
 
     pleaseActivateWishlistTheme(activation_message)
@@ -240,7 +231,16 @@ class BuildWishlistButton extends WishlistApi {
                 {
                     this.button.innerHTML = response.innerHtml
                     super.getCustomizedButton().setAttribute("onclick","myFunction();");
-                    //let updateCustomerIdWishlist = this.nextState().checkIfCustomerConnected()
+                    let updateCustomerIdWishlist = this.nextState()
+                    //this not working
+                    //should use a callback
+                    //search for how to wait for a function to finish executing.
+                    updateCustomerIdWishlist.checkIfCustomerConnected()
+                        .then(nextState => {
+
+                            console.log('checkWishlist', nextState)
+                        })
+                    //checkWishlist.nextState()
                     // updateCustomerIdWishlist.buttonSwitch()
                     //updateCustomerIdWishlist.nextState()
                 }
@@ -358,8 +358,8 @@ class CheckWishlist extends WishlistApi {
 
     callApi() {
         console.log(this.end_point);
-        // let loadingState = new LoadingWishlistNextState(null, this.button)
-        // loadingState.buttonSwitch('Checking wishlist...')
+        let loadingState = new LoadingWishlistNextState(null, this.button)
+        loadingState.buttonSwitch('Checking wishlist...')
         super.postData(this.data).then((response) => {
             console.log('checklist respinse', response)
             var nextState = null
@@ -387,21 +387,21 @@ class  UpdateCustomerIdWishlist extends WishlistApi {
 
     
     buttonSwitch(){
-        this.button.classList.add('active');
-        this.button.innerText = "Add To Wishlist";
-        return "Add To Wishlist";
+        return;
     }
 
     nextState(){
         let nextState = new CheckWishlist(this.button, this.data)
+        console.log('nextState', nextState)
         return nextState
     }
 
     // Check if customer is connected and update db user id with customer's shopifyId
     checkIfCustomerConnected(){
         let c_uuid = this.cookiesManager.getCookie('ws_customer') //get customer uuid from cookies
+        
         if(c_uuid != "" && c_uuid != null && typeof c_uuid != undefined && !regexExp.test(c_uuid) && this.button.dataset.customer != ""){
-            this.callApi()
+            return this.callApi()
         }
 
         return this.nextState()
@@ -410,6 +410,8 @@ class  UpdateCustomerIdWishlist extends WishlistApi {
 
     callApi() {
         console.log(this.end_point);
+        let loadingState = new LoadingWishlistNextState(null, this.button)
+        loadingState.buttonSwitch('Checking customer...')
         super.postData(this.data).then(response => {
                 this.cookiesManager.setCookie('ws_customer', this.data.customer_id)
                 return this.nextState()
@@ -428,9 +430,7 @@ class LoadingWishlistNextState extends WishlistApi {
     }
 
     buttonSwitch(innerText = ''){
-        this.button.disabled = true;
-        this.button.innerText = innerText;
-        return innerText;
+        super.setTextForWishListButton(innerText)
     }
 }
 
