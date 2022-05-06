@@ -5484,12 +5484,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      isActive: false
+      isActive: false,
+      counter: 10
     };
   },
   methods: {
     toggleClass: function toggleClass() {
       this.isActive = !this.isActive;
+      this.isActive ? this.counter++ : this.counter--;
     }
   }
 });
@@ -33271,7 +33273,7 @@ var render = function () {
               "px; margin-left: 2px",
             attrs: { id: "wp_count" },
           },
-          [_vm._v("(0)")]
+          [_vm._v("(" + _vm._s(_vm.counter) + ")")]
         ),
       ]
     ),
