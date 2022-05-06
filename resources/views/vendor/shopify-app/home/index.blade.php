@@ -15,9 +15,4 @@
 @section('scripts')
     @parent
     <script src="{{ asset('js/app.js') }}" defer></script>
-    @if(config('shopify-app.appbridge_enabled'))
-        <script>
-            actions.TitleBar.create(app, { title: 'Welcome' });
-        </script>
-    @endif
 @endsection

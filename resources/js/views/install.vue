@@ -30,13 +30,11 @@
     <PLayoutSection oneHalf="">
       <PCard title="Install instructions">
           <PCardSection>
-              <p>Open Online store > Themes > Actions -> Edit code and paste this shortcode in the desired place. <b>Don't forget to set up your settings.</b></p>
-              <PTextField
-                    type="text"
-                    :value="settingsClass"
-                    class="mt-2"
-                />
-              <PButton class="mt-2">Copy</PButton>
+              <p class="mb-2">Open Online store > Themes > Actions -> Edit code and paste this shortcode in the desired place. <b>Don't forget to set up your settings.</b></p>
+
+              <PTextField id="input_field_code" connected type="text" :value="optionSettings" disabled>
+                <PButton slot="connectedRight" v-p-tooltip="'Copy'" @click="copyCode" ><PIcon source="ClipboardMinor" /></PButton>
+            </PTextField>
           </PCardSection>
 
       </PCard>
@@ -57,7 +55,7 @@ data(){
     return{
         selectedThemes:[],
         showItems:true,
-        settingClass:"<div class='whp-icon-block' data-block-id='44e7bba8-76e0-4455-bd6a-c8aa4913bad7' data-product-id='your product id'></div>"
+        optionSettings:'<div id="ws_button_data" data-customer="{{ customer.id }}" data-product="{{ product.id }}" data-product_price="{{ product.price | money_without_currency }}">Loading Button...</div>'
     }
 },
 methods:{
@@ -75,6 +73,17 @@ methods:{
                 })
             })
         },
+        copyCode(){
+
+            var copyText = document.querySelector("#input_field_code");
+            copyText.select();
+            document.execCommand("copy");
+            this.$pToast.open({
+                message: "Copying to clipboard was successful",
+                duration:3000,
+                position:"top-right"
+           })
+        }
 },
 mounted(){
     this.$pLoading.start();
@@ -90,7 +99,7 @@ mounted(){
     .topnav .Polaris-HorizontalDivider{
         margin: 10px 0px;
     }
-    .mt-2{
-        margin-top: 10px;
+    .mb-2{
+        margin-bottom: 10px;
     }
 </style>
