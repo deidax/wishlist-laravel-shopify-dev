@@ -1,6 +1,19 @@
 <template>
 <div style="text-align:center">
+    <!-- this div for original html -->
     <div :style="'display:inline-flex;align-items:center;letter-spacing:0.5px;cursor:pointer;font-size:'+options.text_size+'px;background-color:'+options.bg_color+';color:'+options.text_color+';padding:'+options.paddingtop+'px '+options.paddingright+'px '+options.paddingbottom+'px '+options.paddingleft+'px; border:'+options.borderwidth+'px solid '+options.bordercolor+';border-radius:'+options.borderradius+'px'" id="wh_button_handle">
+        <div id="addto_wl_text_wrapp_before">
+            <i v-if="options.button_type=='text_icon' || options.button_type=='only_icon'" :class="getIconClass.before" :style="'color:'+options.text_color+';font-size:'+options.icon_size+'px;'"></i>
+            <span v-if="options.button_type=='text_icon' || options.button_type=='only_text'">{{options.btn_label_before}}</span>
+        </div>
+        <div id="addto_wl_text_wrapp_after" style="display:none">
+            <i v-if="options.button_type=='text_icon' || options.button_type=='only_icon'" :class="getIconClass.after" :style="'color:'+options.text_color+';font-size:'+options.icon_size+'px;'"></i>
+            <span v-if="options.button_type=='text_icon' || options.button_type=='only_text'" >{{options.btn_label_after}}</span>
+        </div>
+    <span id="wp_count" :style="'color:'+options.text_color+';font-size:'+options.text_size+'px; margin-left: 2px'" v-show="options.display_social_count">(0)</span>
+    </div>
+
+     <div :style="'display:inline-flex;align-items:center;letter-spacing:0.5px;cursor:pointer;font-size:'+options.text_size+'px;background-color:'+options.bg_color+';color:'+options.text_color+';padding:'+options.paddingtop+'px '+options.paddingright+'px '+options.paddingbottom+'px '+options.paddingleft+'px; border:'+options.borderwidth+'px solid '+options.bordercolor+';border-radius:'+options.borderradius+'px'" id="preview_button" @click="toggleClass" v-bind:class="{active: isActive}">
         <div id="addto_wl_text_wrapp_before">
             <i v-if="options.button_type=='text_icon' || options.button_type=='only_icon'" :class="getIconClass.before" :style="'color:'+options.text_color+';font-size:'+options.icon_size+'px;'"></i>
             <span v-if="options.button_type=='text_icon' || options.button_type=='only_text'">{{options.btn_label_before}}</span>
@@ -28,10 +41,29 @@ export default {
                     return {"before":"fa-regular fa-star","after":"fa-solid fa-star"}
             }
         }
+    },
+    data(){
+        return{
+            isActive:false
+        }
+    },
+    methods:{
+        toggleClass(){
+            this.isActive = !this.isActive;
+        }
     }
 }
 </script>
 
 <style>
     @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css';
+    #wh_button_handle{
+        display: none !important;
+    }
+    .active #addto_wl_text_wrapp_after{
+        display: initial !important;
+    }
+    .active #addto_wl_text_wrapp_before{
+        display: none;
+    }
 </style>

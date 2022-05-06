@@ -5444,6 +5444,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['options'],
   computed: {
@@ -5467,6 +5480,16 @@ __webpack_require__.r(__webpack_exports__);
             "after": "fa-solid fa-star"
           };
       }
+    }
+  },
+  data: function data() {
+    return {
+      isActive: false
+    };
+  },
+  methods: {
+    toggleClass: function toggleClass() {
+      this.isActive = !this.isActive;
     }
   }
 });
@@ -13656,7 +13679,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#wh_button_handle{\n    display: none !important;\n}\n.active #addto_wl_text_wrapp_after{\n    display: initial !important;\n}\n.active #addto_wl_text_wrapp_before{\n    display: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -33079,6 +33102,107 @@ var render = function () {
           _vm.options.borderradius +
           "px",
         attrs: { id: "wh_button_handle" },
+      },
+      [
+        _c("div", { attrs: { id: "addto_wl_text_wrapp_before" } }, [
+          _vm.options.button_type == "text_icon" ||
+          _vm.options.button_type == "only_icon"
+            ? _c("i", {
+                class: _vm.getIconClass.before,
+                style:
+                  "color:" +
+                  _vm.options.text_color +
+                  ";font-size:" +
+                  _vm.options.icon_size +
+                  "px;",
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.options.button_type == "text_icon" ||
+          _vm.options.button_type == "only_text"
+            ? _c("span", [_vm._v(_vm._s(_vm.options.btn_label_before))])
+            : _vm._e(),
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticStyle: { display: "none" },
+            attrs: { id: "addto_wl_text_wrapp_after" },
+          },
+          [
+            _vm.options.button_type == "text_icon" ||
+            _vm.options.button_type == "only_icon"
+              ? _c("i", {
+                  class: _vm.getIconClass.after,
+                  style:
+                    "color:" +
+                    _vm.options.text_color +
+                    ";font-size:" +
+                    _vm.options.icon_size +
+                    "px;",
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.options.button_type == "text_icon" ||
+            _vm.options.button_type == "only_text"
+              ? _c("span", [_vm._v(_vm._s(_vm.options.btn_label_after))])
+              : _vm._e(),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.options.display_social_count,
+                expression: "options.display_social_count",
+              },
+            ],
+            style:
+              "color:" +
+              _vm.options.text_color +
+              ";font-size:" +
+              _vm.options.text_size +
+              "px; margin-left: 2px",
+            attrs: { id: "wp_count" },
+          },
+          [_vm._v("(0)")]
+        ),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        class: { active: _vm.isActive },
+        style:
+          "display:inline-flex;align-items:center;letter-spacing:0.5px;cursor:pointer;font-size:" +
+          _vm.options.text_size +
+          "px;background-color:" +
+          _vm.options.bg_color +
+          ";color:" +
+          _vm.options.text_color +
+          ";padding:" +
+          _vm.options.paddingtop +
+          "px " +
+          _vm.options.paddingright +
+          "px " +
+          _vm.options.paddingbottom +
+          "px " +
+          _vm.options.paddingleft +
+          "px; border:" +
+          _vm.options.borderwidth +
+          "px solid " +
+          _vm.options.bordercolor +
+          ";border-radius:" +
+          _vm.options.borderradius +
+          "px",
+        attrs: { id: "preview_button" },
+        on: { click: _vm.toggleClass },
       },
       [
         _c("div", { attrs: { id: "addto_wl_text_wrapp_before" } }, [
