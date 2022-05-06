@@ -132,20 +132,20 @@ data(){
         showPreview:false,
         buttonOption:{
             button_type:"text_icon",
-            bg_color:"#B1B1B1",
-            text_color:"#5C5C5C",
+            bg_color:"#FFF",
+            text_color:"#e50064",
             button_icon:"heart",
-            text_size:15,
-            icon_size:15,
+            text_size:18,
+            icon_size:18,
             paddingtop:5,
             paddingbottom:5,
             paddingleft:5,
             paddingright:5,
-            borderwidth:1,
+            borderwidth:0,
             bordercolor:"#bababa",
             borderradius:0,
-            btn_label_after:"Added to Wishlist",
-            btn_label_before:"Add to Wishlist",
+            btn_label_after:"ADDED TO WISHLIST",
+            btn_label_before:"ADD TO WISHLIST",
             display_social_count:false
         }
     }
