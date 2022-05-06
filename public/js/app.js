@@ -6103,6 +6103,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -6112,6 +6121,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       themes: [],
       selectedColor: "#B1B1B1",
+      loadingButton: false,
+      showPreview: false,
       buttonOption: {
         button_type: "text_icon",
         bg_color: "#B1B1B1",
@@ -6136,13 +6147,14 @@ __webpack_require__.r(__webpack_exports__);
     saveSettings: function saveSettings() {
       var _this = this;
 
+      this.loadingButton = true;
       var wishlist_settings_params = {
         button: this.buttonOption,
         innerHtml: document.getElementById('wh_button_handle').outerHTML
       };
       this.$store.dispatch('settings/saveSettings', wishlist_settings_params).then(function (response) {
         _this.$pToast.open({
-          message: "settings successfully saved",
+          message: "Settings successfully saved",
           duration: 3000,
           position: "top-right"
         });
@@ -6152,15 +6164,16 @@ __webpack_require__.r(__webpack_exports__);
           duration: 3000,
           position: "top-right"
         });
+      })["finally"](function () {
+        _this.loadingButton = false;
       });
     },
     getButtonParams: function getButtonParams() {
       var _this2 = this;
 
       axios.get("/api/v1/get-button-params-app").then(function (response) {
-        console.log(response);
         _this2.buttonOption = response.data.button != undefined ? response.data.button : _this2.buttonOption;
-        console.log('this.buttonOption', response.data.button);
+        _this2.showPreview = true;
       })["catch"](function (err) {
         _this2.$pToast.open({
           message: err,
@@ -34399,37 +34412,68 @@ var render = function () {
             "PLayoutSection",
             { attrs: { secondary: "" } },
             [
-              _c(
-                "PCard",
-                {
-                  attrs: {
-                    sectioned: "",
-                    actions: [],
-                    subdued: "",
-                    title: "Preview",
-                  },
-                },
-                [
-                  _c("preview", { attrs: { options: _vm.buttonOption } }),
-                  _vm._v(" "),
-                  _c(
-                    "PButtonGroup",
-                    { attrs: { slot: "footer" }, slot: "footer" },
+              _vm.showPreview
+                ? _c(
+                    "PCard",
+                    {
+                      attrs: {
+                        sectioned: "",
+                        actions: [],
+                        subdued: "",
+                        title: "Preview",
+                      },
+                    },
                     [
+                      _c("preview", { attrs: { options: _vm.buttonOption } }),
+                      _vm._v(" "),
                       _c(
-                        "PButton",
-                        {
-                          attrs: { primary: "" },
-                          on: { click: _vm.saveSettings },
-                        },
-                        [_vm._v("Save")]
+                        "PButtonGroup",
+                        { attrs: { slot: "footer" }, slot: "footer" },
+                        [
+                          _c(
+                            "PButton",
+                            {
+                              attrs: {
+                                primary: "",
+                                loading: _vm.loadingButton,
+                              },
+                              on: { click: _vm.saveSettings },
+                            },
+                            [_vm._v("Save")]
+                          ),
+                        ],
+                        1
                       ),
                     ],
                     1
-                  ),
-                ],
-                1
-              ),
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.showPreview
+                ? _c(
+                    "PCard",
+                    [
+                      _c(
+                        "PCardSection",
+                        [
+                          _c(
+                            "PTextContainer",
+                            [
+                              _c("PSkeletonDisplayText", {
+                                attrs: { size: "small" },
+                              }),
+                              _vm._v(" "),
+                              _c("PSkeletonBodyText", { attrs: { lines: 2 } }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  )
+                : _vm._e(),
             ],
             1
           ),

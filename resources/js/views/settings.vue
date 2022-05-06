@@ -100,12 +100,21 @@
       </PCard>
     </PLayoutSection>
     <PLayoutSection secondary="">
-      <PCard sectioned="" :actions="[]" subdued :title="'Preview'">
+      <PCard sectioned="" :actions="[]" subdued :title="'Preview'" v-if="showPreview">
         <preview :options="buttonOption"></preview>
         <PButtonGroup slot="footer">
-            <PButton primary @click="saveSettings">Save</PButton>
+            <PButton primary @click="saveSettings" :loading="loadingButton">Save</PButton>
         </PButtonGroup>
       </PCard>
+
+      <PCard v-if="!showPreview">
+          <PCardSection>
+            <PTextContainer>
+              <PSkeletonDisplayText size="small" />
+              <PSkeletonBodyText :lines="2" />
+            </PTextContainer>
+          </PCardSection>
+        </PCard>
     </PLayoutSection>
   </PLayout>
   </div>
@@ -119,6 +128,8 @@ data(){
     return{
         themes :[],
         selectedColor:"#B1B1B1",
+        loadingButton:false,
+        showPreview:false,
         buttonOption:{
             button_type:"text_icon",
             bg_color:"#B1B1B1",
@@ -141,11 +152,11 @@ data(){
 },
 methods:{
     saveSettings(){
+        this.loadingButton=true;
         let wishlist_settings_params = {button:this.buttonOption,innerHtml:document.getElementById('wh_button_handle').outerHTML}
-
             this.$store.dispatch('settings/saveSettings',wishlist_settings_params).then((response) => {
                 this.$pToast.open({
-                    message: "settings successfully saved",
+                    message: "Settings successfully saved",
                     duration:3000,
                     position:"top-right"
                 })
@@ -155,14 +166,15 @@ methods:{
                     duration:3000,
                     position:"top-right"
                 })
+            }).finally(()=>{
+                this.loadingButton=false;
             })
     },
 
     getButtonParams(){
         axios.get("/api/v1/get-button-params-app").then((response) => {
-            console.log(response)
             this.buttonOption = response.data.button != undefined ? response.data.button : this.buttonOption
-            console.log('this.buttonOption',response.data.button)
+            this.showPreview=true;
             }).catch((err) => {
                 this.$pToast.open({
                     message: err,
