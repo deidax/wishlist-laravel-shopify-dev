@@ -153,14 +153,19 @@ data(){
 methods:{
     saveSettings(){
         this.loadingButton=true;
-        let wishlist_settings_params = {button:this.buttonOption,innerHtml:document.getElementById('wh_button_handle').outerHTML}
+        let wishlist_settings_params = {
+            button:this.buttonOption,
+            innerHtml: document.getElementById('wh_button_handle').outerHTML
+        }
             this.$store.dispatch('settings/saveSettings',wishlist_settings_params).then((response) => {
+                this.setCookie('ws_button_updated', true, 365)
                 this.$pToast.open({
                     message: "Settings successfully saved",
                     duration:3000,
                     position:"top-right"
                 })
             }).catch((err) => {
+                console.log(err)
                 this.$pToast.open({
                     message: err,
                     duration:3000,
@@ -182,7 +187,9 @@ methods:{
                     position:"top-right"
                 })
             })
-    }
+    },
+
+
 
 },
 mounted(){

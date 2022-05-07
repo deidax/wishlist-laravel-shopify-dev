@@ -20,6 +20,9 @@ const cookies_days = 365
 // Regular expression to check if string is a valid UUID
 const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
+//display button process?
+const display_button_process = false
+
 // Display social count?
 var display_social_count = false
 
@@ -28,27 +31,27 @@ class WishlistManager {
     constructor(wishlist_button_selector) {
         // select the wishlist button
         this.button = document.querySelector('#'+wishlist_button_selector)
-        this.cookiesManager = new CookiesManager()
+        this.appStorageManager = new AppStorageManager()
         // Product id
         this.product_id = this.button.dataset.product
         // Product price
         this.product_price = this.button.dataset.product_price.replace(',', '')
         // Customer id
-        this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.cookiesManager.checkIfNotSetCookie('ws_customer',this.uuidv4())
+        this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.appStorageManager.checkIfNotSetLocalStorage('ws_customer',this.uuidv4())
         // Create a uuidv4 id to use later
         if(regexExp.test(this.customer_id)){
             // This will be used to update the customer id in the backend
-            this.cookiesManager.setCookie('ws_uuid_customer_id', this.customer_id)
+            this.appStorageManager.setLocalStorage('ws_uuid_customer_id', this.customer_id)
         }
         //set customer_id cookie
-        this.cookiesManager.setCookie('ws_customer', this.customer_id)
+        this.appStorageManager.setLocalStorage('ws_customer', this.customer_id)
         // Data to send to the Api
         this.data = {
             'shop_id': Shopify.shop,
             'product_id': this.product_id,
             'product_price': this.product_price,
             'customer_id': this.customer_id,
-            'uuid_customer_id': this.cookiesManager.getCookie('ws_uuid_customer_id')
+            'uuid_customer_id': this.appStorageManager.getLocalStorage('ws_uuid_customer_id')
         }
         console.log('data', this.data)
         //default state is CheckWishlist 
@@ -134,7 +137,7 @@ class WishlistApi {
             
         this.end_point = APP_URL+api
         this.button = button
-        this.cookiesManager = new CookiesManager()
+        this.appStorageManager = new AppStorageManager()
         this.data = data
 
     }
@@ -299,10 +302,15 @@ class AddToWishlist extends WishlistApi {
 
     callApi(){
         console.log(this.end_point);
-        let loadingState = new LoadingWishlistNextState(null, this.button)
-        loadingState.buttonSwitch('Adding to wishlist...')
+        if(display_button_process){
+            let loadingState = new LoadingWishlistNextState(null, this.button)
+            loadingState.buttonSwitch('Adding to wishlist...')
+        }
+        else{
+            this.nextState().buttonSwitch()
+        }
         super.postData(this.data).then(response => {
-                this.cookiesManager.addProductsIdToCookies(this.data.product_id)
+                this.appStorageManager.addProductsIdToLocalStorage(this.data.product_id)
                 super.socialCountCalculation()
                 notification(response.type, response.message)
                 return this.nextState().buttonSwitch()
@@ -332,10 +340,15 @@ class RemoveFromWishlist extends WishlistApi {
 
     callApi() {
         console.log(this.end_point);
-        let loadingState = new LoadingWishlistNextState(null, this.button)
-        loadingState.buttonSwitch('Removing from wishlist...')
+        if(display_button_process){
+            let loadingState = new LoadingWishlistNextState(null, this.button)
+            loadingState.buttonSwitch('Removing from wishlist...')
+        }
+        else{
+            this.nextState().buttonSwitch()
+        }
         super.postData(this.data).then(response => {
-              this.cookiesManager.removeProductsIdFromCookies(this.data.product_id)
+              this.appStorageManager.removeProductsIdFromLocalStorage(this.data.product_id)
               super.socialCountCalculation()
               notification(response.type, response.message)
               return this.nextState().buttonSwitch()
@@ -355,7 +368,7 @@ class CheckWishlist extends WishlistApi {
     nextState(){
         // check if products is already in products cookie
         // if product exist in products cookie we don't need to do an api call, and we move to the next button state
-        let products_ids_cookie = this.cookiesManager.getCookie('ws_products')
+        let products_ids_cookie = this.appStorageManager.getLocalStorage('ws_products')
         if(products_ids_cookie != "" && products_ids_cookie != null){
             
             // get the products ids into array
@@ -384,14 +397,16 @@ class CheckWishlist extends WishlistApi {
 
     callApi() {
         console.log(this.end_point);
-        let loadingState = new LoadingWishlistNextState(null, this.button)
-        loadingState.buttonSwitch('Checking wishlist...')
+        if(display_button_process){
+            let loadingState = new LoadingWishlistNextState(null, this.button)
+            loadingState.buttonSwitch('Checking wishlist...')
+        }
         super.postData(this.data).then((response) => {
             console.log('checklist respinse', response)
             var nextState = null
             if(response === 1){
                 // add the product id to the cookie and set the button next state
-                this.cookiesManager.addProductsIdToCookies(this.data.product_id)
+                this.appStorageManager.addProductsIdToLocalStorage(this.data.product_id)
                 nextState = new RemoveFromWishlist(this.button, this.data)
                 return nextState.buttonSwitch()
             }
@@ -424,8 +439,8 @@ class  UpdateCustomerIdWishlist extends WishlistApi {
 
     // Check if customer is connected and update db user id with customer's shopifyId
     checkIfCustomerConnected(){
-        let c_uuid = this.cookiesManager.getCookie('ws_customer') //get customer uuid from cookies
-        let products_ids_cookie = this.cookiesManager.getCookie('ws_products') //get customer uuid from cookies
+        let c_uuid = this.appStorageManager.getLocalStorage('ws_customer') //get customer uuid from cookies
+        let products_ids_cookie = this.appStorageManager.getLocalStorage('ws_products') //get customer uuid from cookies
         let products_ids = []
         if(products_ids_cookie != "" && products_ids_cookie != null)
         {
@@ -441,10 +456,15 @@ class  UpdateCustomerIdWishlist extends WishlistApi {
 
     callApi() {
         console.log(this.end_point);
-        let loadingState = new LoadingWishlistNextState(null, this.button)
-        loadingState.buttonSwitch('Checking customer...')
+        if(display_button_process){
+            let loadingState = new LoadingWishlistNextState(null, this.button)
+            loadingState.buttonSwitch('Checking customer...')
+        }
+        else{
+            this.nextState()
+        }
         super.postData(this.data).then(response => {
-                this.cookiesManager.setCookie('ws_customer', this.data.customer_id)
+                this.appStorageManager.setLocalStorage('ws_customer', this.data.customer_id)
                 return this.nextState()
           })
           .catch(error => {
@@ -490,9 +510,9 @@ class SocialCountCalculation extends WishlistApi {
 
 
 
-class CookiesManager {
+class AppStorageManager {
     // Check if cookie is set
-    checkIfNotSetCookie(cname, default_cvalue) {
+    checkIfNotSetLocalStorage(cname, default_cvalue) {
         let cvalue = localStorage.getItem(cname);
         console.log('**--> cvalue != null', cvalue != null)
         cvalue = cvalue != null ? cvalue : default_cvalue;
@@ -500,7 +520,7 @@ class CookiesManager {
          return cvalue
     }
     // Get cookie value
-    getCookie(cname) {
+    getLocalStorage(cname) {
         // let name = cname + "=";
         // let decodedCookie = decodeURIComponent(document.cookie);
         // let ca = decodedCookie.split(';');
@@ -517,7 +537,7 @@ class CookiesManager {
         return localStorage.getItem(cname)
     }
     // Set cookie if customer is not authenticated
-    setCookie(cname, cvalue, exdays = cookies_days) {
+    setLocalStorage(cname, cvalue, exdays = cookies_days) {
         // const d = new Date();
         // d.setTime(d.getTime() + (exdays*24*60*60*1000));
         // let expires = "expires="+ d.toUTCString();
@@ -525,32 +545,56 @@ class CookiesManager {
         localStorage.setItem(cname,cvalue)
     }
     // Delete cookie
-    deleteCookie(cname) {
+    deleteLocalStorage(cname) {
         // document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         localStorage.removeItem(cname)
     }
 
-    addProductsIdToCookies(pr_id){
+    addProductsIdToLocalStorage(pr_id){
         // Get value of ws_products cookie
-        let products_ids_cookie = this.getCookie('ws_products')
+        let products_ids_cookie = this.getLocalStorage('ws_products')
         // Check if it's not null or empty
         products_ids_cookie = products_ids_cookie ? JSON.parse(products_ids_cookie) : []
         // Push new product id into array (without duplicates)
         if(!products_ids_cookie.includes(pr_id)) products_ids_cookie.push(pr_id)
         // set the new cookie value for products
-        this.setCookie('ws_products', JSON.stringify(products_ids_cookie))
+        this.setLocalStorage('ws_products', JSON.stringify(products_ids_cookie))
     
     }
 
-    removeProductsIdFromCookies(pr_id){
+    removeProductsIdFromLocalStorage(pr_id){
         // Get value of ws_products cookie
-        let products_ids_cookie = this.getCookie('ws_products')
+        let products_ids_cookie = this.getLocalStorage('ws_products')
         if(products_ids_cookie){
             products_ids_cookie = JSON.parse(products_ids_cookie)
             products_ids_cookie = products_ids_cookie.filter((pid) => pid !== pr_id)
-            this.setCookie('ws_products', JSON.stringify(products_ids_cookie))
+            this.setLocalStorage('ws_products', JSON.stringify(products_ids_cookie))
         }
     }
+
+    setCookie(cname, cvalue, days) {
+        var dt, expires;
+        dt = new Date();
+        dt.setTime(dt.getTime()+(days*24*60*60*1000));
+        expires = "; expires="+dt.toGMTString();
+        document.cookie = cname+"="+cvalue+expires+'; domain='+Shopify.shop;
+    }
+
+    getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
 }
 
 

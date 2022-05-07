@@ -140,6 +140,8 @@ class Setting extends Model
         $btn_params = $buttonParams->only(self::getWishlistButtonParamsNames());
 
         $btn_params['display_social_count'] = $btn_params['button']['display_social_count'];
+        $btn_params['shop_domain'] = $request->shop_id;
+        
         return $btn_params;
 
     }
