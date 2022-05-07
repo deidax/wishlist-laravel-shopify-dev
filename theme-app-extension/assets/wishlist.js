@@ -26,16 +26,37 @@ const display_button_process = false
 // Display social count?
 var display_social_count = false
 
+
+// Product class
+class Product {
+
+    constructor(){
+        this.product = product_json
+    }
+
+    getProductId(){
+        return this.product.id
+    }
+
+    getProductPrice(){
+        return this.product.ws_price
+    }
+
+    getProduct(){
+        return this.product
+    }
+
+}
+
+
+
 // Class To manage Wishlist states
 class WishlistManager {
     constructor(wishlist_button_selector) {
         // select the wishlist button
+        this.product = new Product()
         this.button = document.querySelector('#'+wishlist_button_selector)
         this.appStorageManager = new AppStorageManager()
-        // Product id
-        this.product_id = this.button.dataset.product
-        // Product price
-        this.product_price = this.button.dataset.product_price.replace(',', '')
         // Customer id
         this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.appStorageManager.checkIfNotSetLocalStorage('ws_customer',this.uuidv4())
         // Create a uuidv4 id to use later
@@ -48,8 +69,9 @@ class WishlistManager {
         // Data to send to the Api
         this.data = {
             'shop_id': Shopify.shop,
-            'product_id': this.product_id,
-            'product_price': this.product_price,
+            'product_id': this.product.getProductId(),
+            'product_price': this.button.dataset.product_price,
+            'product_data': this.product.getProduct(),
             'customer_id': this.customer_id,
             'uuid_customer_id': this.appStorageManager.getLocalStorage('ws_uuid_customer_id')
         }
@@ -117,7 +139,8 @@ class WishlistManager {
         script.src = cdn;
         document.body.appendChild(script);
     }
-      
+
+     
     // add css cdn
     cssCdn(cdn){
         var link = document.createElement('link');
