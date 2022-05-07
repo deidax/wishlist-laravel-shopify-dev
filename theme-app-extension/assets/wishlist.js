@@ -493,70 +493,62 @@ class SocialCountCalculation extends WishlistApi {
 class CookiesManager {
     // Check if cookie is set
     checkIfNotSetCookie(cname, default_cvalue) {
-        let cvalue = this.getCookie(cname);
-        return cvalue != "" ? cvalue : default_cvalue;
+        let cvalue = localStorage.getItem(cname);
+        console.log('**--> cvalue != null', cvalue != null)
+        cvalue = cvalue != null ? cvalue : default_cvalue;
+         console.log('**--> cvalue', cvalue)
+         return cvalue
     }
     // Get cookie value
     getCookie(cname) {
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
+        // let name = cname + "=";
+        // let decodedCookie = decodeURIComponent(document.cookie);
+        // let ca = decodedCookie.split(';');
+        // for(let i = 0; i <ca.length; i++) {
+        //     let c = ca[i];
+        //     while (c.charAt(0) == ' ') {
+        //         c = c.substring(1);
+        //     }
+        //     if (c.indexOf(name) == 0) {
+        //         return c.substring(name.length, c.length);
+        //     }
+        // }
+        // return "";
+        return localStorage.getItem(cname)
     }
     // Set cookie if customer is not authenticated
     setCookie(cname, cvalue, exdays = cookies_days) {
-        const d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        let expires = "expires="+ d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        // const d = new Date();
+        // d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        // let expires = "expires="+ d.toUTCString();
+        // document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        localStorage.setItem(cname,cvalue)
     }
     // Delete cookie
     deleteCookie(cname) {
-        document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        // document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        localStorage.removeItem(cname)
     }
 
     addProductsIdToCookies(pr_id){
         // Get value of ws_products cookie
         let products_ids_cookie = this.getCookie('ws_products')
         // Check if it's not null or empty
-        if(products_ids_cookie != "" && products_ids_cookie != null){
-            // get the products ids into array
-            let products_ids = JSON.parse(products_ids_cookie)
-            // Push new product id into array (without duplicates)
-            if(!products_ids.includes(pr_id)) products_ids.push(pr_id)
-            // set the new cookie value for products
-            this.setCookie('ws_products', JSON.stringify(products_ids))
-        }
-
-        else{
-            // set the first cookie value for product
-            this.setCookie('ws_products', JSON.stringify([pr_id]))
-        }
+        products_ids_cookie = products_ids_cookie ? JSON.parse(products_ids_cookie) : []
+        // Push new product id into array (without duplicates)
+        if(!products_ids_cookie.includes(pr_id)) products_ids_cookie.push(pr_id)
+        // set the new cookie value for products
+        this.setCookie('ws_products', JSON.stringify(products_ids_cookie))
     
     }
 
     removeProductsIdFromCookies(pr_id){
         // Get value of ws_products cookie
         let products_ids_cookie = this.getCookie('ws_products')
-        if(products_ids_cookie != "" && products_ids_cookie != null){
-            // get the products ids into array
-            let products_ids = JSON.parse(products_ids_cookie)
-            if(products_ids !== undefined || products_ids.length > 0){
-                let tmp_products_ids = products_ids.filter((pid) => pid !== pr_id)
-                console.log('tmp_products_ids',tmp_products_ids)
-                tmp_products_ids != null && tmp_products_ids !== undefined
-                products_ids = tmp_products_ids
-                this.setCookie('ws_products', JSON.stringify(products_ids))
-            }
+        if(products_ids_cookie){
+            products_ids_cookie = JSON.parse(products_ids_cookie)
+            products_ids_cookie = products_ids_cookie.filter((pid) => pid !== pr_id)
+            this.setCookie('ws_products', JSON.stringify(products_ids_cookie))
         }
     }
 }

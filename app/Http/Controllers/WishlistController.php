@@ -96,9 +96,12 @@ class WishlistController extends Controller
         //find product in wishlist
         $product = $this->getProductInWishlist($request);
         // remove product from db
-        Wishlist::destroy($product->id);
-        // send notification to client
-        return sendNotification('warning', 'Product Removed from wishlist');
+        if($product){
+            Wishlist::destroy($product->id);
+            // send notification to client
+            return sendNotification('warning', 'Product Removed from wishlist');
+        }
+        return sendNotification('error', 'This product is not in the wishlist');
     }
 
     /**
