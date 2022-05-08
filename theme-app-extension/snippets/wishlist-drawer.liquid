@@ -1,0 +1,28 @@
+<div id="cd-cart">
+        <header class="WishlistHeader">
+            <div class="wishlist__topnav">
+                <h1 class="drawer-card-title">Your Wishlist</h1>
+                <button class="hide_drawer_handler" style="outline: none;">{{ 'deletesvg-icon.svg' | asset_url | img_tag: 'Hide' }}</button>
+            </div>
+            <div class="note__title">
+                Wishlist is not saved permanently yet. Please <a class="link-text" href="/account/login">log in</a> or <a class="link-text" href="/account/register">Create Account</a> to save it.
+            </div>
+        </header>
+
+		<ul class="cd-cart-items container__inner">
+			<li class="dr-cart__product"><a href="#0" class="dr-cart__img">
+                <img src="https://codyhouse.co/app/assets/img/cart-drawer-img-1.jpg" alt="Image product" width="80" height="80">
+                    </a>
+			    <div class="product__meta">
+			        <a href="#0" class="title_product">Product One</a>
+			        <p class="list-options">Color: Black, Size: M</p>
+			    </div>
+			    <div class="text-right">
+			        <p class="produc__price">$49.00</p>
+                    <button class="dr-cart__remove-btn margin-top-xxxs">Remove</button>
+                    <button class="dr-cart__remove-btn margin-top-xxxs">Add to cart</button>
+			    </div>
+			</li>
+		</ul> <!-- cd-cart-items -->
+
+	</div>
