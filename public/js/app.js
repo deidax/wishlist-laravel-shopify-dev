@@ -6178,8 +6178,6 @@ __webpack_require__.r(__webpack_exports__);
         innerHtml: document.getElementById('wh_button_handle').outerHTML
       };
       this.$store.dispatch('settings/saveSettings', wishlist_settings_params).then(function (response) {
-        _this.setCookie('ws_button_updated', true, 365);
-
         _this.$pToast.open({
           message: "Settings successfully saved",
           duration: 3000,

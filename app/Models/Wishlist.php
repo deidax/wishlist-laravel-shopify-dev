@@ -22,6 +22,10 @@ class Wishlist extends Model
         'product_data',
         'customer_id',
     ];
+    
+    protected $casts = [
+        'product_data' => 'array'
+    ];
 
 
     public static function getTodaysWishlist(){
