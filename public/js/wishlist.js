@@ -848,103 +848,840 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!************************************************!*\
-  !*** ./theme-app-extension/assets/wishlist.js ***!
-  \************************************************/
+/*!**********************************!*\
+  !*** ./resources/js/wishlist.js ***!
+  \**********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-// noty cdn
-javascriptCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js');
-cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css'); // app url
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var app_url = 'https://dev.myshopifyapp.com';
-var cookies_days = 365; // Regular expression to check if string is a valid UUID
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-var regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi; // wishlist button
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-var button = document.querySelector('.wishlist-button'); // button mode
-
-var buttonMode = {
+// APIs Enum
+var API = {
   ADD: '/api/add-to-wishlist',
   REMOVE: '/api/remove-from-wishlist',
   CHECK: '/api/check-wishlist',
-  UPDATE_CUSTOMER_ID: '/api/update-customer-id-wishlist'
-}; // Product id
+  UPDATE_CUSTOMER_ID: '/api/update-customer-id-wishlist',
+  BUILD_WISHLIST_BUTTON: '/api/get-button-params',
+  SOCIAL_COUNT: '/api/get-social-count'
+}; // Wishlist button
 
-var product_id = ''; // Product price
+var WISHLIST_BUTTON = {
+  BUTTON_DATA: 'ws_button_data',
+  BUTTON_HANDLE: 'wh_button_handle',
+  BUTTON_TEXT_WRAPPER_BEFORE: 'addto_wl_text_wrapp_before',
+  BUTTON_TEXT_WRAPPER_AFTER: 'addto_wl_text_wrapp_after'
+}; // APP URL
 
-var product_price = 0; // Customer id
+var APP_URL = 'https://dev.myshopifyapp.com';
+var cookies_days = 365; // Regular expression to check if string is a valid UUID
 
-var customer_id = ''; // Data to send to the Api
+var regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi; //display button process?
 
-var data = {};
-var tmp_data = {};
-var isCustomerIdUpdated = false; // Products ids
+var display_button_process = false; // Display social count?
 
-var products_ids = []; // initialize variables
+var display_social_count = false; // Class To manage Wishlist states
 
-initWishlistVariables(); // call api. default mode = Add to wishlist
+var WishlistManager = /*#__PURE__*/function () {
+  function WishlistManager(wishlist_button_selector) {
+    _classCallCheck(this, WishlistManager);
 
-function callApi() {
-  var mode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : buttonMode.ADD;
-  button.innerText = "Loading...";
-  if (mode === buttonMode.UPDATE_CUSTOMER_ID) checkIfCustomerConnected();
-  console.log('data', data); // api to be called
+    // select the wishlist button
+    this.button = document.querySelector('#' + wishlist_button_selector);
+    this.appStorageManager = new AppStorageManager();
+    this.product_id = product_json.id;
+    this.product_price = this.button.dataset.product_price.replace(',', ''); // Customer id
 
-  var api = mode;
-  postData(app_url + api, data).then(function (response) {
-    if (mode !== buttonMode.CHECK && mode !== buttonMode.UPDATE_CUSTOMER_ID) {
-      // Switch the wishlist button to the correct mode
-      mode === buttonMode.ADD ? (buttonSwitch(buttonMode.REMOVE), setWishlistCookies(data.product_id)) : (buttonSwitch(), setWishlistCookies(data.product_id, buttonMode.REMOVE)); // fire response notification
+    this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.appStorageManager.checkIfNotSetLocalStorage('ws_customer', this.uuidv4()); // Create a uuidv4 id to use later
 
-      notification(response.type, response.message);
-    } else if (mode === buttonMode.CHECK) {
-      // check on script load: if product already in wishlist we switch to the "remove from wishlist" button
-      response == true ? buttonSwitch(buttonMode.REMOVE) : buttonSwitch();
-    } else {
-      if (isCustomerIdUpdated) {
-        setCookie('ws_customer', data.shopify_customer_id, cookies_days);
-        data = tmp_data;
-        tmp_data = {};
-        isCustomerIdUpdated = false; //reset the flag
+    if (regexExp.test(this.customer_id)) {
+      // This will be used to update the customer id in the backend
+      this.appStorageManager.setLocalStorage('ws_uuid_customer_id', this.customer_id);
+    } //set customer_id cookie
+
+
+    this.appStorageManager.setLocalStorage('ws_customer', this.customer_id); // Data to send to the Api
+
+    this.data = {
+      'shop_id': Shopify.shop,
+      'product_id': this.product_id,
+      'product_price': this.product_price,
+      'product_data': product_json,
+      'customer_id': this.customer_id,
+      'uuid_customer_id': this.appStorageManager.getLocalStorage('ws_uuid_customer_id')
+    };
+    console.log('data', this.data); //default state is CheckWishlist 
+
+    this.initWishlist();
+  }
+
+  _createClass(WishlistManager, [{
+    key: "initWishlist",
+    value: function initWishlist() {
+      //default state is CheckWishlist 
+      // let updateCustomerIdWishlist = this.updateCustomerIdWishlist()
+      // let initState = updateCustomerIdWishlist.checkIfCustomerConnected()
+      // initState.buttonSwitch()
+      // initState.nextState()
+      var buildButton = this.buildWishlistButton();
+      buildButton.callApi();
+    }
+  }, {
+    key: "isWishlistButtonActive",
+    value: function isWishlistButtonActive() {
+      return this.button.firstChild.classList.contains('active');
+    }
+  }, {
+    key: "buildWishlistButton",
+    value: function buildWishlistButton() {
+      return new BuildWishlistButton(this.button, this.data);
+    }
+  }, {
+    key: "addToWishlist",
+    value: function addToWishlist() {
+      return new AddToWishlist(this.button, this.data);
+    }
+  }, {
+    key: "removeFromWishlist",
+    value: function removeFromWishlist() {
+      return new RemoveFromWishlist(this.button, this.data);
+    }
+  }, {
+    key: "checkWishlist",
+    value: function checkWishlist() {
+      return new CheckWishlist(this.button, this.data);
+    }
+  }, {
+    key: "updateCustomerIdWishlist",
+    value: function updateCustomerIdWishlist() {
+      return new UpdateCustomerIdWishlist(this.button, this.data);
+    } // create a unique id (will be used for customer)
+
+  }, {
+    key: "uuidv4",
+    value: function uuidv4() {
+      return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, function (c) {
+        return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16);
+      });
+    } // add js cdn
+
+  }, {
+    key: "javascriptCdn",
+    value: function javascriptCdn(cdn) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = cdn;
+      document.body.appendChild(script);
+    } // add css cdn
+
+  }, {
+    key: "cssCdn",
+    value: function cssCdn(cdn) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = cdn;
+      document.body.appendChild(link);
+    }
+  }]);
+
+  return WishlistManager;
+}(); // Super abstract class for wishlist apis
+
+
+var WishlistApi = /*#__PURE__*/function () {
+  function WishlistApi(api, button) {
+    var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+    _classCallCheck(this, WishlistApi);
+
+    if (this.constructor == WishlistApi) throw new Error(" Object of Abstract Class cannot be created");
+    this.end_point = APP_URL + api;
+    this.button = button;
+    this.appStorageManager = new AppStorageManager();
+    this.data = data;
+  }
+
+  _createClass(WishlistApi, [{
+    key: "getCustomizedButton",
+    value: function getCustomizedButton() {
+      var customized_wishlist_button = document.querySelector('#' + WISHLIST_BUTTON.BUTTON_HANDLE);
+      return customized_wishlist_button;
+    }
+  }, {
+    key: "setWishListButtonToActive",
+    value: function setWishListButtonToActive() {
+      this.getCustomizedButton().style.pointerEvents = 'auto';
+      this.getCustomizedButton().classList.add('active');
+      var text_loading = this.getCustomizedButton().querySelector('#text_loading');
+      var wl_text_wrapp_before = this.getCustomizedButton().querySelector('#' + WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE);
+      var wl_text_wrapp_after = this.getCustomizedButton().querySelector('#' + WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_AFTER);
+      if (text_loading != null) text_loading.style.display = 'none';
+      wl_text_wrapp_before.style.display = 'block';
+      wl_text_wrapp_after.style.display = 'none';
+    }
+  }, {
+    key: "setWishListButtonToInActive",
+    value: function setWishListButtonToInActive() {
+      this.getCustomizedButton().style.pointerEvents = 'auto';
+      this.getCustomizedButton().classList.remove('active');
+      var text_loading = this.getCustomizedButton().querySelector('#text_loading');
+      var wl_text_wrapp_before = this.getCustomizedButton().querySelector('#' + WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE);
+      var wl_text_wrapp_after = this.getCustomizedButton().querySelector('#' + WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_AFTER);
+      if (text_loading != null) text_loading.style.display = 'none';
+      wl_text_wrapp_before.style.display = 'none';
+      wl_text_wrapp_after.style.display = 'block';
+    }
+  }, {
+    key: "setTextForWishListButton",
+    value: function setTextForWishListButton(text) {
+      //set text loading span
+      this.getCustomizedButton().style.pointerEvents = 'none';
+      console.log('cursor', this.getCustomizedButton().style.pointerEvents);
+      this.getCustomizedButton().querySelector("#text_loading") != undefined ? (this.getCustomizedButton().querySelector("#text_loading").style.display = 'block', this.getCustomizedButton().querySelector("#text_loading").innerHTML = text) : this.getCustomizedButton().insertAdjacentHTML("afterbegin", "<span id='text_loading'>" + text + "</span>");
+      console.log(text);
+      console.log('this.getCustomizedButton().querySelector("#text_loading")', this.getCustomizedButton().querySelector("#text_loading"));
+      this.getCustomizedButton().querySelector('#' + WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_BEFORE).style.display = 'none';
+      this.getCustomizedButton().querySelector('#' + WISHLIST_BUTTON.BUTTON_TEXT_WRAPPER_AFTER).style.display = 'none';
+    } // calculate social count
+
+  }, {
+    key: "socialCountCalculation",
+    value: function socialCountCalculation() {
+      if (display_social_count) {
+        var social_count = new SocialCountCalculation(this.button, this.data);
+        social_count.callApi();
+      }
+    } // These methods should be implemented (override)
+
+  }, {
+    key: "callApi",
+    value: function callApi() {
+      throw new Error('You have to implement the method callApi');
+    }
+  }, {
+    key: "buttonSwitch",
+    value: function buttonSwitch() {
+      throw new Error('You have to implement the method buttonSwitch');
+    } //post
+
+  }, {
+    key: "postData",
+    value: function () {
+      var _postData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var data,
+            response,
+            _args = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                data = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
+                _context.next = 3;
+                return fetch(this.end_point, {
+                  method: 'POST',
+                  // *GET, POST, PUT, DELETE, etc.
+                  mode: 'cors',
+                  // no-cors, *cors, same-origin
+                  cache: 'no-cache',
+                  // *default, no-cache, reload, force-cache, only-if-cached
+                  credentials: 'same-origin',
+                  // include, *same-origin, omit
+                  headers: {
+                    'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
+
+                  },
+                  redirect: 'follow',
+                  // manual, *follow, error
+                  referrerPolicy: 'no-referrer',
+                  // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                  body: JSON.stringify(data) // body data type must match "Content-Type" header
+
+                });
+
+              case 3:
+                response = _context.sent;
+                return _context.abrupt("return", response.json());
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function postData() {
+        return _postData.apply(this, arguments);
+      }
+
+      return postData;
+    }()
+  }]);
+
+  return WishlistApi;
+}();
+
+var BuildWishlistButton = /*#__PURE__*/function (_WishlistApi) {
+  _inherits(BuildWishlistButton, _WishlistApi);
+
+  var _super = _createSuper(BuildWishlistButton);
+
+  function BuildWishlistButton(button, data) {
+    var _this;
+
+    _classCallCheck(this, BuildWishlistButton);
+
+    _this = _super.call(this, API.BUILD_WISHLIST_BUTTON, button, data);
+    _this.shop_data = {
+      'shop_id': Shopify.shop,
+      'shop_active_theme_id': Shopify.theme.id
+    };
+    return _this;
+  }
+
+  _createClass(BuildWishlistButton, [{
+    key: "nextState",
+    value: function nextState() {
+      console.log('build called!');
+      var nextState = new UpdateCustomerIdWishlist(this.button, this.data);
+      return nextState;
+    }
+  }, {
+    key: "buttonSwitch",
+    value: function buttonSwitch() {
+      var innerText = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      return;
+    }
+  }, {
+    key: "pleaseActivateWishlistTheme",
+    value: function pleaseActivateWishlistTheme(activation_message) {
+      this.button.innerText = activation_message !== null && activation_message !== void 0 ? activation_message : 'Please activate wishlist theme in app settings';
+    }
+  }, {
+    key: "callApi",
+    value: function callApi() {
+      var _this2 = this;
+
+      console.log(this.end_point); //let loadingState = new LoadingWishlistNextState(null, this.button)
+      //loadingState.buttonSwitch('Adding to wishlist...')
+
+      _get(_getPrototypeOf(BuildWishlistButton.prototype), "postData", this).call(this, this.shop_data).then(function (response) {
+        // return 
+        if (response.type != undefined && response.type == "error") {
+          _this2.pleaseActivateWishlistTheme(response.message);
+        } else {
+          _this2.button.innerHTML = response.innerHtml;
+          display_social_count = response.display_social_count;
+
+          _get(_getPrototypeOf(BuildWishlistButton.prototype), "getCustomizedButton", _this2).call(_this2).setAttribute("onclick", "myFunction();");
+
+          var updateCustomerIdWishlist = _this2.nextState();
+
+          var checkWishlist = updateCustomerIdWishlist.checkIfCustomerConnected();
+
+          _get(_getPrototypeOf(BuildWishlistButton.prototype), "socialCountCalculation", _this2).call(_this2); //checkWishlist.nextState()
+          // updateCustomerIdWishlist.buttonSwitch()
+          //updateCustomerIdWishlist.nextState()
+
+        }
+      })["catch"](function (error) {
+        // fire error notification
+        console.log(error);
+      });
+    }
+  }]);
+
+  return BuildWishlistButton;
+}(WishlistApi);
+
+var AddToWishlist = /*#__PURE__*/function (_WishlistApi2) {
+  _inherits(AddToWishlist, _WishlistApi2);
+
+  var _super2 = _createSuper(AddToWishlist);
+
+  function AddToWishlist(button, data) {
+    _classCallCheck(this, AddToWishlist);
+
+    return _super2.call(this, API.ADD, button, data);
+  }
+
+  _createClass(AddToWishlist, [{
+    key: "buttonSwitch",
+    value: function buttonSwitch() {
+      // if(this.button.disabled) this.button.disabled = false
+      _get(_getPrototypeOf(AddToWishlist.prototype), "setWishListButtonToActive", this).call(this); // this.button.innerText = "Add To Wishlist";
+
+    } //set next state to follow
+
+  }, {
+    key: "nextState",
+    value: function nextState() {
+      var nextState = new RemoveFromWishlist(this.button, this.data);
+      return nextState;
+    }
+  }, {
+    key: "callApi",
+    value: function callApi() {
+      var _this3 = this;
+
+      console.log(this.end_point);
+
+      if (display_button_process) {
+        var loadingState = new LoadingWishlistNextState(null, this.button);
+        loadingState.buttonSwitch('Adding to wishlist...');
+      } else {
+        this.nextState().buttonSwitch();
+      }
+
+      _get(_getPrototypeOf(AddToWishlist.prototype), "postData", this).call(this, this.data).then(function (response) {
+        _this3.appStorageManager.addProductsIdToLocalStorage(_this3.data.product_data);
+
+        _get(_getPrototypeOf(AddToWishlist.prototype), "socialCountCalculation", _this3).call(_this3);
+
+        notification(response.type, response.message);
+        return _this3.nextState().buttonSwitch();
+      })["catch"](function (error) {
+        // fire error notification
+        console.log('error', error);
+        notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(');
+      });
+    }
+  }]);
+
+  return AddToWishlist;
+}(WishlistApi);
+
+var RemoveFromWishlist = /*#__PURE__*/function (_WishlistApi3) {
+  _inherits(RemoveFromWishlist, _WishlistApi3);
+
+  var _super3 = _createSuper(RemoveFromWishlist);
+
+  function RemoveFromWishlist(button, data) {
+    _classCallCheck(this, RemoveFromWishlist);
+
+    return _super3.call(this, API.REMOVE, button, data);
+  }
+
+  _createClass(RemoveFromWishlist, [{
+    key: "buttonSwitch",
+    value: function buttonSwitch() {
+      //if(this.button.disabled) this.button.disabled = false
+      _get(_getPrototypeOf(RemoveFromWishlist.prototype), "setWishListButtonToInActive", this).call(this);
+    }
+  }, {
+    key: "nextState",
+    value: function nextState() {
+      var nextState = new AddToWishlist(this.button, this.data);
+      return nextState;
+    }
+  }, {
+    key: "callApi",
+    value: function callApi() {
+      var _this4 = this;
+
+      console.log(this.end_point);
+
+      if (display_button_process) {
+        var loadingState = new LoadingWishlistNextState(null, this.button);
+        loadingState.buttonSwitch('Removing from wishlist...');
+      } else {
+        this.nextState().buttonSwitch();
+      }
+
+      _get(_getPrototypeOf(RemoveFromWishlist.prototype), "postData", this).call(this, this.data).then(function (response) {
+        _this4.appStorageManager.removeProductsIdFromLocalStorage(_this4.data.product_data);
+
+        _get(_getPrototypeOf(RemoveFromWishlist.prototype), "socialCountCalculation", _this4).call(_this4);
+
+        notification(response.type, response.message);
+        return _this4.nextState().buttonSwitch();
+      })["catch"](function (error) {
+        // fire error notification
+        notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(');
+      });
+    }
+  }]);
+
+  return RemoveFromWishlist;
+}(WishlistApi);
+
+var CheckWishlist = /*#__PURE__*/function (_WishlistApi4) {
+  _inherits(CheckWishlist, _WishlistApi4);
+
+  var _super4 = _createSuper(CheckWishlist);
+
+  function CheckWishlist(button, data) {
+    _classCallCheck(this, CheckWishlist);
+
+    return _super4.call(this, API.CHECK, button, data);
+  }
+
+  _createClass(CheckWishlist, [{
+    key: "nextState",
+    value: function nextState() {
+      // check if products is already in products cookie
+      // if product exist in products cookie we don't need to do an api call, and we move to the next button state
+      var products_ids_cookie = this.appStorageManager.getLocalStorage('ws_products');
+
+      if (products_ids_cookie != "" && products_ids_cookie != null) {
+        // get the products ids into array
+        var products_ids = JSON.parse(products_ids_cookie); // check if product in cookie
+        // if true button state should be on the Remove
+
+        if (products_ids.includes(this.data.product_id)) {
+          var nextState = new RemoveFromWishlist(this.button, this.data);
+          return nextState.buttonSwitch();
+        } //if not, we should double check if product exists in the backend and add it again to product cookie
+
+
+        this.callApi();
+      } // The ws_products cookie could be empty or it doesn't exist so we double check the backend,
+      // and we move to the next State
+
+
+      this.callApi();
+    }
+  }, {
+    key: "buttonSwitch",
+    value: function buttonSwitch() {// this.button.classList.add('active');
+      // this.button.innerText = "Add To Wishlist";
+      // return "Add To Wishlist";
+    }
+  }, {
+    key: "callApi",
+    value: function callApi() {
+      var _this5 = this;
+
+      console.log(this.end_point);
+
+      if (display_button_process) {
+        var loadingState = new LoadingWishlistNextState(null, this.button);
+        loadingState.buttonSwitch('Checking wishlist...');
+      }
+
+      _get(_getPrototypeOf(CheckWishlist.prototype), "postData", this).call(this, this.data).then(function (response) {
+        console.log('checklist respinse', response);
+        var nextState = null;
+
+        if (response === 1) {
+          // add the product id to the cookie and set the button next state
+          _this5.appStorageManager.addProductsIdToLocalStorage(_this5.data.product_data);
+
+          nextState = new RemoveFromWishlist(_this5.button, _this5.data);
+          return nextState.buttonSwitch();
+        }
+
+        nextState = new AddToWishlist(_this5.button, _this5.data);
+        return nextState.buttonSwitch();
+      })["catch"](function (error) {
+        // fire error notification
+        console.log('error', error);
+        notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(');
+      });
+    }
+  }]);
+
+  return CheckWishlist;
+}(WishlistApi);
+
+var UpdateCustomerIdWishlist = /*#__PURE__*/function (_WishlistApi5) {
+  _inherits(UpdateCustomerIdWishlist, _WishlistApi5);
+
+  var _super5 = _createSuper(UpdateCustomerIdWishlist);
+
+  function UpdateCustomerIdWishlist(button, data) {
+    _classCallCheck(this, UpdateCustomerIdWishlist);
+
+    return _super5.call(this, API.UPDATE_CUSTOMER_ID, button, data);
+  }
+
+  _createClass(UpdateCustomerIdWishlist, [{
+    key: "buttonSwitch",
+    value: function buttonSwitch() {
+      return;
+    }
+  }, {
+    key: "nextState",
+    value: function nextState() {
+      var nextState = new CheckWishlist(this.button, this.data);
+      nextState.nextState();
+      return nextState;
+    } // Check if customer is connected and update db user id with customer's shopifyId
+
+  }, {
+    key: "checkIfCustomerConnected",
+    value: function checkIfCustomerConnected() {
+      var c_uuid = this.appStorageManager.getLocalStorage('ws_customer'); //get customer uuid from cookies
+
+      var products_ids_cookie = this.appStorageManager.getLocalStorage('ws_products'); //get customer uuid from cookies
+
+      var products_ids = [];
+
+      if (products_ids_cookie != "" && products_ids_cookie != null) {
+        products_ids = JSON.parse(products_ids_cookie);
+      }
+
+      if (c_uuid != "" && c_uuid != null && _typeof(c_uuid) != undefined && !regexExp.test(c_uuid) && this.button.dataset.customer != "" && products_ids.length > 0) {
+        return this.callApi();
+      }
+
+      return this.nextState();
+    }
+  }, {
+    key: "callApi",
+    value: function callApi() {
+      var _this6 = this;
+
+      console.log(this.end_point);
+
+      if (display_button_process) {
+        var loadingState = new LoadingWishlistNextState(null, this.button);
+        loadingState.buttonSwitch('Checking customer...');
+      } else {
+        this.nextState();
+      }
+
+      _get(_getPrototypeOf(UpdateCustomerIdWishlist.prototype), "postData", this).call(this, this.data).then(function (response) {
+        _this6.appStorageManager.setLocalStorage('ws_customer', _this6.data.customer_id);
+
+        return _this6.nextState();
+      })["catch"](function (error) {
+        // fire error notification
+        console.log('error', error);
+      });
+    }
+  }]);
+
+  return UpdateCustomerIdWishlist;
+}(WishlistApi);
+
+var LoadingWishlistNextState = /*#__PURE__*/function (_WishlistApi6) {
+  _inherits(LoadingWishlistNextState, _WishlistApi6);
+
+  var _super6 = _createSuper(LoadingWishlistNextState);
+
+  function LoadingWishlistNextState() {
+    _classCallCheck(this, LoadingWishlistNextState);
+
+    return _super6.apply(this, arguments);
+  }
+
+  _createClass(LoadingWishlistNextState, [{
+    key: "callApi",
+    value: function callApi() {
+      return;
+    }
+  }, {
+    key: "buttonSwitch",
+    value: function buttonSwitch() {
+      var innerText = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      _get(_getPrototypeOf(LoadingWishlistNextState.prototype), "setTextForWishListButton", this).call(this, innerText);
+    }
+  }]);
+
+  return LoadingWishlistNextState;
+}(WishlistApi);
+
+var SocialCountCalculation = /*#__PURE__*/function (_WishlistApi7) {
+  _inherits(SocialCountCalculation, _WishlistApi7);
+
+  var _super7 = _createSuper(SocialCountCalculation);
+
+  function SocialCountCalculation(button, data) {
+    _classCallCheck(this, SocialCountCalculation);
+
+    return _super7.call(this, API.SOCIAL_COUNT, button, data);
+  }
+
+  _createClass(SocialCountCalculation, [{
+    key: "callApi",
+    value: function callApi() {
+      var _this7 = this;
+
+      console.log(this.end_point);
+
+      _get(_getPrototypeOf(SocialCountCalculation.prototype), "postData", this).call(this, this.data).then(function (response) {
+        _this7.buttonSwitch(response);
+      })["catch"](function (error) {
+        // fire error notification
+        console.log('error', error);
+      });
+    }
+  }, {
+    key: "buttonSwitch",
+    value: function buttonSwitch() {
+      var innerText = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var count = document.querySelector('#wp_count');
+      count.innerHTML = '(' + innerText + ')';
+    }
+  }]);
+
+  return SocialCountCalculation;
+}(WishlistApi);
+
+var AppStorageManager = /*#__PURE__*/function () {
+  function AppStorageManager() {
+    _classCallCheck(this, AppStorageManager);
+  }
+
+  _createClass(AppStorageManager, [{
+    key: "checkIfNotSetLocalStorage",
+    value: // Check if cookie is set
+    function checkIfNotSetLocalStorage(cname, default_cvalue) {
+      var cvalue = localStorage.getItem(cname);
+      console.log('**--> cvalue != null', cvalue != null);
+      cvalue = cvalue != null ? cvalue : default_cvalue;
+      console.log('**--> cvalue', cvalue);
+      return cvalue;
+    } // Get cookie value
+
+  }, {
+    key: "getLocalStorage",
+    value: function getLocalStorage(cname) {
+      // let name = cname + "=";
+      // let decodedCookie = decodeURIComponent(document.cookie);
+      // let ca = decodedCookie.split(';');
+      // for(let i = 0; i <ca.length; i++) {
+      //     let c = ca[i];
+      //     while (c.charAt(0) == ' ') {
+      //         c = c.substring(1);
+      //     }
+      //     if (c.indexOf(name) == 0) {
+      //         return c.substring(name.length, c.length);
+      //     }
+      // }
+      // return "";
+      return localStorage.getItem(cname);
+    } // Set cookie if customer is not authenticated
+
+  }, {
+    key: "setLocalStorage",
+    value: function setLocalStorage(cname, cvalue) {
+      var exdays = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : cookies_days;
+      // const d = new Date();
+      // d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      // let expires = "expires="+ d.toUTCString();
+      // document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      localStorage.setItem(cname, cvalue);
+    } // Delete cookie
+
+  }, {
+    key: "deleteLocalStorage",
+    value: function deleteLocalStorage(cname) {
+      // document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      localStorage.removeItem(cname);
+    }
+  }, {
+    key: "addProductsIdToLocalStorage",
+    value: function addProductsIdToLocalStorage(product_data) {
+      // Get value of ws_products cookie
+      var products_ids_cookie = this.getLocalStorage('ws_products'); // Check if it's not null or empty
+
+      products_ids_cookie = products_ids_cookie ? JSON.parse(products_ids_cookie) : []; // Push new product id into array (without duplicates)
+
+      if (!products_ids_cookie.find(function (p) {
+        return p.id === product_data.id;
+      })) products_ids_cookie.push(product_data); // set the new cookie value for products
+
+      this.setLocalStorage('ws_products', JSON.stringify(products_ids_cookie));
+    }
+  }, {
+    key: "removeProductsIdFromLocalStorage",
+    value: function removeProductsIdFromLocalStorage(product_data) {
+      // Get value of ws_products cookie
+      var products_ids_cookie = this.getLocalStorage('ws_products');
+
+      if (products_ids_cookie) {
+        products_ids_cookie = JSON.parse(products_ids_cookie);
+        products_ids_cookie = products_ids_cookie.filter(function (p) {
+          return p.id !== product_data.id;
+        });
+        this.setLocalStorage('ws_products', JSON.stringify(products_ids_cookie));
       }
     }
-  })["catch"](function (error) {
-    if (mode === buttonMode.ADD) {
-      // fire error notification
-      notification('error', 'Oops!!.. something is wrong.\n can\'t add product to wishlist :(');
-    } // Reset button to add mode
+  }, {
+    key: "setCookie",
+    value: function setCookie(cname, cvalue, days) {
+      var dt, expires;
+      dt = new Date();
+      dt.setTime(dt.getTime() + days * 24 * 60 * 60 * 1000);
+      expires = "; expires=" + dt.toGMTString();
+      document.cookie = cname + "=" + cvalue + expires + '; domain=' + Shopify.shop;
+    }
+  }, {
+    key: "getCookie",
+    value: function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+
+      return "";
+    }
+  }]);
+
+  return AppStorageManager;
+}(); // usage
 
 
-    resetButton();
-  });
-} // wishlist function
+var wishlistManager = new WishlistManager(WISHLIST_BUTTON.BUTTON_DATA); // noty cdn
 
+wishlistManager.javascriptCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js');
+wishlistManager.cssCdn('https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css'); // font awesome
+
+wishlistManager.cssCdn('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css');
 
 function myFunction() {
-  // get correct variables before adding product to wishlist
-  initWishlistVariables(); // Add product to wishlist
-
-  if (button.classList.contains('active')) {
-    // Switch button to remove
-    buttonSwitch(buttonMode.REMOVE); // Add to wishlist function
-
-    callApi();
-  } // Remove product from wishlist
+  // Add to wishlist if button is active
+  // switch button label after adding product to wishlist (Remove from wishlist)
+  if (wishlistManager.isWishlistButtonActive()) {
+    wishlistManager.addToWishlist().callApi();
+  } // Remove product from wishlist if buuton is not active
+  // switch button label after removing from wishlist (Add to wishlist)
   else {
-    // Switch button to add
-    buttonSwitch(); // Remove from wishlist
-
-    callApi(buttonMode.REMOVE);
+    wishlistManager.removeFromWishlist().callApi();
   }
 } // notify user
 
@@ -956,208 +1693,6 @@ function notification(type, text) {
     text: text,
     timeout: 3000
   }).show();
-} // add javascript cdn
-
-
-function javascriptCdn(cdn) {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = cdn;
-  document.body.appendChild(script);
-} // add css cdn
-
-
-function cssCdn(cdn) {
-  var link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = cdn;
-  document.body.appendChild(link);
-} // Switch button modes. default mode = add to wishlist
-
-
-function buttonSwitch() {
-  var btnMode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : buttonMode.ADD;
-
-  if (btnMode === buttonMode.ADD) {
-    button.classList.add('active');
-    button.innerText = "Add To Wishlist";
-  } else {
-    button.classList.remove('active');
-    button.innerText = "Remove From Wishlist";
-  }
-} // Reset button to default
-
-
-function resetButton() {
-  button.classList.remove('active');
-  button.classList.add('active');
-  button.innerText = "Add To Wishlist";
-} // POST method implementation using fetch:
-
-
-function postData() {
-  return _postData.apply(this, arguments);
-} // Set cookie if customer is not authenticated
-
-
-function _postData() {
-  _postData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-    var url,
-        data,
-        response,
-        _args = arguments;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            url = _args.length > 0 && _args[0] !== undefined ? _args[0] : '';
-            data = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
-            _context.next = 4;
-            return fetch(url, {
-              method: 'POST',
-              // *GET, POST, PUT, DELETE, etc.
-              mode: 'cors',
-              // no-cors, *cors, same-origin
-              cache: 'no-cache',
-              // *default, no-cache, reload, force-cache, only-if-cached
-              credentials: 'same-origin',
-              // include, *same-origin, omit
-              headers: {
-                'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
-
-              },
-              redirect: 'follow',
-              // manual, *follow, error
-              referrerPolicy: 'no-referrer',
-              // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-              body: JSON.stringify(data) // body data type must match "Content-Type" header
-
-            });
-
-          case 4:
-            response = _context.sent;
-            return _context.abrupt("return", response.json());
-
-          case 6:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _postData.apply(this, arguments);
-}
-
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-  var expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-} // Get cookie value
-
-
-function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-
-  return "";
-} // Delete cookie
-
-
-function deleteCookie(cname) {
-  document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-} // Check if cookie is set
-
-
-function checkIfNotSetCookie(cname, default_cvalue) {
-  var cvalue = getCookie(cname);
-  return cvalue != "" ? cvalue : default_cvalue;
-} // Set app cookies
-
-
-function setWishlistCookies(pr_id) {
-  var mode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : buttonMode.ADD;
-  // set cookie for customer
-  setCookie('ws_customer', data.customer_id, cookies_days); // set cookies for new added product
-
-  setProductsIdsCookie(pr_id, mode);
-}
-
-function setProductsIdsCookie(pr_id) {
-  var mode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : buttonMode.ADD;
-  // Get value of ws_products cookie
-  var products_ids_cookie = getCookie('ws_products'); // Check if it's not null or empty
-
-  if (products_ids_cookie != "" && products_ids_cookie != null) {
-    // get the products ids into array
-    products_ids = JSON.parse(products_ids_cookie);
-  } // check the setProductsIdsCookie mode
-
-
-  if (mode === buttonMode.ADD) {
-    // Push new product id into array (without duplicates)
-    if (!products_ids.includes(pr_id)) products_ids.push(pr_id);
-  } else {
-    if (products_ids !== undefined || products_ids.length > 0) {
-      var tmp_products_ids = products_ids.filter(function (pid) {
-        return pid !== pr_id;
-      });
-      products_ids = tmp_products_ids;
-    }
-  } // set the new cookie value for products
-
-
-  setCookie('ws_products', JSON.stringify(products_ids));
-}
-
-function initWishlistVariables() {
-  // Product id
-  product_id = button.dataset.product; // Product price
-
-  product_price = button.dataset.product_price.replace(',', ''); // Customer id
-
-  customer_id = button.dataset.customer != "" ? button.dataset.customer : checkIfNotSetCookie('ws_customer', uuidv4()); // Data to send to the Api
-
-  data = {
-    'shop_id': Shopify.shop,
-    'product_id': product_id,
-    'product_price': product_price,
-    'customer_id': customer_id
-  };
-  callApi(buttonMode.UPDATE_CUSTOMER_ID);
-  callApi(buttonMode.CHECK);
-} // Check if customer is connected and update db user id with customer's shopifyId
-
-
-function checkIfCustomerConnected() {
-  var c_uuid = getCookie('ws_customer'); //get customer uuid from cookies
-
-  if (c_uuid != "" && c_uuid != null && _typeof(c_uuid) != undefined && regexExp.test(c_uuid) && button.dataset.customer != "") {
-    tmp_data = data;
-    data.customer_id = c_uuid;
-    data.shopify_customer_id = button.dataset.customer;
-    isCustomerIdUpdated = true;
-  }
-} // create a unique id (will be used for customer)
-
-
-function uuidv4() {
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, function (c) {
-    return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16);
-  });
 }
 })();
 

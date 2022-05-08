@@ -3,7 +3,7 @@
   <script>
     const product_json = {{ product | json }};
   </script>
-  <div id="ws_button_data" data-customer="{{ customer.id }}" data-product="{{ product.id }}" data-product_price="{{ product.price | money_without_currency }}">
+  <div id="ws_button_data" data-customer="{{ customer.id }}" data-product="{{ product.id }}" data-product_price="{{ product.price | money_without_currency }}" data-product_json="{{ product_json }}">
       Loading Button...
   </div>
 </div>
