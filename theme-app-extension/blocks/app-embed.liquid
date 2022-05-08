@@ -1,6 +1,7 @@
-<button is="party-button">
+<button is="party-button" aria-controls="drawer-cart-id" id="cd-cart-trigger">
   <span class="visually-hidden">Start the party!</span>
 </button>
+{% render 'wishlist-drawer' %}
 
 <style>
   .visually-hidden {
@@ -14,7 +15,7 @@
     clip: rect(0 0 0 0);
     word-wrap: normal!important;
   }
-  
+
   @-webkit-keyframes rainbow {
     0% {border-color: hsl(0, 100%, 50%);}
     14% {border-color: hsl(30,100%,50%);}
@@ -60,10 +61,11 @@
 
 {% schema %}
 {
-  "name": "Party",
+  "name": "Wishlist",
   "target": "body",
-  "stylesheet": "image-gallery.css",
-  "javascript": "party-button.js",
+  "stylesheet": "wishlist-drawer.css",
+  "javascript": "jquery.min.js",
+  "javascript": "wishlist-drawer.js",
   "settings": []
 }
 {% endschema %}
