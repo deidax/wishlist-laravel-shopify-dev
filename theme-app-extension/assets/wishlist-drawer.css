@@ -19,29 +19,15 @@
   }
 }
 
-#main-nav, #cd-cart {
+ #cd-cart {
   position: fixed;
   top: 0;
   height: 100%;
-  width: 260px;
   max-width: 450px;
-  /* header height */
-  padding-top: 50px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   z-index: 999;
-}
-@media only screen and (min-width: 768px) {
-  #main-nav, #cd-cart {
-    width: 350px;
-  }
-}
-@media only screen and (min-width: 1200px) {
-  #main-nav, #cd-cart {
-    width: 30%;
-    /* header height has changed */
-    padding-top: 0px;}
 }
 
 #main-nav {
@@ -162,7 +148,7 @@
 }
 .note__title a{
     text-decoration: none;
-    color:#dd4124;
+    color:rgb(72, 39, 236);
 }
 .dr-cart__product{
     display: grid;
@@ -170,6 +156,7 @@
     grid-gap: 0.75rem;
     align-items: start;
     padding: 16px 0;
+    border-bottom: 1px solid rgb(214, 215, 215);
 }
 .dr-cart__product .dr-cart__img{
     display: block;
@@ -180,6 +167,8 @@
 .container__inner{
     margin: 0px;
     padding: 0px 18px;
+    height: calc(100% - 200px);
+    overflow-y: scroll;
 }
 .container__inner .product__meta .title_product{
     margin: 0px;
@@ -210,12 +199,49 @@
     font-family: 'Inter', sans-serif;
     font-size: 15px;
     font-weight: 400;
-    color:rgb(115, 118, 120);
+    color:rgb(13, 19, 23);
     line-height: normal;
     margin-bottom: 5px;
+}
+.cd-cart-items .dr-cart__product:last-child{
+    border-bottom: none;
 }
 .container__inner .text-right button{
     background-color: transparent;
     border: none;
     outline: none;
+    cursor: pointer;
+    text-align: right;
+    padding: 0px;
+    color: rgb(72, 39, 236);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.wp_cart__footer{
+    border-top: 1px solid rgb(214, 215, 215);
+    height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 18px;
+}
+.add_all_handler{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 19px 0 21px;
+    height: 54px;
+    background: rgb(72, 39, 236);
+    border-radius: 3px;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    border: none;
 }
