@@ -129,6 +129,10 @@ class WishlistController extends Controller
     public static function getWishlistSocialCount(Request $request){
         return Wishlist::getWishlistSocialCount($request->shop_id, $request->product_id);
     }
+
+    public static function loadWishlist(Request $request){
+        return Wishlist::where('shop_id', $request['shop_id'])->get();
+    }
     
     
 }

@@ -1,5 +1,6 @@
 // APIs Enum
 const API = {
+    LOAD_WISHLIST: '/api/load-wishlist',
     ADD: '/api/add-to-wishlist',
     REMOVE: '/api/remove-from-wishlist',
     CHECK: '/api/check-wishlist',
@@ -65,8 +66,10 @@ class WishlistManager {
         // let initState = updateCustomerIdWishlist.checkIfCustomerConnected()
         // initState.buttonSwitch()
         // initState.nextState()
-        let buildButton = this.buildWishlistButton()
-        buildButton.callApi()
+        // let buildButton = this.buildWishlistButton()
+        // buildButton.callApi()
+        let loadWishlistApp = this.runWishlistApp()
+        loadWishlistApp.callApi()
     }
 
 
@@ -98,6 +101,11 @@ class WishlistManager {
     updateCustomerIdWishlist()
     {
         return new UpdateCustomerIdWishlist(this.button, this.data)
+    }
+
+    runWishlistApp()
+    {
+        return new LoadWishlistApp(this.button, this.data)
     }
 
     
@@ -221,8 +229,63 @@ class WishlistApi {
         });
         return response.json(); // parses JSON response into native JavaScript objects
     }
+
+    //
+    async getData() {
+        // Default options are marked with *
+        const response = await fetch(this.end_point, {
+          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
 }
 
+class LoadWishlistApp extends WishlistApi {
+
+    constructor(button, data) {
+        super(API.LOAD_WISHLIST, button, data);
+    }
+
+    nextState(){
+        console.log('build called!')
+        let nextState = new BuildWishlistButton(this.button, this.data)
+        return nextState
+    }
+
+    callApi() {
+        console.log(this.end_point);
+        //let loadingState = new LoadingWishlistNextState(null, this.button)
+        //loadingState.buttonSwitch('Adding to wishlist...')
+        super.postData(this.data.shop_id).then(response => {
+                // return 
+                if(response.type != undefined && response.type == "error")
+                {
+                    this.pleaseActivateWishlistTheme(response.message)
+                }
+                else 
+                {
+                    let nextState = this.nextState()
+                    let buildButton = nextState.buildWishlistButton()
+                    buildButton.callApi()
+                }
+                
+          })
+          .catch(error => {
+              // fire error notification
+              console.log(error)
+          });
+    }
+
+}
 
 class BuildWishlistButton extends WishlistApi {
 

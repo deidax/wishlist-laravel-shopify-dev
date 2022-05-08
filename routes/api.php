@@ -29,6 +29,7 @@ Route::post('/remove-from-wishlist', [WishlistController::class, "destroy"])->na
 Route::post('/check-wishlist', [WishlistController::class, "checkIfInWishlist"])->name('check.wishlist');
 Route::post('/update-customer-id-wishlist', [WishlistController::class, "update"])->name('update.customer.id.wishlist');
 Route::post('/get-social-count', [WishlistController::class, "getWishlistSocialCount"])->name('get.social.count');
+Route::post('/api/load-wishlist', [WishlistController::class, "loadWishlist"])->name('load.wishlist');
 
 // settings api
 Route::post('/get-button-params', [SettingController::class, "getButtonParams"])->name('get.button.params');
