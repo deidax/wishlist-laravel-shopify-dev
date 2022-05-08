@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -131,7 +132,7 @@ class WishlistController extends Controller
     }
 
     public static function loadWishlist(Request $request){
-        return Wishlist::where('shop_id', $request['shop_id'])->get();
+        return Wishlist::loadWishlist($request);
     }
     
     

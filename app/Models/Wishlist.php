@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Wishlist extends Model
 {
@@ -43,4 +44,12 @@ class Wishlist extends Model
                     ->where('product_id', $product_id)
                     ->count();
     }
+
+    public static function loadWishlist(Request $request){
+        $products_ids = self::where('shop_id', $request['shop_id'])->get()->pluck('product_id');
+        
+        return $products_ids;
+    }
+
+    
 }

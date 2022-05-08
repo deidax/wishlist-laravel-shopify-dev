@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Resources\ProductResource;
 use App\Traits\SortData;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 
@@ -83,6 +84,13 @@ class Product extends GraphQlBuilder
       $wishlist_data = ProductResource::collection($wishlist);
 
       return $wishlist_data;
+    }
+
+    public static function callRestProductApi($shop_id){
+      $store_url = 'https://'.$shop_id.'/products.json';
+      $wishlist_app = new Client();
+      $res = $wishlist_app->get($store_url);
+      return $res->getBody();
     }
 
     

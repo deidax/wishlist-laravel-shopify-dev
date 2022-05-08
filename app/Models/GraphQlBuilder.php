@@ -43,6 +43,7 @@ abstract class GraphQlBuilder extends Model implements IGraphQlBuilder
         return $selector_list;
     }
 
+
     //Create the gid
     public static function buildGid($selector_id, $selector){
         return "gid://shopify/{$selector}/{$selector_id}";

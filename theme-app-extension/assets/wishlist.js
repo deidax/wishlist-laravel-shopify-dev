@@ -35,10 +35,17 @@ class WishlistManager {
         // select the wishlist button
         this.button = document.querySelector('#'+wishlist_button_selector)
         this.appStorageManager = new AppStorageManager()
-        this.product_id = this.button.dataset.product
-        this.product_price = this.button.dataset.product_price.replace(',', '')
+        if(this.button != null){   
+            this.product_id = this.button.dataset.product
+            this.product_price = this.button.dataset.product_price.replace(',', '')
+            this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.appStorageManager.checkIfNotSetLocalStorage('ws_customer',this.uuidv4())
+        }
+        else {
+            this.product_id = ''
+            this.product_price = ''
+            this.customer_id = this.appStorageManager.checkIfNotSetLocalStorage('ws_customer',this.uuidv4())
+        }
         // Customer id
-        this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.appStorageManager.checkIfNotSetLocalStorage('ws_customer',this.uuidv4())
         // Create a uuidv4 id to use later
         if(regexExp.test(this.customer_id)){
             // This will be used to update the customer id in the backend
@@ -265,7 +272,7 @@ class LoadWishlistApp extends WishlistApi {
         console.log(this.end_point);
         //let loadingState = new LoadingWishlistNextState(null, this.button)
         //loadingState.buttonSwitch('Adding to wishlist...')
-        super.postData(this.data.shop_id).then(response => {
+        super.postData(this.data).then(response => {
                 // return 
                 if(response.type != undefined && response.type == "error")
                 {
@@ -273,9 +280,9 @@ class LoadWishlistApp extends WishlistApi {
                 }
                 else 
                 {
+                    console.log('wdata', response)
                     let nextState = this.nextState()
-                    let buildButton = nextState.buildWishlistButton()
-                    buildButton.callApi()
+                    nextState.callApi()
                 }
                 
           })
@@ -323,7 +330,7 @@ class BuildWishlistButton extends WishlistApi {
                 {
                     this.pleaseActivateWishlistTheme(response.message)
                 }
-                else 
+                else if(this.button != null)
                 {
                     this.button.innerHTML = response.innerHtml
                     display_social_count = response.display_social_count
