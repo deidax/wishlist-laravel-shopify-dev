@@ -19,7 +19,12 @@ class Wishlist extends Model
         'shop_id',
         'product_id',
         'product_price',
+        'product_data',
         'customer_id',
+    ];
+    
+    protected $casts = [
+        'product_data' => 'array'
     ];
 
 

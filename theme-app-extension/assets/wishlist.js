@@ -26,15 +26,15 @@ const display_button_process = false
 // Display social count?
 var display_social_count = false
 
+
+
 // Class To manage Wishlist states
 class WishlistManager {
     constructor(wishlist_button_selector) {
         // select the wishlist button
         this.button = document.querySelector('#'+wishlist_button_selector)
         this.appStorageManager = new AppStorageManager()
-        // Product id
-        this.product_id = this.button.dataset.product
-        // Product price
+        this.product_id = product_json.id
         this.product_price = this.button.dataset.product_price.replace(',', '')
         // Customer id
         this.customer_id = this.button.dataset.customer != "" ? this.button.dataset.customer : this.appStorageManager.checkIfNotSetLocalStorage('ws_customer',this.uuidv4())
@@ -50,6 +50,7 @@ class WishlistManager {
             'shop_id': Shopify.shop,
             'product_id': this.product_id,
             'product_price': this.product_price,
+            'product_data': product_json,
             'customer_id': this.customer_id,
             'uuid_customer_id': this.appStorageManager.getLocalStorage('ws_uuid_customer_id')
         }
@@ -117,7 +118,8 @@ class WishlistManager {
         script.src = cdn;
         document.body.appendChild(script);
     }
-      
+
+     
     // add css cdn
     cssCdn(cdn){
         var link = document.createElement('link');
@@ -310,7 +312,7 @@ class AddToWishlist extends WishlistApi {
             this.nextState().buttonSwitch()
         }
         super.postData(this.data).then(response => {
-                this.appStorageManager.addProductsIdToLocalStorage(this.data.product_id)
+                this.appStorageManager.addProductsIdToLocalStorage(this.data.product_data)
                 super.socialCountCalculation()
                 notification(response.type, response.message)
                 return this.nextState().buttonSwitch()
@@ -348,7 +350,7 @@ class RemoveFromWishlist extends WishlistApi {
             this.nextState().buttonSwitch()
         }
         super.postData(this.data).then(response => {
-              this.appStorageManager.removeProductsIdFromLocalStorage(this.data.product_id)
+              this.appStorageManager.removeProductsIdFromLocalStorage(this.data.product_data)
               super.socialCountCalculation()
               notification(response.type, response.message)
               return this.nextState().buttonSwitch()
@@ -406,7 +408,7 @@ class CheckWishlist extends WishlistApi {
             var nextState = null
             if(response === 1){
                 // add the product id to the cookie and set the button next state
-                this.appStorageManager.addProductsIdToLocalStorage(this.data.product_id)
+                this.appStorageManager.addProductsIdToLocalStorage(this.data.product_data)
                 nextState = new RemoveFromWishlist(this.button, this.data)
                 return nextState.buttonSwitch()
             }
@@ -550,24 +552,24 @@ class AppStorageManager {
         localStorage.removeItem(cname)
     }
 
-    addProductsIdToLocalStorage(pr_id){
+    addProductsIdToLocalStorage(product_data){
         // Get value of ws_products cookie
         let products_ids_cookie = this.getLocalStorage('ws_products')
         // Check if it's not null or empty
         products_ids_cookie = products_ids_cookie ? JSON.parse(products_ids_cookie) : []
         // Push new product id into array (without duplicates)
-        if(!products_ids_cookie.includes(pr_id)) products_ids_cookie.push(pr_id)
+        if(!products_ids_cookie.find(p => p.id === product_data.id)) products_ids_cookie.push(product_data)
         // set the new cookie value for products
         this.setLocalStorage('ws_products', JSON.stringify(products_ids_cookie))
     
     }
 
-    removeProductsIdFromLocalStorage(pr_id){
+    removeProductsIdFromLocalStorage(product_data){
         // Get value of ws_products cookie
         let products_ids_cookie = this.getLocalStorage('ws_products')
         if(products_ids_cookie){
             products_ids_cookie = JSON.parse(products_ids_cookie)
-            products_ids_cookie = products_ids_cookie.filter((pid) => pid !== pr_id)
+            products_ids_cookie = products_ids_cookie.filter((p) => p.id !== product_data.id)
             this.setLocalStorage('ws_products', JSON.stringify(products_ids_cookie))
         }
     }

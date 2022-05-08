@@ -1,5 +1,8 @@
 <div id="block-{{block.id}}">
   <!-- <button onclick="myFunction()" class="wishlist-button active" data-customer="{{ customer.id }}" data-product="{{ product.id }}" data-product_price="{{ product.price | money_without_currency }}" disabled>Checking wishlist...</button> -->
+  <script>
+    const product_json = {{ product | json }};
+  </script>
   <div id="ws_button_data" data-customer="{{ customer.id }}" data-product="{{ product.id }}" data-product_price="{{ product.price | money_without_currency }}">
       Loading Button...
   </div>
