@@ -260,6 +260,7 @@ class LoadWishlistApp extends WishlistApi {
 
     constructor(button, data) {
         super(API.LOAD_WISHLIST, button, data);
+        this.data.accessToken = window.sessionToken
     }
 
     nextState(){
@@ -272,6 +273,7 @@ class LoadWishlistApp extends WishlistApi {
         console.log(this.end_point);
         //let loadingState = new LoadingWishlistNextState(null, this.button)
         //loadingState.buttonSwitch('Adding to wishlist...')
+        console.log('token', this.data);
         super.postData(this.data).then(response => {
                 // return 
                 if(response.type != undefined && response.type == "error")

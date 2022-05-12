@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class Wishlist extends Model
 {
@@ -46,9 +48,30 @@ class Wishlist extends Model
     }
 
     public static function loadWishlist(Request $request){
-        $products_ids = self::where('shop_id', $request['shop_id'])->get()->pluck('product_id');
-        
-        return $products_ids;
+        // $products_ids = self::where('shop_id', $request['shop_id'])->get()->pluck('product_id');
+        // return $products_ids;
+        // Create a REST client from your offline session
+        // $shop = Auth::user();
+        // $orders = $shop->api()->rest('POST', '/admin/api/2022-04/storefront_access_tokens.json', ['storefront_access_token' => ['title' => 'mobile']]);
+        // return $orders;
+        $client = new \Shopify\Clients\Rest(
+            $session->getShop(),
+            $session->getAccessToken()
+        );
+
+        // Create a new access token
+        $storefrontTokenResponse = $client->post(
+            'storefront_access_tokens',
+            [
+                "storefront_access_token" => [
+                    "title" => "This is my test access token",
+                ]
+            ],
+        );
+
+        $storefrontAccessToken = $storefrontTokenResponse->getBody()['storefront_access_token']['access_token'];
+
+        return $storefrontAccessToken;
     }
 
     

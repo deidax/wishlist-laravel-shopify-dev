@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Shopify\Auth\FileSessionStorage;
+use Shopify\Context;
 
 class Setting extends Model
 {
@@ -89,6 +91,7 @@ class Setting extends Model
     public static function ConfigureTheme(Request $request)
     {
         $shop = Auth::user();
+
         $activeThemeId = self::getActiveThemeId($shop);
 
         $snippet = "Your snippet code updated 3";
@@ -152,7 +155,16 @@ class Setting extends Model
         $shop = Auth::user();
         $shop_details->shop_id = $shop->name;
         $shop_details->shop_active_theme_id = self::getActiveThemeId($shop);
-        
+        Context::initialize(
+            env('SHOPIFY_API_KEY'),
+            env('SHOPIFY_API_SECRET'),
+            env('SHOPIFY_API_SCOPES'),
+            env('APP_DOMAIN'),
+            new FileSessionStorage('/tmp/php_sessions'),
+            '2022-04',
+            true,
+            false,
+        );
         return self::getButtonParams($shop_details);
     }
     
