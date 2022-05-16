@@ -26,3 +26,8 @@ Route::group(['middleware' => 'verify.shopify'], function () {
 
 });
 
+// proxy test
+Route::get('/proxy', function () {
+    return response('Hello, world!')->withHeaders(['Content-Type' => 'application/liquid']);
+ })->middleware('auth.proxy');
+

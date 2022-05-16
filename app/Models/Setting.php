@@ -122,6 +122,7 @@ class Setting extends Model
         // merge shop config with wishlist button params
         $shop_theme_configs = array_merge($shop_details, self::setWishlistButtonParams($request));
 
+
         // Save activated shop with wishlist button params
         return Setting::updateOrCreate(
         [
@@ -155,16 +156,7 @@ class Setting extends Model
         $shop = Auth::user();
         $shop_details->shop_id = $shop->name;
         $shop_details->shop_active_theme_id = self::getActiveThemeId($shop);
-        Context::initialize(
-            env('SHOPIFY_API_KEY'),
-            env('SHOPIFY_API_SECRET'),
-            env('SHOPIFY_API_SCOPES'),
-            env('APP_DOMAIN'),
-            new FileSessionStorage('/tmp/php_sessions'),
-            '2022-04',
-            true,
-            false,
-        );
+        
         return self::getButtonParams($shop_details);
     }
     

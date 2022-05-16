@@ -38,6 +38,20 @@ services:
     networks:
       - mynet
 
+  #Ngrok Service
+  ngrok:
+    image: wernight/ngrok:latest
+    ports:
+      - 4040:4040
+    environment:
+      NGROK_PROTOCOL: http
+      NGROK_PORT: nginx:443
+      NGROK_AUTH: ${NGROK_TOKEN}
+    depends_on:
+      - nginx
+    networks:
+      - mynet
+
   #MySQL Service
   db:
     image: mysql:5.7

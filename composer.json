@@ -8,13 +8,15 @@
         "php": "^7.3|^8.0",
         "darkaonline/l5-swagger": "^8.3",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "nyholm/psr7": "^1.5",
         "osiset/laravel-shopify": "^17.1",
-        "shopify/shopify-api": "^1.0"
+        "shopify/shopify-api": "^1.0",
+        "symfony/psr-http-message-bridge": "^2.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

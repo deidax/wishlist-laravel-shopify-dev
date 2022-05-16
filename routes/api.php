@@ -140,3 +140,5 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     
     Route::get('/v1/get-button-params-app', [SettingController::class, "getButtonParamsApp"])->name('get.button.params.app');
 });
+
+

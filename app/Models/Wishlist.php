@@ -48,30 +48,34 @@ class Wishlist extends Model
     }
 
     public static function loadWishlist(Request $request){
-        // $products_ids = self::where('shop_id', $request['shop_id'])->get()->pluck('product_id');
-        // return $products_ids;
+        $products_ids = self::where('shop_id', $request['shop_id'])->get()->pluck('product_id');
+        // $client = new \GuzzleHttp\Client();
+        // $res = $client->get('https://'.$request['shop_id'].'/products.json');
+        return $products_ids;
+        // return 'https://'.$request['shop_id'].'/products.json';
         // Create a REST client from your offline session
         // $shop = Auth::user();
         // $orders = $shop->api()->rest('POST', '/admin/api/2022-04/storefront_access_tokens.json', ['storefront_access_token' => ['title' => 'mobile']]);
         // return $orders;
-        $client = new \Shopify\Clients\Rest(
-            $session->getShop(),
-            $session->getAccessToken()
-        );
 
-        // Create a new access token
-        $storefrontTokenResponse = $client->post(
-            'storefront_access_tokens',
-            [
-                "storefront_access_token" => [
-                    "title" => "This is my test access token",
-                ]
-            ],
-        );
+        // $client = new \Shopify\Clients\Rest(
+        //     $session->getShop(),
+        //     $session->getAccessToken()
+        // );
 
-        $storefrontAccessToken = $storefrontTokenResponse->getBody()['storefront_access_token']['access_token'];
+        // // Create a new access token
+        // $storefrontTokenResponse = $client->post(
+        //     'storefront_access_tokens',
+        //     [
+        //         "storefront_access_token" => [
+        //             "title" => "This is my test access token",
+        //         ]
+        //     ],
+        // );
 
-        return $storefrontAccessToken;
+        // $storefrontAccessToken = $storefrontTokenResponse->getBody()['storefront_access_token']['access_token'];
+
+        // return $storefrontAccessToken;
     }
 
     
