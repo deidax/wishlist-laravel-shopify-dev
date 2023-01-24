@@ -112,3 +112,7 @@ Run Laravel migrations
   docker-compose exec app php artisan migrate
 ```
 Now you can set up your shopify app.
+
+## Screen shotes![2]
+(https://user-images.githubusercontent.com/58916216/214402455-009c73a9-a6e4-4b25-8fe6-54d37b92ffb8.png =x250)
+
